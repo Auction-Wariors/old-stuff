@@ -24,6 +24,10 @@
 - [ ] FIX: A user can only be a member/owm one store. A store can only have one member
   - Implement multiple users pr store.
 
+###Relevant links for this project
+* https://rahmanfadhil.com/django-login-with-email/
+* https://stackoverflow.com/questions/34571880/how-to-check-in-template-if-user-belongs-to-a-group
+
 ##Beskrivelse
 I dette prosjektet skal dere lage en prosjektdokumentasjon og prototype for et produkt for enoppstartsbedrift. Denne
 oppstartsbedriften (Kunden deres) ønsker å få lagd en løsning der dissebutikkene kan etablere sine egne plattformer for
