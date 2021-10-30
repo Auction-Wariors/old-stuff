@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.urls import path
 
-from app.stores import views
+from . import views
 
 
 app_name = 'stores'

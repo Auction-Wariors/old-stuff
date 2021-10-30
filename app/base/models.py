@@ -19,7 +19,7 @@ class Category(models.Model):
 
 class Store(models.Model):
     name = models.CharField(max_length=100, default='Storename')
-    owner = models.ForeignKey('User', on_delete=models.CASCADE, related_name='owner')
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='owner')
     moderators = models.ManyToManyField(User, related_name='moderator')
     description = models.CharField(max_length=1000, default='')
     email = models.EmailField(default='')
