@@ -1,8 +1,10 @@
 #Oppgave
 ##ToDo's
 ###Priority
-- [ ] Create user login / register
-
+- [ ] Create user login / register (App)
+- [ ] Create Store (App)
+- [ ] Create basic working templates (a site you can navigate, Without the business logic)
+ 
 
 - [ ] A user can only be a member/owm one store. A store can only have one member
   - To simplefy our app which should be a MVP.
