@@ -38,14 +38,6 @@ class Item(models.Model):
         return self.name
 
 
-class Profile(models.Model):
-    owner = models.ForeignKey(User, on_delete=models.CASCADE)
-    phone_number = models.CharField(max_length=12, default='')
-    street_address = models.CharField(max_length=100, default='')
-    city = models.CharField(max_length=100, default='')
-    zip_code = models.CharField(max_length=5, default='')
-
-
 class Auction(models.Model):
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
     buy_now_price = models.BigIntegerField()
