@@ -17,11 +17,12 @@ from django.urls import path
 
 from app.base import views
 
+
+app_name = 'base'
+
+
 urlpatterns = [
     path('', views.index, name='index'),
-
-    path('users/register/', views.register, name='register'),
-    path('users/<int:user_id>/', views.user_profile, name='user_profile'),
 
     path('stores/create/', views.create_store, name='create_store'),
     path('stores/<int:store_id>/', views.view_store, name='view_store'),
