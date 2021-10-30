@@ -108,21 +108,29 @@ merinformasjon)
 - Oppsumering
 
 #README.md
-*The real readme that we deliver*
-
+*The real readme that we deliver, short description*
 
 ##How to run Old-Stuff
 Bla bla bla...
 
-##About Old-Stuff
-Bla bla bla...
-
-###Languages
+##Languages
 * Python
 * Javascript
 
-###Frameworks
-* Django
+##Frameworks
+###Django
+*About Django... Short (Anders) ((Also for the report))
+
+The App (Old-Stuff) is build on the following Django-applications
+* Base
+  * bla bla bla
+* Users
+  * bla bla bla
+* Stores
+  * bla bla bla
+* Auctions
+  * bla bla bla
+
 
 ###Database 
 *diagramom database from pycharm.*
