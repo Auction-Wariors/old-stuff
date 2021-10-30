@@ -1,15 +1,5 @@
 """
 
-TODO: Look at the usage of cascade
-TODO: Check defaults
-
-TODO: A user can only be a member / owm one store. A store can only have one member
-TODO: A feature can be mentioned in the report where stores can have multiple members selling for the store
-
-TODO: "Don't import USER" look up why (Not important, personal request, Anders)
-TODO: Need a model for storing what stores need to pay (Comission / Subscription)
-
-TODO: Mention "view" packages (like finn.no (pay extra for more visibility)) in the rapport.
 
 
 """
