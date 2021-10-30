@@ -4,6 +4,7 @@
 - [ ] Move models to correct apps
 - [ ] Create user login / register (App)
 - [ ] Create Store (App)
+- [ ] Move Nav Elements placement to left (exept login/register)
 - [ ] Create basic working templates (a site you can navigate, Without the business logic)
  
 
