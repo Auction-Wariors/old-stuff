@@ -18,6 +18,7 @@ from django.urls import path, include
 
 
 urlpatterns = [
+    # Django default admin app
     path('admin/', admin.site.urls),
 
     # Django App's
@@ -25,5 +26,6 @@ urlpatterns = [
     path('stores/', include('stores.urls', namespace='stores')),
     path('auctions/', include('auctions.urls', namespace='auctions')),
 
+    # Base app
     path('', include('base.urls', namespace='base'))
 ]
