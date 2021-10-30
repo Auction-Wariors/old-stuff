@@ -1,18 +1,26 @@
 #Oppgave
 ##ToDo's
+###Priority
+- [ ] Create user login / register
 
--[ ] Look at the usage of cascade
--[ ] Check "default=" in models.py
--[ ] A user can only be a member/owm one store. A store can only have one member
--[ ] Need a model for storing what stores need to pay (Comission / Subscription)
 
-##Report ToDo's
+- [ ] A user can only be a member/owm one store. A store can only have one member
+  - To simplefy our app which should be a MVP.
+
+
+- [ ] Need a model for storing what stores need to pay (Comission / Subscription)
+
+###Secondary (Still, must be done)
+- [ ] Look at the usage of cascade in models.py
+- [ ] Check "default=" in models.py
+
+###Report ToDo's
 -[ ] A feature can be mentioned in the report where stores can have multiple members selling for the store
 
-##Misc ToDo's (non mandetory)
--[ ] "Don't import USER" look up why (Not important, personal request, Anders)
-
-
+###Misc ToDo's (non mandetory)
+- [ ] "Don't import USER" look up why (Not important, personal request, Anders)
+- [ ] FIX: A user can only be a member/owm one store. A store can only have one member
+  - Implement multiple users pr store.
 
 ##Beskrivelse
 I dette prosjektet skal dere lage en prosjektdokumentasjon og prototype for et produkt for enoppstartsbedrift. Denne
