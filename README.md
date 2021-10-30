@@ -1,6 +1,7 @@
 # Oppgave
 ## ToDo's
 ### Priority
+- [ ] Move models to correct apps
 - [ ] Create user login / register (App)
 - [ ] Create Store (App)
 - [ ] Create basic working templates (a site you can navigate, Without the business logic)
