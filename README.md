@@ -1,6 +1,6 @@
-#Oppgave
-##ToDo's
-###Priority
+# Oppgave
+## ToDo's
+### Priority
 - [ ] Create user login / register (App)
 - [ ] Create Store (App)
 - [ ] Create basic working templates (a site you can navigate, Without the business logic)
@@ -12,23 +12,23 @@
 
 - [ ] Need a model for storing what stores need to pay (Comission / Subscription)
 
-###Secondary (Still, must be done)
+### Secondary (Still, must be done)
 - [ ] Look at the usage of cascade in models.py
 - [ ] Check "default=" in models.py
 
-###Report ToDo's
+### Report ToDo's
 -[ ] A feature can be mentioned in the report where stores can have multiple members selling for the store
 
-###Misc ToDo's (non mandetory)
+### Misc ToDo's (non mandetory)
 - [ ] "Don't import USER" look up why (Not important, personal request, Anders)
 - [ ] FIX: A user can only be a member/owm one store. A store can only have one member
   - Implement multiple users pr store.
 
-###Relevant links for this project
+### Relevant links for this project
 * https://rahmanfadhil.com/django-login-with-email/
 * https://stackoverflow.com/questions/34571880/how-to-check-in-template-if-user-belongs-to-a-group
 
-##Beskrivelse
+## Beskrivelse
 I dette prosjektet skal dere lage en prosjektdokumentasjon og prototype for et produkt for enoppstartsbedrift. Denne
 oppstartsbedriften (Kunden deres) ønsker å få lagd en løsning der dissebutikkene kan etablere sine egne plattformer for
 å løse disse behovene. Oppstartsbedriften hartidligere drevet med kjøp og salg, men har ingen egen IT-kompetanse. Idéen
@@ -49,7 +49,7 @@ Det er viktig at dere passer på å dokumentere eksterne avhengigheter i systeme
 fra andre tjenesteleverandører (f.eks. betalingsløsning). Dereskal ikke integrere mot noen eksterne leverandører i
 prototypen, men bør skrive små “stubs”som gir dere muligheten til å teste funksjonaliteter som avhenger av dem.
 
-##Evaluering
+## Evaluering
 Innleveringen evalueres ut fra:
 * egnethet for å kunne ta i bruk den foreslåtte løsningen
 * kvalitet på prototypen
@@ -59,7 +59,7 @@ Innleveringen evalueres ut fra:
 Gruppeprosjektet teller 45%. Det gis individuell karakter A-F (se emnebeskrivelsen for
 merinformasjon)
 
-##Oppsett Prosjektdokumentasjon
+## Oppsett Prosjektdokumentasjon
 **Intro**
 
 - Om gruppen
@@ -107,18 +107,18 @@ merinformasjon)
 
 - Oppsumering
 
-#README.md
+# README.md
 *The real readme that we deliver, short description*
 
-##How to run Old-Stuff
+## How to run Old-Stuff
 Bla bla bla...
 
-##Languages
+## Languages
 * Python
 * Javascript
 
-##Frameworks
-###Django
+## Frameworks
+### Django
 *About Django... Short (Anders) ((Also for the report))
 
 The App (Old-Stuff) is build on the following Django-applications
@@ -132,5 +132,5 @@ The App (Old-Stuff) is build on the following Django-applications
   * bla bla bla
 
 
-###Database 
+### Database 
 *diagramom database from pycharm.*
