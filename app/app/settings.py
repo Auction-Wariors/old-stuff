@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'base',
     'users',
     'stores',
+    'auctions',
 
     # "Plugins"
     'crispy_forms',
