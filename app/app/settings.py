@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     # Project App's
     'base',
     'users',
+    'stores',
 
     # "Plugins"
     'crispy_forms',
