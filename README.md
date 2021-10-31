@@ -3,10 +3,9 @@
 ### Priority
 - [ ] Move models to correct apps
 - [ ] Create user login / register (App)
-- [ ] Create Store (App)
 - [ ] Move Nav Elements placement to left (exept login/register)
 - [ ] Create basic working templates (a site you can navigate, Without the business logic)
- 
+
 
 - [ ] A user can only be a member/owm one store. A store can only have one member
   - To simplefy our app which should be a MVP.
@@ -14,6 +13,8 @@
 
 - [ ] Need a model for storing what stores need to pay (Comission / Subscription)
 
+
+- [x] Create Stores (App)
 ### Secondary (Still, must be done)
 - [ ] Look at the usage of cascade in models.py
 - [ ] Check "default=" in models.py
