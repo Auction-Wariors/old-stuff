@@ -1,5 +1,7 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render
+from auctions.models import Auction
 
 
 def index(request):
-    return render(request, 'base/index.html', {'name': 'Anders'})
+    auctions = Auction.objects.all()
+    return render(request, 'base/index.html', {'auctions': auctions})
