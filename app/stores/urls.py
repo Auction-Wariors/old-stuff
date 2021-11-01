@@ -25,7 +25,6 @@ urlpatterns = [
     # "stores/"
     path('create/', views.create_store, name='create_store'),
     path('<int:store_id>/', views.view_store, name='view_store'),
-    path('<int:store_id>/auctions/create', views.add_auction, name='add_auction'),  # hmm .... rethink this ?
 ]
 
 

@@ -2,4 +2,4 @@ from django.shortcuts import render, redirect
 
 
 def index(request):
-    return render(request, 'base/index.html')
+    return render(request, 'base/index.html', {'name': 'Anders'})
