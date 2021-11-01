@@ -1,5 +1,5 @@
 from django import forms
-from models import Item, Auction, Category
+from .models import Item, Auction, Category
 
 
 class AddItemForm(forms.ModelForm):

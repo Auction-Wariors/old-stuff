@@ -1,7 +1,6 @@
-from datetime import datetime
-
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils.timezone import now
 
 from stores.models import Store
 
@@ -25,9 +24,9 @@ class Item(models.Model):
 
 class Auction(models.Model):
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
-    buy_now_price = models.BigIntegerField()
-    start_date = models.DateTimeField(default=datetime.now())
-    end_date = models.DateTimeField(default=datetime.now())
+    buy_now_price = models.BigIntegerField(default=0)
+    start_date = models.DateTimeField(default=now())
+    end_date = models.DateTimeField(default=now())
     winner = models.ForeignKey(User, on_delete=models.DO_NOTHING, blank=True, null=True)
     isPayed = models.BooleanField(default=False)
     min_price = models.IntegerField(default=0)

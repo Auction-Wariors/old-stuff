@@ -10,7 +10,6 @@ class Store(models.Model):
     email = models.EmailField(default='')
     phone_number = models.CharField(max_length=12, default='')
 
-
     def __str__(self):
         return self.name
 
