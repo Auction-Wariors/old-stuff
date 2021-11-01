@@ -39,10 +39,11 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     # Project App's
-    'base',
-    'users',
-    'stores',
-    'auctions',
+    # New syntax as of django 3.x
+    'base.apps.BaseConfig',
+    'users.apps.UsersConfig',
+    'stores.apps.StoresConfig',
+    'auctions.apps.AuctionsConfig',
 
     # "Plugins"
     'crispy_forms',
