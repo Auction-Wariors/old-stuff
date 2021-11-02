@@ -1,5 +1,57 @@
 {% extends 'base/base.html' %}
 {% block content %}
-    <h1>THIS PAGE HAS CONTENT</h1>
-    <h1>And the object name is: {{ name }}</h1>
+    <h1>Auksjoner</h1>
+
+    <select class="form-select form-select-sm" aria-label="Default select example">
+      <option selected>Velg sorteringsmetode</option>
+      <option value="1">Alfabetisk</option>
+      <option value="2">Nyest</option>
+      <option value="3">Eldst</option>
+    </select>
+
+    <div class="card-group">
+        <div class="card" style="width: 18rem;">
+          <img src="https://images.theconversation.com/files/350865/original/file-20200803-24-50u91u.jpg?ixlib=rb-1.1.0&q=45&auto=format&w=1200&h=1200.0&fit=crop" class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 class="card-title">Auksjon 1</h5>
+            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+            <a href="#" class="btn btn-primary">Gå til auksjon</a>
+          </div>
+        </div>
+
+        <div class="card" style="width: 18rem;">
+          <img src="https://img.webmd.com/dtmcms/live/webmd/consumer_assets/site_images/article_thumbnails/other/cat_relaxing_on_patio_other/1800x1200_cat_relaxing_on_patio_other.jpg" class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 class="card-title">Auksjon 2</h5>
+            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+            <a href="#" class="btn btn-primary">Gå til auksjon</a>
+          </div>
+        </div>
+
+        <div class="card" style="width: 18rem;">
+          <img src="https://icc.govt.nz/wp-content/uploads/2019/03/cats-banner.jpg" class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 class="card-title">Auksjon 3</h5>
+            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+            <a href="#" class="btn btn-primary">Gå til auksjon</a>
+          </div>
+        </div>
+    </div>
+
+    <nav aria-label="...">
+      <ul class="pagination justify-content-center">
+        <li class="page-item disabled">
+          <span class="page-link">Previous</span>
+        </li>
+        <li class="page-item"><a class="page-link" href="#">1</a></li>
+        <li class="page-item active" aria-current="page">
+          <span class="page-link">2</span>
+        </li>
+        <li class="page-item"><a class="page-link" href="#">3</a></li>
+        <li class="page-item">
+          <a class="page-link" href="#">Next</a>
+        </li>
+      </ul>
+    </nav>
+
 {% endblock %}
