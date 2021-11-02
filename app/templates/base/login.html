@@ -19,6 +19,10 @@
             <label class="form-check-label" for="exampleCheck1">Keep me logged in</label>
           </div>
           <button type="submit" class="btn btn-primary">Log in</button>
+          <div class="spacer">
+              <h4>No User yet?</h4>
+              <a href="{% url 'base:register' %}" type="button" class="btn btn-primary">Register a New User</a>
+          </div>
         </form>
     </div>
 {% endblock %}
