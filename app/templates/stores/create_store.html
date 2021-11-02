@@ -2,6 +2,25 @@
 {% block content %}
     <h1>Register your Store</h1>
     <div class="container">
-
+        <form>
+            <div class="col">
+                <input type="text" class="form-control" placeholder="Store Name" aria-label="Store Name">
+            </div>
+            <div class="mb-3">
+                  <label for="txtAreaDescription" class="form-label">Description</label>
+                  <textarea class="form-control" id="txtAreaDescription" rows="3"></textarea>
+            </div>
+            <div class="mb-3">
+                <label for="txtEmail" class="form-label">Email address</label>
+                <input type="email" class="form-control" id="txtEmail" aria-describedby="emailHelp">
+                <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+            </div>
+            <div class="col">
+                <input type="text" class="form-control" placeholder="Phone Number" aria-label="Phone Number">
+            </div>
+            <div class="spacer">
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+        </form>
     </div>
 {% endblock %}
