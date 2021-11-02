@@ -1,15 +1,24 @@
 {% extends 'base/base.html' %}
 {% block content %}
 
-    <div style="display: flex; width: 100%; justify-content: space-between; margin-top: 40px; margin-bottom: 40px;">
-    <h1>Auksjoner</h1>
+    <h1>Kategorier</h1>
 
-    <select class="form-select form-select-sm" aria-label="Default select example" style="width: 25%;">
-      <option selected>Velg sorteringsmetode</option>
-      <option value="1">Alfabetisk</option>
-      <option value="2">Nyest</option>
-      <option value="3">Eldst</option>
-    </select>
+    <div style="display: flex; gap: 30px; margin-top: 40px; margin-bottom: 40px;">
+        <button type="button" class="btn btn-primary btn-sm">Kategori 1</button>
+        <button type="button" class="btn btn-primary btn-sm">Kategori 2</button>
+        <button type="button" class="btn btn-primary btn-sm">Kategori 3</button>
+        <button type="button" class="btn btn-primary btn-sm">Kategori 4</button>
+    </div>
+
+    <div style="display: flex; width: 100%; justify-content: space-between; margin-top: 40px; margin-bottom: 40px;">
+        <h1>Auksjoner</h1>
+
+        <select class="form-select form-select-sm" aria-label="Default select example" style="width: 25%;">
+          <option selected>Velg sorteringsmetode</option>
+          <option value="1">Alfabetisk</option>
+          <option value="2">Nyest</option>
+          <option value="3">Eldst</option>
+        </select>
     </div>
 
     <div class="card-group">
