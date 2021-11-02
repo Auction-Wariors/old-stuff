@@ -6,7 +6,7 @@ def view_all_stores(request):
 
 
 def create_store(request):
-    pass
+    return render(request, 'stores/create_store.html')
 
 
 def view_store(request):

@@ -1,6 +1,14 @@
 {% extends 'base/base.html' %}
 {% block content %}
-    <h1>Available Stores</h1>
+    <div class="container d-flex justify-content-between">
+        <h1>Available Stores</h1>
+        <a
+          href="{% url 'stores:create_store' %}"
+          type="button"
+          class="btn btn-outline-primary me-2s"
+        >Register a Store
+        </a>
+    </div>
     <section>
         <div class="card" style="width: 18rem;">
           <div class="card-body">
