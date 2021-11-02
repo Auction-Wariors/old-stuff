@@ -56,20 +56,21 @@
                       href="{% url 'base:logout' %}"
                       type="button"
                       class="btn btn-outline-primary me-2"
-                    >Log out
+                    >Log Out
                     </a>
                     {% else %}
                     <a
                       href="{% url 'base:login' %}"
                       type="button"
                       class="btn btn-outline-primary me-2"
-                    >Log in
+                    >Log In
                     </a>
-                    <button
+                    <a
+                      href="{% url 'users:register' %}"
                       type="button"
-                      class="btn btn-primary"
-                    >Sign-up
-                    </button>
+                      class="btn btn-outline-primary me-2"
+                    >Sign Up
+                    </a>
                     {% endif %}
                 </div>
             </nav>
