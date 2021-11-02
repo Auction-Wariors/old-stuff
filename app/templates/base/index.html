@@ -1,13 +1,16 @@
 {% extends 'base/base.html' %}
 {% block content %}
+
+    <div style="display: flex; width: 100%; justify-content: space-between; margin-top: 40px; margin-bottom: 40px;">
     <h1>Auksjoner</h1>
 
-    <select class="form-select form-select-sm" aria-label="Default select example">
+    <select class="form-select form-select-sm" aria-label="Default select example" style="width: 25%;">
       <option selected>Velg sorteringsmetode</option>
       <option value="1">Alfabetisk</option>
       <option value="2">Nyest</option>
       <option value="3">Eldst</option>
     </select>
+    </div>
 
     <div class="card-group">
         <div class="card" style="width: 18rem;">
@@ -39,7 +42,7 @@
     </div>
 
     <nav aria-label="...">
-      <ul class="pagination justify-content-center">
+      <ul class="pagination justify-content-center" style="margin-top: 40px;">
         <li class="page-item disabled">
           <span class="page-link">Previous</span>
         </li>
