@@ -12,6 +12,8 @@
           integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
           crossorigin="anonymous"
         >
+        {% load static %} <!--FIXME Check if css is properly linked(it works with a get error in terminal)-->
+        <link rel="stylesheet" href="{% static 'css/styles.css' %}">
         {% block title %}<title>Auction Warriors</title>{% endblock %}
     </head>
     <body>
@@ -41,16 +43,19 @@
                 </ul>
 
                 <div class="col-md-3 text-end">
-                    <button
+                    <a
+                      href="{% url 'base:login' %}"
                       type="button"
                       class="btn btn-outline-primary me-2"
-                    >Login
-                    </button>
+                    >Log in
+                    </a>
+                    <!--
                     <button
                       type="button"
                       class="btn btn-primary"
                     >Sign-up
                     </button>
+                    -->
                 </div>
             </nav>
 
