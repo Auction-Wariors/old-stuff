@@ -1,3 +1,4 @@
+{% load static %}
 <!doctype html>
 <html lang="en">
     <head>
@@ -72,7 +73,14 @@
                     {% endif %}
                 </div>
             </nav>
-
+            <!-- FIXME: Change to javascript? -->
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}">
+                    <p>{{ message }}</p>
+                    </div>
+                {% endfor %}
+            {% endif %}
             {% block content %}
                 <h1>This page is missing CONTENT</h1>
             {% endblock %}
