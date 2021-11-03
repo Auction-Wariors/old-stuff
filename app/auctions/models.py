@@ -13,17 +13,10 @@ class Category(models.Model):
         return self.name
 
 
-class Item(models.Model):
+class Auction(models.Model):
     name = models.CharField(max_length=50)
     description = models.CharField(max_length=5000)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return self.name
-
-
-class Auction(models.Model):
-    item = models.ForeignKey(Item, on_delete=models.CASCADE)
     buy_now_price = models.BigIntegerField(default=0)
     start_date = models.DateTimeField(default=now())
     end_date = models.DateTimeField(default=now())
@@ -33,7 +26,7 @@ class Auction(models.Model):
     store = models.ForeignKey(Store, on_delete=models.CASCADE, default='')
 
     def __str__(self):
-        return "Auction: " + self.item.name
+        return "Auction: " + self.name
 
 
 class Bid(models.Model):
@@ -48,4 +41,4 @@ class Bid(models.Model):
     owner = models.ForeignKey(User, on_delete=models.DO_NOTHING)
 
     def __str__(self):
-        return f"Auction: {self.auction.item.name} Bid: {self.value}"
+        return f"Auction: {self.auction.name} Bid: {self.value}"

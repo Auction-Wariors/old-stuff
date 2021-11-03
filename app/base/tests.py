@@ -3,7 +3,7 @@ from django.test import TestCase, SimpleTestCase
 from django.urls import resolve, reverse
 from django.test import Client
 
-from auctions.models import Auction, Item, Category
+from auctions.models import Auction, Category
 from .views import index
 from stores.models import Store
 
@@ -24,8 +24,7 @@ class TestView(TestCase):
         user = User.objects.create(username='test', password='test')
         store = Store.objects.create(name='test', owner=user)
         category = Category.objects.create(name='TestCategory', description='TestCategory')
-        item = Item.objects.create(name='test_item', description='blabla', category=category)
-        Auction.objects.create(item=item, store=store)
+        Auction.objects.create(name='test_item', description='blabla', category=category, store=store)
 
     def test_index_view_count_auction(self):
         response = self.client.get(self.index)

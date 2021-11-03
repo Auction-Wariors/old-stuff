@@ -1,46 +1,51 @@
+from django.contrib.auth.models import User
 from django.test import TestCase
 
-from auctions.forms import AddItemForm, AddAuctionForm
-from auctions.models import Category
+from auctions.forms import AddAuctionForm
+from auctions.models import Category, Auction
 
 
-class TestForms(TestCase):
+class TestAuctionForms(TestCase):
 
     def setUp(self):
         self.test = Category.objects.create(name='test',
-                                       description='test descirpton')
-
-    def test_add_item_form_is_valid(self):
-
-        i_form = AddItemForm(data={
-            'name': 'item1',
-            'description': 'item1 description',
-            'category': self.test
-        })
-
-        self.assertTrue(i_form.is_valid())
-
-    def test_add_item_form_no_data(self):
-        i_form = AddItemForm(data={})
-
-        self.assertFalse(i_form.is_valid())
-        self.assertEqual(len(i_form.errors), 3)
+                                            description='test description')
 
     def test_add_auction_form_is_valid(self):
-        a_form = AddAuctionForm(data={
+        i_form = AddAuctionForm(data={
+            'name': 'item1',
+            'description': 'item1 description',
+            'category': self.test,
             'start_date': '2022-01-01',
             'end_date': '2022-01-01',
             'min_price': 200
         })
 
-        self.assertTrue(a_form.is_valid())
+        self.assertTrue(i_form.is_valid())
 
     def test_add_auction_form_no_data(self):
         a_form = AddAuctionForm(data={})
 
         self.assertFalse(a_form.is_valid())
-        self.assertEqual(len(a_form.errors), 3)
+        self.assertEqual(len(a_form.errors), 6)
 
 
+class TestAuctionViews(TestCase):
+    def setUp(self):
+        self.category = Category.objects.create(name='test',
+                                                description='test description')
+        self.user = User.objects.create(username='test', password='test123')
 
+    def test_add_action_view(self):
+        auction_count = Auction.objects.all().count()
+        a_form = {'a_form': 'True',
+                  'start_date': '2022-01-01',
+                  'end_date': '2022-01-02',
+                  'min_price': 250,
+                  'name': 'test_product',
+                  'description': 'test test',
+                  'category': self.category}
 
+        response = self.client.post('/auctions/create/',
+                                    a_form)
+        self.assertEqual(response.status_code, 200)
