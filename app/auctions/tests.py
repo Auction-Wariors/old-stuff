@@ -3,22 +3,25 @@ from django.test import TestCase
 
 from auctions.forms import AddAuctionForm
 from auctions.models import Category, Auction
+from stores.models import Store
 
 
 class TestAuctionForms(TestCase):
 
     def setUp(self):
-        self.test = Category.objects.create(name='test',
-                                            description='test description')
+        self.user = User.objects.create(username='test', password='test123')
+        self.store = Store.objects.create(owner=self.user)
+        self.category = Category.objects.create(name='test',
+                                                description='test description')
 
     def test_add_auction_form_is_valid(self):
         i_form = AddAuctionForm(data={
             'name': 'item1',
             'description': 'item1 description',
-            'category': self.test,
+            'category': self.category,
             'start_date': '2022-01-01',
             'end_date': '2022-01-01',
-            'min_price': 200
+            'min_price': 200,
         })
 
         self.assertTrue(i_form.is_valid())
@@ -37,7 +40,6 @@ class TestAuctionViews(TestCase):
         self.user = User.objects.create(username='test', password='test123')
 
     def test_add_action_view(self):
-        auction_count = Auction.objects.all().count()
         a_form = {'a_form': 'True',
                   'start_date': '2022-01-01',
                   'end_date': '2022-01-02',
@@ -49,3 +51,4 @@ class TestAuctionViews(TestCase):
         response = self.client.post('/auctions/create/',
                                     a_form)
         self.assertEqual(response.status_code, 200)
+
