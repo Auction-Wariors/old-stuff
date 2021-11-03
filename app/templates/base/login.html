@@ -1,29 +1,21 @@
 {% extends 'base/base.html' %}
+{% load crispy_forms_tags %}
 {% block content %}
     <div class="container">
-        <form>
-          <div class="mb-3">
-            <label for="exampleInputEmail1" class="form-label">Email address</label>
-            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-            <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
-          </div>
-          <div class="mb-3">
-            <label for="exampleInputPassword1" class="form-label">Password</label>
-            <input type="password" class="form-control" id="exampleInputPassword1">
-          </div>
-          <div class="spacer">
-              <a href="#" class="link-primary">Forgot Your Password?</a>
-          </div>
-          <div class="mb-3 form-check">
-            <input type="checkbox" class="form-check-input" id="exampleCheck1">
-            <label class="form-check-label" for="exampleCheck1">Keep me logged in</label>
-          </div>
-          <button type="submit" class="btn btn-primary">Log in</button>
-          <div class="spacer">
-              <h4>No User yet?</h4>
-              <!--FIXME Change a tag back to button tag and add logic for the button-->
-              <a href="{% url 'base:register' %}" type="button" class="btn btn-primary">Register a New User</a>
-          </div>
+        <form method="post">
+            {% csrf_token %}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">Logg inn</legend>
+                {{ form|crispy }}
+            </fieldset>
+            <div class="form-group">
+                <button class="btn btn-outline-info" type="submit">Logg inn</button>
+            </div>
         </form>
+        <div class="spacer">
+            <h4>No User yet?</h4>
+            <!--FIXME Change a tag back to button tag and add logic for the button-->
+            <a href="{% url 'base:register' %}" type="button" class="btn btn-primary">Register a New User</a>
+        </div>
     </div>
 {% endblock %}

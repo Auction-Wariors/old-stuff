@@ -21,12 +21,14 @@ class TestView(TestCase):
         self.client = Client()
         self.index = reverse('base:index')
 
-        user = User.objects.create(username='test', password='test')
-        store = Store.objects.create(name='test', owner=user)
-        category = Category.objects.create(name='TestCategory', description='TestCategory')
-        Auction.objects.create(name='test_item', description='blabla', category=category, store=store)
+        self.user = User.objects.create(username='test', password='test')
+        self.store = Store.objects.create(name='test', owner=self.user)
+        self.category = Category.objects.create(name='TestCategory', description='TestCategory')
+        Auction.objects.create(name='test_item', description='blabla', category=self.category, store=self.store)
 
     def test_index_view_count_auction(self):
         response = self.client.get(self.index)
+        Auction.objects.create(name='test_item123', description='blabla', category=self.category, store=self.store)
 
-        self.assertEqual(Auction.objects.all().count(), 1)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(Auction.objects.all().count(), 2)
