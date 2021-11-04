@@ -1,9 +1,7 @@
 # Oppgave
 ## ToDo's
 ### Priority
-- [ ] Move models to correct apps
 - [ ] Create user login / register (App)
-- [ ] Move Nav Elements placement to left (exept login/register)
 - [ ] Create basic working templates (a site you can navigate, Without the business logic)
 
 
@@ -14,6 +12,8 @@
 - [ ] Need a model for storing what stores need to pay (Comission / Subscription)
 
 
+- [x] Move models to correct apps
+- [x] Move Nav Elements placement to left (exept login/register)
 - [x] Create Stores (App)
 ### Secondary (Still, must be done)
 - [ ] Look at the usage of cascade in models.py
