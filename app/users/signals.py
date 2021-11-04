@@ -7,4 +7,6 @@ from .models import Profile
 @receiver(post_save, sender=User)
 def create_profile(sender, instance, created, **kwargs):
     if created:
-        Profile.objects.create(user=instance)
+        first_name = instance.first_name
+        last_name = instance.last_name
+        Profile.objects.create(user=instance, first_name=first_name, last_name=last_name)
