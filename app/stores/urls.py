@@ -26,7 +26,7 @@ urlpatterns = [
     path('', views.view_all_stores, name='index'),
     path('create/', views.create_store, name='create_store'),
     # TODO remove this when dynamic id on view_store path is in place
-    path('/stores/', views.view_store, name='view_store'),
+    path('stores/', views.view_store, name='view_store'),
     # TODO fix dynamic id on view_store path.
     # path('<int:store_id>/', views.view_store, name='view_store'),
     path('<int:store_id>/auctions/create', views.add_auction, name='add_auction'),  # hmm .... rethink this ?
