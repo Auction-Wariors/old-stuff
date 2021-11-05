@@ -2,12 +2,15 @@
 {% block content %}
     <div class="container d-flex justify-content-between">
         <h1>Available Stores</h1>
+                 {% if user.is_authenticated %}
         <a
           href="{% url 'stores:create_store' %}"
           type="button"
           class="btn btn-outline-primary me-2s"
+
         >Register a Store
         </a>
+                 {% endif %}
     </div>
     <section>
         <div class="card" style="width: 18rem;">
