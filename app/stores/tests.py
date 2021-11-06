@@ -36,7 +36,7 @@ class TestStoresForms(TestCase):
         # Store checks
         self.assertTrue(store_exists)
         self.assertNotEqual(store_exists.count(), 0)
-        self.assertTrue(self.store_a.owner(self.user_a))
+        self.assertTrue(self.store_a.owner == user_a)
 
     def test_register_store_only_when_logged_in(self):
         pass
