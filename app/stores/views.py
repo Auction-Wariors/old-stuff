@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.contrib import messages
 
-from stores.forms import CreateStoreForm
+from app.stores.forms import CreateStoreForm
 
 
 def view_all_stores(request):

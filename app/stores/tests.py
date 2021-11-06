@@ -2,7 +2,7 @@
 from django.test import TestCase
 
 from django.contrib.auth import get_user_model
-from stores.models import Store
+from app.stores.models import Store
 
 # Create your tests here.
 
@@ -38,4 +38,5 @@ class TestStoresForms(TestCase):
         self.assertNotEqual(store_exists.count(), 0)
         self.assertTrue(self.store_a.owner(self.user_a))
 
-    # def test_register_store_only_when_logged_in(self):
+    def test_register_store_only_when_logged_in(self):
+        pass

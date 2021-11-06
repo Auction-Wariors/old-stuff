@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from auctions.models import Auction
+from app.auctions.models import Auction
 
 
 def index(request):

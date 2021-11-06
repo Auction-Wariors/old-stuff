@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 
-from auctions.forms import AddAuctionForm
+from app.auctions.forms import AddAuctionForm
 
 
 def view_auction(request):
