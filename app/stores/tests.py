@@ -15,6 +15,7 @@ class TestStoresForms(TestCase):
     # Setup for the stores\tests to run.
     def setUp(self):
         user_a_password = 'testUserA'
+        self.user_a_password = user_a_password
         self.user_a = User(username='testUserA', email='TestUserA@notemail.com', password=user_a_password)
         self.store_a = Store(name='testStoreA', owner='user_a')
 
@@ -31,7 +32,7 @@ class TestStoresForms(TestCase):
         # User checks
         self.assertTrue(user_exists)
         self.assertNotEqual(user_exists.count(), 0)
-        self.assertTrue(user_a.check_password('testUserA'))
+        self.assertTrue(user_a.check_password(self.user_a_password))
 
         # Store checks
         self.assertTrue(store_exists)
