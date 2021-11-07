@@ -10,8 +10,13 @@
           class="btn btn-outline-primary me-2s"
 
         >Register a Store
+        </a>
         {% else %}
-            // TODO: add register/login to create store
+                     <a
+                    href="{% url 'base:login' %}"
+                    type="button"
+                    class="btn btn-outline-primary me-2s"
+        >Log in to register a store
         </a>
 
                  {% endif %}
