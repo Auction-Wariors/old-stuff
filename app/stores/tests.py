@@ -1,11 +1,11 @@
-
-from django.test import TestCase
-
+from django.test import TestCase, Client
+from django.urls import resolve, reverse
 from django.contrib.auth import get_user_model
-from stores.models import Store
 
-# Create your tests here.
+from stores.models import Store
 from stores.forms import CreateStoreForm
+# Create your tests here.
+
 
 User = get_user_model()
 
@@ -20,6 +20,9 @@ class TestStoresForms(TestCase):
         store_name = "test store"
         store = Store.objects.create(name=store_name, owner=user_owner, description='hello',
                                      email='not@email.com', phone_number='11112222')
+
+    def test_register_store_when_not_logged_in(self):
+        pass
 
     def test_create_valid_store(self):
 
@@ -67,3 +70,23 @@ class TestStoresForms(TestCase):
         self.assertFalse(no_phone_number_in_form.is_valid())
         self.assertFalse(wrong_format_email_in_form.is_valid())
 
+
+class TestViews(TestCase):
+
+    def test_stores_index_view(self):
+        client = Client()
+        response = client.get(reverse('stores:index'))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'stores/index.html')
+
+    def test_stores_info_view(self):
+        client = Client()
+        response = client.get(reverse('stores:view_store'))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'stores/storeinfo.html')
+
+    def test_create_store_view(self):
+        client = Client()
+        response = client.get(reverse('stores:create_store'))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'stores/create_store.html')
