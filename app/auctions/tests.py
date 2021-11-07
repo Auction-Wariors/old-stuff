@@ -1,9 +1,9 @@
 from django.contrib.auth.models import User
 from django.test import TestCase
 
-from app.auctions.forms import AddAuctionForm
-from app.auctions.models import Category, Auction
-from app.stores.models import Store
+from auctions.forms import AddAuctionForm
+from auctions.models import Category, Auction
+from stores.models import Store
 
 
 class TestAuctionForms(TestCase):
