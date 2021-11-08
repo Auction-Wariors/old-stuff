@@ -23,7 +23,7 @@ app_name = 'stores'
 
 urlpatterns = [
     # "stores/"
-    path('', views.view_all_stores, name='index'),
+    path('', views.view_all_stores, name='index'),  # FIXME, shall, shall not....
     path('create/', views.create_store, name='create_store'),
     # TODO remove this when dynamic id on view_store path is in place
     path('stores/', views.view_store, name='view_store'),
