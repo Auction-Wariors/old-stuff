@@ -24,7 +24,6 @@ app_name = 'users'
 
 urlpatterns = [
     # "users/"
-    # Fixme which one is the correct register user ? user:register or base:register
     path('register/', views.register, name='register'),
     path('<int:user_id>/', views.user_profile, name='user_profile'),
 
