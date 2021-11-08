@@ -25,6 +25,6 @@ app_name = 'users'
 urlpatterns = [
     # "users/"
     path('register/', views.register, name='register'),
-    path('<int:user_id>/', views.user_profile, name='user_profile'),
+    path('me/', views.user_profile, name='user_profile'),
 
 ]

@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
+from .models import Profile
 
 from users.forms import UserRegisterForm
 
@@ -19,6 +20,7 @@ def register(request):
 
 
 def user_profile(request):
-    pass
+    profile = Profile.objects.get(user=request.user)
+    return render(request, 'users/profile.html', {'profile': profile})
 
 
