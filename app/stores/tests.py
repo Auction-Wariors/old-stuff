@@ -73,6 +73,7 @@ class TestStoresForms(TestCase):
 
 class TestViews(TestCase):
 
+    # Testing that the correct template is used with the correct view.
     def test_stores_index_view(self):
         client = Client()
         response = client.get(reverse('stores:index'))
