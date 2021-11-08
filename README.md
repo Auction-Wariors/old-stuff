@@ -7,6 +7,7 @@
 
 
 - [ ] Implement sort method for auctions (involves View / form / template)
+- [ ] Document issues / work (how we work is graded)
 - [ ] Create dashboard(template)/view for storeinfo
 - [ ] Should not say register store when you have a store
 - [ ] Anders / Fredrik / Sondre: Make sure you can not add the same store name
