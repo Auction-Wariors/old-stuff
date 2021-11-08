@@ -11,6 +11,10 @@ def pricing(request):
     return render(request, 'base/pricing.html')
 
 
+def faq(request):
+    return render(request, 'base/faq.html')
+
+
 def login(request):
     return render(request, 'base/login.html')
 
