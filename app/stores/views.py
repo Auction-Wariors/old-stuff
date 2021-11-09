@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.contrib import messages
+from .models import Store
 
 from stores.forms import CreateStoreForm
 
@@ -23,6 +24,11 @@ def create_store(request):
 
 def view_store(request):
     return render(request, 'stores/storeinfo.html')
+
+
+def store_dashboard(request):
+    store = Store.objects.get(owner=request.user)
+    return render(request, 'stores/dashboard.html', {'store': store})
 
 
 def add_auction(request):

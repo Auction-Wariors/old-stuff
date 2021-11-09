@@ -1,5 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
+from stores.models import Store
+
 
 from auctions.forms import AddAuctionForm
 
@@ -12,7 +14,10 @@ def add_auction(request):
     if request.method == 'POST':
         form = AddAuctionForm(request.POST)
         if form.is_valid():
-            #  FIXME: ADD LOGIC
+            auction = form.save(commit=False)
+            user = request.user
+            auction.store = Store.objects.get(owner=user)
+            auction.save()
             messages.success(request, f'Auction added')
             return redirect('stores:view_store')
 

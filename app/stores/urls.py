@@ -30,6 +30,7 @@ urlpatterns = [
     # TODO fix dynamic id on view_store path.
     # path('<int:store_id>/', views.view_store, name='view_store'),
     path('<int:store_id>/auctions/create', views.add_auction, name='add_auction'),  # hmm .... rethink this ?
+    path('dashboard/', views.store_dashboard, name='store_dashboard')
 ]
 
 
