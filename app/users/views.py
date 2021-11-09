@@ -1,3 +1,4 @@
+from django.contrib.auth import authenticate, login
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from .models import Profile
@@ -11,8 +12,11 @@ def register(request):
         if form.is_valid():
             form.save()
             username = form.cleaned_data.get('username')
-            messages.success(request, f'Account successfully created for user: {username}')
-            return redirect('base:login')
+            messages.success(request, f'User created: {username}. You are now logged in.')
+            user = authenticate(username=form.cleaned_data['username'],
+                                password=form.cleaned_data['password1'])
+            login(request, user)
+            return redirect('base:index')
 
     else:
         form = UserRegisterForm()
