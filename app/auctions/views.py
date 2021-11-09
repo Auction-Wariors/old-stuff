@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from stores.models import Store
-from .models import Auction
+from .models import Auction, Bid
 
 
 from auctions.forms import AddAuctionForm
@@ -9,7 +9,8 @@ from auctions.forms import AddAuctionForm
 
 def auction_detail(request, pk):
     auction = get_object_or_404(Auction, pk=pk)
-    return render(request, 'auctions/auction_detail.html', {'auction': auction})
+    bids = Bid.objects.filter(auction=auction)
+    return render(request, 'auctions/auction_detail.html', {'auction': auction, 'bids': bids})
 
 
 def add_auction(request):

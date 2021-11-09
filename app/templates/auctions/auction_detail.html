@@ -54,6 +54,14 @@
           </div>
         </div>
       </div>
+ <div>
+    <h5>Bid history:</h5>
+     {% for bid in bids %}
+      <p>{{ bid.owner.first_name }} - Bid: NOK {{ bid.value }},- // {{ bid.created_at }}</p>
+     {% endfor %}
+
+
+ </div>
 </section>
 
 {% endblock %}
