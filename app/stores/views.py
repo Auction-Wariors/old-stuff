@@ -1,5 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
+
+from auctions.models import Auction, Bid
 from .models import Store
 
 from stores.forms import CreateStoreForm
@@ -29,7 +31,8 @@ def view_store(request):
 
 def store_dashboard(request):
     store = Store.objects.get(owner=request.user)
-    return render(request, 'stores/dashboard.html', {'store': store})
+    auctions_active = Auction.objects.filter(store=store)
+    return render(request, 'stores/dashboard.html', {'store': store, 'auctions': auctions_active})
 
 
 def add_auction(request):

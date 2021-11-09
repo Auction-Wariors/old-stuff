@@ -26,5 +26,3 @@ def register(request):
 def user_profile(request):
     profile = Profile.objects.get(user=request.user)
     return render(request, 'users/profile.html', {'profile': profile})
-
-

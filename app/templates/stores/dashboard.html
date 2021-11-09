@@ -14,7 +14,7 @@
               </a>
             </div>
               <div class="d-flex justify-content-center mb-2">
-              <a href="#" type="button" class="btn btn-outline-primary me-2">
+              <a href="{% url 'auctions:add_auction' %}" type="button" class="btn btn-outline-primary me-2">
                   Add auction
               </a>
             </div>
@@ -57,5 +57,13 @@
           </div>
         </div>
   </div>
+    {% if auctions %}
+        <div class="container py-5">
+        <h3>Active auctions:</h3>
+            {% for auction in auctions %}
+            <p>Id: {{ auction.id }} -> {{ auction.name }}</p>
+            {% endfor %}
+        </div>
+    {% endif %}
 </section>
 {% endblock %}
