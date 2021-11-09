@@ -1,5 +1,5 @@
 from django import forms
-from .models import Auction, Category
+from .models import Auction, Category, Bid
 
 
 class AddAuctionForm(forms.ModelForm):
@@ -15,3 +15,11 @@ class AddAuctionForm(forms.ModelForm):
     class Meta:
         model = Auction
         fields = ['name', 'description', 'category', 'start_date', 'end_date', 'min_price']
+
+
+class BidOnAuctionForm(forms.ModelForm):
+    value = forms.IntegerField()
+
+    class Meta:
+        model = Bid
+        fields = ['value']

@@ -4,13 +4,23 @@ from stores.models import Store
 from .models import Auction, Bid
 
 
-from auctions.forms import AddAuctionForm
+from auctions.forms import AddAuctionForm, BidOnAuctionForm
 
 
 def auction_detail(request, pk):
     auction = get_object_or_404(Auction, pk=pk)
     bids = Bid.objects.filter(auction=auction)
-    return render(request, 'auctions/auction_detail.html', {'auction': auction, 'bids': bids})
+    if request.method == 'POST':
+        form = BidOnAuctionForm(request.POST)
+        if form.is_valid():
+            bid = form.save(commit=False)
+            bid.owner = request.user
+            bid.auction = auction
+            bid.max_value = 2  # FIXME: Needs to fix logic
+            bid.save()
+    else:
+        form = BidOnAuctionForm()
+    return render(request, 'auctions/auction_detail.html', {'auction': auction, 'bids': bids, 'form': form})
 
 
 def add_auction(request):
