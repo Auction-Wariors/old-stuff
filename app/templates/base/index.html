@@ -21,34 +21,21 @@
         </select>
     </div>
 
-    <div class="card-group">
+    <div class="d-flex justify-content-around">
+    {% for auction in auctions %}
         <div class="card" style="width: 18rem;">
-          <img src="https://hips.hearstapps.com/edc.h-cdn.co/assets/16/21/1464359609-antique-lead.jpg" class="card-img-top" alt="...">
+          <img src="https://hips.hearstapps.com/edc.h-cdn.co/assets/16/21/1464359609-antique-lead.jpg" height="100%" width="100%"
+ class="card-img-top" alt="...">
           <div class="card-body">
-            <h5 class="card-title">Auction 1</h5>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-            <a href="#" class="btn btn-primary">Enter auction</a>
+            <h5 class="card-title">{{ auction.name }}</h5>
+              <p class="card-text"><small class="text-muted">Start bid: {{ auction.min_price }}</small></p>
+                <a href="{% url 'auctions:auction_detail' auction.id %}" class="btn btn-primary">Enter auction</a>
           </div>
         </div>
-
-        <div class="card" style="width: 18rem;">
-          <img src="https://www.kienle.com/fileadmin/_processed_/1/c/csm_faszination-oldtimer-header-xs_33e6719298.jpg" class="card-img-top" alt="...">
-          <div class="card-body">
-            <h5 class="card-title">Auction 2</h5>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-            <a href="#" class="btn btn-primary">Enter auction</a>
-          </div>
-        </div>
-
-        <div class="card" style="width: 18rem;">
-          <img src="https://memegenerator.net/img/instances/66939156.jpg" class="card-img-top" alt="...">
-          <div class="card-body">
-            <h5 class="card-title">Auction 3</h5>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-            <a href="#" class="btn btn-primary">Enter auction</a>
-          </div>
-        </div>
+    {% endfor %}
     </div>
+
+
 
     <nav aria-label="...">
       <ul class="pagination justify-content-center" style="margin-top: 40px;">

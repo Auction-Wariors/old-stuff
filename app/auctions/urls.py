@@ -24,7 +24,7 @@ app_name = 'auctions'
 urlpatterns = [
     # "auctions/"
     path('create/', views.add_auction, name='add_auction'),
-    path('<int:id>/', views.view_auction, name='view_auction'),
+    path('<int:pk>/', views.auction_detail, name='auction_detail'),
 ]
 
 

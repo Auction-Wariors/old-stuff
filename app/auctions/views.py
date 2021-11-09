@@ -1,13 +1,15 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from stores.models import Store
+from .models import Auction
 
 
 from auctions.forms import AddAuctionForm
 
 
-def view_auction(request):
-    pass
+def auction_detail(request, pk):
+    auction = get_object_or_404(Auction, pk=pk)
+    return render(request, 'auctions/auction_detail.html', {'auction': auction})
 
 
 def add_auction(request):
