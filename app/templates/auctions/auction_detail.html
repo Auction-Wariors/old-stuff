@@ -57,9 +57,13 @@
       </div>
  <div>
     <h5>Bid history:</h5>
+     {% if bids %}
      {% for bid in bids %}
       <p>{{ bid.owner.first_name }} - Bid: NOK {{ bid.value }},- // {{ bid.created_at }}</p>
      {% endfor %}
+    {% else %}
+    <p>No bids yet</p>
+    {% endif %}
   {% if user.is_authenticated %}
         <div class="content-section">
         <form method="post">
