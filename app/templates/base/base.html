@@ -47,6 +47,12 @@
                     <!--FIXME Change a tag back to button tag and add logic for the button-->
                     {% if user.is_authenticated %}
                     <a
+                      href="{% url 'stores:store_dashboard' %}"
+                      type="button"
+                      class="btn btn-outline-primary me-2"
+                    >Your Store
+                    </a>
+                    <a
                       href="{% url 'users:user_profile' %}"
                       type="button"
                       class="btn btn-outline-primary me-2"
