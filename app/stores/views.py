@@ -11,7 +11,7 @@ from stores.forms import CreateStoreForm
 def view_all_stores(request):
     return render(request, 'stores/index.html')
 
-
+@login_required()
 def create_store(request):
     user_has_store = Store.objects.filter(owner=request.user)
     if user_has_store:
@@ -28,10 +28,6 @@ def create_store(request):
     else:
         form = CreateStoreForm()
     return render(request, 'stores/create_store.html', {'form': form})
-
-
-def view_store(request):
-    return render(request, 'stores/storeinfo.html')
 
 
 @login_required()

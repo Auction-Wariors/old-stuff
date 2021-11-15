@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.db.models import Max
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils import timezone
@@ -41,9 +42,10 @@ def auction_detail(request, pk):
 
     return render(request, 'auctions/auction_detail.html', {'auction': auction,
                                                             'bids': bids,
-                                                            'high_bid': current_leading_value})
+                                                            'high_bid': current_leading_bid.value})
 
 
+@login_required
 def add_auction(request):
     if request.method == 'POST':
         form = AddAuctionForm(request.POST)

@@ -19,6 +19,3 @@ def faq(request):
 def login(request):
     return render(request, 'base/login.html')
 
-
-def register(request):
-    return render(request, 'base/register.html')

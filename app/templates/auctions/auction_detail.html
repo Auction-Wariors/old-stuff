@@ -84,9 +84,9 @@
                     <label for="bid_value">Your Bid: </label>
                     <input type="number" class="form-button" name="bid_value" id="bid_value" value="{{ auction.min_price }}" required>
                 {% else %}
-                     <p>Next bid: NOK {{ high_bid.value__max|add:5 }},- </p>
+                     <p>Next bid: NOK {{ high_bid|add:"5" }},- </p>
                     <label for="bid_value">Your Bid: </label>
-                    <input type="number" class="form-button" name="bid_value" id="bid_value" value="{{ high_bid.value__max|add:5 }}" required>
+                    <input type="number" class="form-button" name="bid_value" id="bid_value" value="{{ high_bid|add:"5" }}" required>
                 {% endif %}
 
             </fieldset>
