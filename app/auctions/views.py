@@ -32,7 +32,7 @@ def auction_detail(request, pk):
             # FIXME: Add javascript in template?
         elif timezone.now() > auction.end_date:
             # Auction ended
-            pass
+            messages.warning(request, "Auction is ended")
         else:
             bid.save()
             print(f"Bid added: {datetime.datetime.now()}")
@@ -53,7 +53,7 @@ def add_auction(request):
             auction.store = Store.objects.get(owner=user)
             auction.save()
             messages.success(request, f'Auction added')
-            return redirect('stores:view_store')
+            return redirect('stores:store_dashboard')
 
     else:
         form = AddAuctionForm()

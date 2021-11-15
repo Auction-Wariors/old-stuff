@@ -4,6 +4,7 @@ from auctions.models import Auction
 
 def index(request):
     auctions = Auction.objects.all()
+
     return render(request, 'base/index.html', {'auctions': auctions})
 
 
