@@ -70,13 +70,24 @@
             {% csrf_token %}
             <fieldset class="form-group">
                 <legend class="border-bottom mb-4">Bid on auction</legend>
-                {{ form|crispy }}
+                {% if not bids %}
+                    <p>Next bid: NOK {{ auction.min_price }},- </p>
+                    <label for="bid_value">Your Bid: </label>
+                    <input type="number" class="form-button" name="bid_value" id="bid_value" value="{{ auction.min_price }}" required>
+                {% else %}
+                     <p>Next bid: NOK {{ high_bid.value__max|add:5 }},- </p>
+                    <label for="bid_value">Your Bid: </label>
+                    <input type="number" class="form-button" name="bid_value" id="bid_value" value="{{ high_bid.value__max|add:5 }}" required>
+                {% endif %}
+
             </fieldset>
             <div class="form-group">
-                <button class="btn btn-outline-info" type="submit">Submit</button>
+                <button class="btn btn-outline-info" type="submit">Place bid</button>
             </div>
         </form>
     </div>
+  {% else %}
+      <p>Login to place bid</p>
  {% endif %}
 
 

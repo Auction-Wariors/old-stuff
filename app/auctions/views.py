@@ -1,26 +1,47 @@
+from django.db.models import Max
 from django.shortcuts import render, redirect, get_object_or_404
+from django.utils import timezone
 from django.contrib import messages
 from stores.models import Store
 from .models import Auction, Bid
+import datetime
 
 
-from auctions.forms import AddAuctionForm, BidOnAuctionForm
+from auctions.forms import AddAuctionForm
 
 
 def auction_detail(request, pk):
     auction = get_object_or_404(Auction, pk=pk)
     bids = Bid.objects.filter(auction=auction)
-    if request.method == 'POST':
-        form = BidOnAuctionForm(request.POST)
-        if form.is_valid():
-            bid = form.save(commit=False)
-            bid.owner = request.user
-            bid.auction = auction
-            bid.max_value = 2  # FIXME: Needs to fix logic
-            bid.save()
+    current_leading_value = bids.aggregate(Max('value'))
+    current_leading_bid = Bid.objects.filter(auction=auction, value__exact=current_leading_value["value__max"]).first()
+
+    if not current_leading_bid:
+        leading_bid = auction.min_price-1
     else:
-        form = BidOnAuctionForm()
-    return render(request, 'auctions/auction_detail.html', {'auction': auction, 'bids': bids, 'form': form})
+        leading_bid = current_leading_bid.value
+
+    if request.method == 'POST' and 'bid_value' in request.POST:
+        bid = Bid()
+        bid.owner = request.user
+        bid.auction = auction
+        bid.value = int(request.POST['bid_value'])
+        bid.max_value = 2
+        if bid.value <= leading_bid:
+            messages.warning(request, "Bid is too low")
+            # FIXME: Add javascript in template?
+        elif timezone.now() > auction.end_date:
+            # Auction ended
+            pass
+        else:
+            bid.save()
+            print(f"Bid added: {datetime.datetime.now()}")
+            print(f"Bid added: {timezone.now()}")
+            return redirect('auctions:auction_detail', pk=pk)
+
+    return render(request, 'auctions/auction_detail.html', {'auction': auction,
+                                                            'bids': bids,
+                                                            'high_bid': current_leading_value})
 
 
 def add_auction(request):

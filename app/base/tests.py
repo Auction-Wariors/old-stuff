@@ -6,9 +6,9 @@ from django.urls import resolve, reverse
 from django.test import Client
 from django.utils import timezone
 
-from app.auctions.models import Auction, Category
+from auctions.models import Auction, Category
 from .views import index
-from app.stores.models import Store
+from stores.models import Store
 
 
 class TestUrls(SimpleTestCase):
