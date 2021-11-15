@@ -80,11 +80,11 @@ class TestViews(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'stores/index.html')
 
-    def test_stores_info_view(self):
-        client = Client()
-        response = client.get(reverse('stores:view_store'))
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'stores/storeinfo.html')
+    # def test_stores_dashboard_view(self):
+    #     client = Client()
+    #     response = client.get(reverse('stores:view_store'))
+    #     self.assertEqual(response.status_code, 200)
+    #     self.assertTemplateUsed(response, 'stores/storeinfo.html')
 
     def test_create_store_view(self):
         client = Client()
