@@ -13,6 +13,10 @@ def view_all_stores(request):
 
 
 def create_store(request):
+    user_has_store = Store.objects.filter(owner=request.user)
+    if user_has_store:
+        return redirect('stores:store_dashboard')
+
     if request.method == 'POST':
         form = CreateStoreForm(request.POST)
         if form.is_valid():
