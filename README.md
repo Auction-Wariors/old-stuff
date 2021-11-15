@@ -1,48 +1,4 @@
 # Oppgave
-## ToDo's
-### Priority
-- [ ] Anders:!!!!!!! JS to remove notification after 3-5 sec
-- [ ] REMOVE CAT-PICTURES!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-- [ ] "square" pictures and css (Same size / same count pr container / row
-
-
-- [ ] Implement sort method for auctions (involves View / form / template)
-- [ ] Document issues / work (how we work is graded)
-- [ ] Create dashboard(template)/view for storeinfo
-- [ ] Should not say register store when you have a store
-- [ ] Anders / Fredrik / Sondre: Make sure you can not add the same store name
-- [ ] After registering store, show store properties
-- [ ] Create basic working templates (a site you can navigate, Without the business logic)
-- [ ] Go over HyperLinks and link them to correct page / view
-- [ ] Fix / Create pricing page / FAQ page / about
-- [ ] Fix Language, everything code / website should be Norwegian
-- [ ] CRUD pages / views etc...
-- [ ] Create profile view/template
-- [ ] Use python3 in documentasion
-
-- [ ] A user can only be a member/owm one store. A store can only have one member
-  - To simplefy our app which should be a MVP.
-
-
-- [ ] Need a model for storing what stores need to pay (Comission / Subscription)
-
-
-- [X] Create user login / register (App)
-- [x] Move models to correct apps
-- [x] Move Nav Elements placement to left (exept login/register)
-- [x] Create Stores (App)
-### Secondary (Still, must be done)
-- [ ] Look at the usage of cascade in models.py
-- [ ] Check "default=" in models.py
-
-### Report ToDo's
--[ ] A feature can be mentioned in the report where stores can have multiple members selling for the store
-
-### Misc ToDo's (non mandetory)
-- [ ] "Don't import USER" look up why (Not important, personal request, Anders)
-- [ ] User automatically logged in and moved to front-page
-- [ ] FIX: A user can only be a member/owm one store. A store can only have one member
-  - Implement multiple users pr store.
 
 ### Relevant links for this project
 * https://rahmanfadhil.com/django-login-with-email/
