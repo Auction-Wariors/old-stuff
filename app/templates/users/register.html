@@ -1,7 +1,6 @@
 {% extends 'base/base.html' %}
 {% load crispy_forms_tags %}
 {% block content %}
-
     <div class="content-section">
         <form method="POST">
             {% csrf_token %}
@@ -10,9 +9,12 @@
                 {{ form|crispy }}
             </fieldset>
             <div class="form-group">
-                <button class="btn btn-outline-info" type="submit">Create user</button>
+                <button
+                  class="btn btn-outline-info"
+                  type="submit"
+                >Create user
+                </button>
             </div>
         </form>
     </div>
-
 {% endblock content %}
