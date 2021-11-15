@@ -1,5 +1,4 @@
 from django.apps import AppConfig
-# import app.users.signals
 
 
 class UsersConfig(AppConfig):
@@ -7,5 +6,4 @@ class UsersConfig(AppConfig):
     name = 'users'
 
     def ready(self):
-        pass
-
+        import users.signals
