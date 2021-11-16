@@ -17,6 +17,25 @@ def auction_detail(request, pk):
     current_leading_value = bids.aggregate(Max('value'))
     current_leading_bid = Bid.objects.filter(auction=auction, value__exact=current_leading_value["value__max"]).first()
 
+    # Time left auction, create own function?
+    time = auction.end_date - timezone.now()
+    print(time)
+    time_left = time.total_seconds()
+
+    days = time_left // (24 * 3600)
+    time_left = time_left % (24 * 3600)
+    hours = time_left // 3600
+    time_left %= 3600
+    minutes = time_left // 60
+    time_left %= 60
+    seconds = time_left
+    count_down = {
+        'days': int(days),
+        'hours': int(hours),
+        'minutes': int(minutes),
+        'seconds': int(seconds)
+    }
+
     if not current_leading_bid:
         leading_bid = auction.min_price-1
     else:
@@ -46,7 +65,8 @@ def auction_detail(request, pk):
 
     return render(request, 'auctions/auction_detail.html', {'auction': auction,
                                                             'bids': bids,
-                                                            'high_bid': leading_bid})
+                                                            'high_bid': leading_bid,
+                                                            'time': count_down})
 
 
 @login_required

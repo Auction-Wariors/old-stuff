@@ -3,6 +3,12 @@
 {% block content %}
  <section>
  <div class="container py-5">
+     {% if time.days >= 0 %}
+     <h4>Time left:</h4>
+    <p class="text-danger">{{ time.days }}d {{ time.hours }}h {{ time.minutes }}min {{ time.seconds}}sec</p>
+     {% else %}
+     <h4 class="text-danger">Auction ended</h4>
+     {% endif %}
     <div class="row">
       <div class="col-lg-4">
         <div class="card mb-4">
@@ -65,6 +71,7 @@
         </div>
       </div>
  <div>
+
     <h5>Bid history:</h5>
      {% if bids %}
      {% for bid in bids %}
@@ -73,7 +80,9 @@
     {% else %}
     <p>No bids yet</p>
     {% endif %}
+ {% if time.days >= 0 %}
   {% if user.is_authenticated %}
+
         <div class="content-section">
         <form method="post">
             {% csrf_token %}
@@ -97,6 +106,7 @@
     </div>
   {% else %}
       <p>Login to place bid</p>
+ {% endif %}
  {% endif %}
 
 
