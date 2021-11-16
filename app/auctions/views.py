@@ -53,6 +53,7 @@ def add_auction(request):
             auction = form.save(commit=False)
             user = request.user
             auction.store = Store.objects.get(owner=user)
+            auction.start_date = timezone.now()
             auction.save()
             messages.success(request, f'Auction added')
             return redirect('stores:store_dashboard')

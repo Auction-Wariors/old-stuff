@@ -1,5 +1,6 @@
 from django import forms
 from .models import Auction, Category, Bid
+from bootstrap_datepicker_plus import DateTimePickerInput
 
 
 class AddAuctionForm(forms.ModelForm):
@@ -8,13 +9,14 @@ class AddAuctionForm(forms.ModelForm):
     name = forms.CharField(max_length=50)
     description = forms.CharField(widget=forms.Textarea)
     category = forms.ModelChoiceField(queryset=Category.objects.all(), required=True)
-    start_date = forms.DateTimeField(label='Start date')
-    end_date = forms.DateTimeField(label='End date')
     min_price = forms.IntegerField(label='Minimum start bid')
 
     class Meta:
         model = Auction
-        fields = ['name', 'description', 'category', 'start_date', 'end_date', 'min_price']
+        fields = ['name', 'description', 'category', 'end_date', 'min_price']
+        widgets = {
+            'end_date': DateTimePickerInput()
+        }
 
 
 class BidOnAuctionForm(forms.ModelForm):
