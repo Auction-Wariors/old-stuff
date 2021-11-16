@@ -11,6 +11,7 @@ from stores.forms import CreateStoreForm
 def view_all_stores(request):
     return render(request, 'stores/index.html')
 
+
 @login_required()
 def create_store(request):
     user_has_store = Store.objects.filter(owner=request.user)
