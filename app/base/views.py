@@ -1,9 +1,11 @@
 from django.shortcuts import render
 from auctions.models import Auction
+from auctions.views import check_auction
 
 
 def index(request):
-    auctions = Auction.objects.all()
+    check_auction()
+    auctions = Auction.objects.order_by('-start_date').filter(is_active=True)
 
     return render(request, 'base/index.html', {'auctions': auctions})
 

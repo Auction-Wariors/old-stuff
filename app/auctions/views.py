@@ -7,7 +7,6 @@ from stores.models import Store
 from .models import Auction, Bid
 import datetime
 
-
 from auctions.forms import AddAuctionForm
 
 
@@ -37,7 +36,7 @@ def auction_detail(request, pk):
     }
 
     if not current_leading_bid:
-        leading_bid = auction.min_price-1
+        leading_bid = auction.min_price - 1
     else:
         leading_bid = current_leading_bid.value
 
@@ -85,3 +84,16 @@ def add_auction(request):
     else:
         form = AddAuctionForm()
     return render(request, 'auctions/add_auction.html', {'form': form})
+
+
+# TEST
+def check_auction():
+    auctions = Auction.objects.all()
+    bids = Bid.objects.all()
+    for auction in auctions:
+        if timezone.now() > auction.end_date and auction.is_active:
+            auction.is_active = False
+            winning_bid = bids.filter(auction=auction).last()
+            if winning_bid is not None:
+                auction.winner = winning_bid.owner
+            auction.save()
