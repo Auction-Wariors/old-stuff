@@ -1,4 +1,7 @@
 from django import forms
+from django.core.exceptions import ValidationError
+from django.utils import timezone
+
 from .models import Auction, Category, Bid
 from bootstrap_datepicker_plus import DateTimePickerInput
 
@@ -17,6 +20,12 @@ class AddAuctionForm(forms.ModelForm):
         widgets = {
             'end_date': DateTimePickerInput()
         }
+
+    def clean_end_date(self):
+        data = self.cleaned_data["end_date"]
+        if self.cleaned_data["end_date"] > timezone.now() + timezone.timedelta(days=14):
+            raise forms.ValidationError("End date cannot be more than 14 days from now")
+        return data
 
 
 class BidOnAuctionForm(forms.ModelForm):
