@@ -35,7 +35,6 @@ class Bid(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     value = models.BigIntegerField()
-    max_value = models.BigIntegerField()  # If user wants automatic bidding (up to max_value)
 
     auction = models.ForeignKey(Auction, on_delete=models.SET_NULL, null=True)
     owner = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)

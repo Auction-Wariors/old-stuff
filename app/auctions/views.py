@@ -45,7 +45,6 @@ def auction_detail(request, pk):
         bid.owner = request.user
         bid.auction = auction
         bid.value = int(request.POST['bid_value'])
-        bid.max_value = 2
         if bid.value <= leading_bid:
             messages.warning(request, "Bid is too low")
             # FIXME: Add javascript in template?
