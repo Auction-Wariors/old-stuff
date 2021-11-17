@@ -37,8 +37,8 @@ class Bid(models.Model):
     value = models.BigIntegerField()
     max_value = models.BigIntegerField()  # If user wants automatic bidding (up to max_value)
 
-    auction = models.ForeignKey(Auction, on_delete=models.DO_NOTHING)
-    owner = models.ForeignKey(User, on_delete=models.DO_NOTHING)
+    auction = models.ForeignKey(Auction, on_delete=models.SET_NULL, null=True)
+    owner = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
         return f"Auction: {self.auction.name} Bid: {self.value}"
