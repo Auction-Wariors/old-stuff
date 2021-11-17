@@ -17,7 +17,7 @@ class Auction(models.Model):
     name = models.CharField(max_length=50)
     description = models.CharField(max_length=5000)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
-    buy_now_price = models.BigIntegerField(default=0)
+    is_active = models.BooleanField(default=True)
     start_date = models.DateTimeField()
     end_date = models.DateTimeField()
     winner = models.ForeignKey(User, on_delete=models.DO_NOTHING, blank=True, null=True)
