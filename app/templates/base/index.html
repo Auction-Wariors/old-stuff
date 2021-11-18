@@ -4,14 +4,13 @@
     <h1>Categories</h1>
 
     <div style="display: flex; gap: 30px; margin-top: 40px; margin-bottom: 40px;">
-        <button type="button" class="btn btn-primary btn-sm">Antiques</button>
-        <button type="button" class="btn btn-primary btn-sm">Vintage Vehicles</button>
-        <button type="button" class="btn btn-primary btn-sm">Furniture</button>
-        <button type="button" class="btn btn-primary btn-sm">The Market</button>
+    {% for category in categories %}
+        <button type="button" class="btn btn-primary btn-sm">{{ category.name }}</button>
+    {% endfor %}
     </div>
 
     <div style="display: flex; width: 100%; justify-content: space-between; margin-top: 40px; margin-bottom: 40px;">
-        <h1>Auctions</h1>
+        <h1>Active Auctions</h1>
 
         <select class="form-select form-select-sm" aria-label="Default select example" style="width: 25%;">
             <option selected>Sorting options/option>
