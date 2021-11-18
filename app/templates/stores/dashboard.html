@@ -76,7 +76,7 @@
                         <div class="p-2">Auction id: {{ auction.id }}</div>
                         <div class="p-2">Leading bid: {{ auction.highest_bid }}</div>
                         <div class="p-2">
-                            <a href="#" type="button"
+                            <a href="{% url 'auctions:update_auction' auction.id %}" type="button"
                                    class="btn btn-outline-primary me-2">
                                     Edit auction
                                 </a>

@@ -88,6 +88,23 @@ def add_auction(request):
     return render(request, 'auctions/add_auction.html', {'form': form})
 
 
+@login_required
+def update_auction(request, auction_id):
+    store = Store.objects.get(owner=request.user)
+    auction = Auction.objects.get(store=store, pk=auction_id)
+    if not auction or not auction.is_active:
+        return redirect('stores:store_dashboard')
+    if request.method == 'POST':
+        form = AddAuctionForm(request.POST, instance=auction)
+        if form.is_valid():
+            form.save()
+            return redirect('stores:store_dashboard')
+    else:
+        form = AddAuctionForm(instance=auction)
+
+    return render(request, 'auctions/update_auction.html', {'form': form})
+
+
 def count_down_func(auction):
     time = auction.end_date - timezone.now()
     print(time)
