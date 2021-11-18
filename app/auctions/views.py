@@ -48,6 +48,28 @@ def auction_detail(request, pk):
 
 
 @login_required
+def payment_auction(request, auction_id):
+    auction = get_object_or_404(Auction, pk=auction_id, winner=request.user)
+    if auction.isPayed:
+        return redirect('users:user_profile')
+
+    if request.POST:
+        messages.warning(request, 'Payment failed, please click green button')
+        return redirect('auctions:payment_auction', auction_id=auction_id)
+
+    return render(request, 'auctions/payment.html', {'auction': auction})
+
+
+@login_required
+def payment_ok(request, auction_id):
+    auction = get_object_or_404(Auction, pk=auction_id, winner=request.user)
+    auction.isPayed = True
+    auction.save()
+    messages.success(request, 'Payment successful')
+    return redirect('users:user_profile')
+
+
+@login_required
 def add_auction(request):
     if request.method == 'POST':
         form = AddAuctionForm(request.POST)

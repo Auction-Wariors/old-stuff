@@ -76,7 +76,7 @@
                                     name: {{ auction.name }}</a></div>
                                 <div class="p-2">Auction id: {{ auction.id }}</div>
                                 <div class="p-2">Amount to pay: {{ auction.highest_bid }}</div>
-                                <div class="p-2"><a href="#">Make payment</a></div>
+                                <div class="p-2"><a href="{% url 'auctions:payment_auction' auction.id %}">Make payment</a></div>
                             </div>
                         </div>
 
