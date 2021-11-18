@@ -54,7 +54,8 @@ def payment_auction(request, auction_id):
         return redirect('users:user_profile')
 
     if request.POST:
-        messages.warning(request, 'Payment failed, please click green button')
+        messages.warning(request, 'Payment failed, please contact your bank! '
+                                  'Click green button to test successful payment')
         return redirect('auctions:payment_auction', auction_id=auction_id)
 
     return render(request, 'auctions/payment.html', {'auction': auction})
@@ -65,7 +66,7 @@ def payment_ok(request, auction_id):
     auction = get_object_or_404(Auction, pk=auction_id, winner=request.user)
     auction.isPayed = True
     auction.save()
-    messages.success(request, 'Payment successful')
+    messages.success(request, f'Payment successful! Total amount payed: NOK {auction.highest_bid},- ')
     return redirect('users:user_profile')
 
 
