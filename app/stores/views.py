@@ -34,8 +34,11 @@ def create_store(request):
 @login_required()
 def store_dashboard(request):
     store = Store.objects.get(owner=request.user)
-    auctions_active = Auction.objects.filter(store=store)
-    return render(request, 'stores/dashboard.html', {'store': store, 'auctions': auctions_active})
+    auctions_active = Auction.objects.filter(store=store, is_active=True)
+    auctions_ended = Auction.objects.filter(store=store, is_active=False)
+    return render(request, 'stores/dashboard.html', {'store': store,
+                                                     'auctions': auctions_active,
+                                                     'auctions_ended': auctions_ended})
 
 
 @login_required

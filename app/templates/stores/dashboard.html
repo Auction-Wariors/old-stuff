@@ -1,69 +1,119 @@
 {% extends 'base/base.html' %}
 {% block content %}
     <section>
-  <div class="container py-5">
-    <div class="row">
-      <div class="col-lg-4">
-        <div class="card mb-4">
-          <div class="card-body text-center">
-            <img src="https://cdn1.iconfinder.com/data/icons/circle-outlines/512/Shopping_Cart_Ecommerce_Shop_Buy_Store_Checkout-512.png" alt="avatar" class="rounded-circle img-fluid" style="width: 150px;">
-            <h5 class="my-3">{{ store.name }}</h5>
-            <div class="d-flex justify-content-center mb-2">
-              <a href="{% url 'stores:update_store' %}" type="button" class="btn btn-outline-primary me-2">
-                  Edit store Information
-              </a>
-            </div>
-              <div class="d-flex justify-content-center mb-2">
-              <a href="{% url 'auctions:add_auction' %}" type="button" class="btn btn-outline-primary me-2">
-                  Add Auction
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-8">
-        <div class="card mb-4">
-          <div class="card-body">
-            <div class="row">
-              <div class="col-sm-3">
-                <p class="mb-0">Name</p>
-              </div>
-              <div class="col-sm-9">
-                <p class="text-muted mb-0">{{ store.name }}</p>
-              </div>
-            </div>
-            <hr>
-            <div class="row">
-              <div class="col-sm-3">
-                <p class="mb-0">Email</p>
-              </div>
-              <div class="col-sm-9">
-                <p class="text-muted mb-0"> {{ store.email }}</p>
-              </div>
-            </div>
-              {% if store.phone_number %}
-            <hr>
-            <div class="row">
-              <div class="col-sm-3">
-                <p class="mb-0">Phone</p>
-              </div>
-              <div class="col-sm-9">
-                <p class="text-muted mb-0">{{ store.phone_number}}</p>
-              </div>
-            </div>
-              {% endif %}
-          </div>
-        </div>
-          </div>
-        </div>
-  </div>
-    {% if auctions %}
         <div class="container py-5">
-        <h3>Active auctions:</h3>
-            {% for auction in auctions %}
-            <p>Id: {{ auction.id }} -> {{ auction.name }}</p>
-            {% endfor %}
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="card mb-4">
+                        <div class="card-body text-center">
+                            <img src="https://cdn1.iconfinder.com/data/icons/circle-outlines/512/Shopping_Cart_Ecommerce_Shop_Buy_Store_Checkout-512.png"
+                                 alt="avatar" class="rounded-circle img-fluid" style="width: 150px;">
+                            <h5 class="my-3">{{ store.name }}</h5>
+                            <div class="d-flex justify-content-center mb-2">
+                                <a href="{% url 'stores:update_store' %}" type="button"
+                                   class="btn btn-outline-primary me-2">
+                                    Edit store Information
+                                </a>
+                            </div>
+                            <div class="d-flex justify-content-center mb-2">
+                                <a href="{% url 'auctions:add_auction' %}" type="button"
+                                   class="btn btn-outline-primary me-2">
+                                    Add Auction
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-8">
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <p class="mb-0">Name</p>
+                                </div>
+                                <div class="col-sm-9">
+                                    <p class="text-muted mb-0">{{ store.name }}</p>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <p class="mb-0">Email</p>
+                                </div>
+                                <div class="col-sm-9">
+                                    <p class="text-muted mb-0"> {{ store.email }}</p>
+                                </div>
+                            </div>
+                            {% if store.phone_number %}
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <p class="mb-0">Phone</p>
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <p class="text-muted mb-0">{{ store.phone_number }}</p>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-    {% endif %}
-</section>
+
+        <h3>Active auctions:</h3>
+        {% if auctions %}
+
+            <div class="d-flex flex-wrap">
+                {% for auction in auctions %}
+
+                    <div class="card w-25 mr-3">
+                        <div class="p-2"><img
+                                src="https://hips.hearstapps.com/edc.h-cdn.co/assets/16/21/1464359609-antique-lead.jpg"
+                                height="100%" width="100%" alt=""></div>
+                        <div class="p-2"><a class="" href="{% url 'auctions:auction_detail' auction.id %}">Auction
+                            name: {{ auction.name }}</a></div>
+                        <div class="p-2">Auction id: {{ auction.id }}</div>
+                        <div class="p-2">Leading bid: {{ auction.highest_bid }}</div>
+                        <div class="p-2">
+                            <a href="#" type="button"
+                                   class="btn btn-outline-primary me-2">
+                                    Edit auction
+                                </a>
+                        </div>
+
+                    </div>
+
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        {% if auctions_ended %}
+
+            <h3 class="mt-5">Ended auctions:</h3>
+            <div class="d-flex flex-wrap">
+                {% for ended in auctions_ended %}
+
+                    <div class="card w-25 mr-3">
+                        <div class="p-2"><img
+                                src="https://hips.hearstapps.com/edc.h-cdn.co/assets/16/21/1464359609-antique-lead.jpg"
+                                height="100%" width="100%" alt=""></div>
+                        <div class="p-2"><a class="" href="{% url 'auctions:auction_detail' ended.id %}">Auction
+                            name: {{ ended.name }}</a></div>
+                        <div class="p-2">Auction id: {{ ended.id }}</div>
+                        <div class="p-2">Winner: {{ ended.winner.username }}</div>
+                        <div class="p-2">
+                            {% if ended.isPayed %}
+                                <p class="text-success">Payment ok</p>
+                            {% else %}
+                                <p class="text-danger">Missing payment</p>
+                            {% endif %}
+                        </div>
+                        <div class="p-2">Price: {{ ended.highest_bid }}</div>
+                    </div>
+
+                {% endfor %}
+            </div>
+        {% endif %}
+    </section>
 {% endblock %}
