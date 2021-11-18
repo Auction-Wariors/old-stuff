@@ -56,6 +56,8 @@ def auction_detail(request, pk):
         elif current_leading_bid and bid.owner == current_leading_bid.owner:
             messages.warning(request, "You already have the leading bid!")
         else:
+            bid.auction.highest_bid = bid.value
+            bid.auction.save()
             bid.save()
             print(f"Bid added: {datetime.datetime.now()}")
             print(f"Bid added: {timezone.now()}")
