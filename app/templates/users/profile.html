@@ -67,29 +67,42 @@
                 <h4>Won Auctions - Unpayed:</h4>
                 <div class="d-flex align-content-start flex-wrap">
                     {% for auction in auctions %}
-                    <div class="card p-2 w-25">
-                        <div class="d-flex flex-column">
-                            <div class="p-2"><img src="https://hips.hearstapps.com/edc.h-cdn.co/assets/16/21/1464359609-antique-lead.jpg" height="100%" width="100%"></div>
-                            <div class="p-2"><a href="{% url 'auctions:auction_detail' auction.id %}">Auction name: {{ auction.name }}</a></div>
-                            <div class="p-2">Auction id: {{ auction.id }}</div>
-                            <div class="p-2"><a href="#">Make payment</a></div>
+
+                        <div class="card p-2 w-25">
+                            <div class="d-flex flex-column">
+                                <div class="p-2"><img
+                                        src="https://hips.hearstapps.com/edc.h-cdn.co/assets/16/21/1464359609-antique-lead.jpg"
+                                        height="100%" width="100%"></div>
+                                <div class="p-2"><a href="{% url 'auctions:auction_detail' auction.id %}">Auction
+                                    name: {{ auction.name }}</a></div>
+                                <div class="p-2">Auction id: {{ auction.id }}</div>
+                                {% for bid in bids %}
+                                    {% if bid.auction == auction %}
+                                        <div class="p-2">Cost: {{ bid.value }}</div>
+                                    {% endif %}
+                                {% endfor %}
+                                <div class="p-2"><a href="#">Make payment</a></div>
+                            </div>
                         </div>
-                    </div>
-                {% endfor %}
+
+                    {% endfor %}
                 </div>
             {% endif %}
-        {% if payed_auctions %}
+            {% if payed_auctions %}
                 <h4 class="mt-5">Payment history:</h4>
                 <div class="d-flex align-content-start flex-wrap">
                     {% for payed_auction in payed_auctions %}
-                    <div class="card p-2 w-25">
-                        <div class="d-flex flex-column">
-                            <div class="p-2"><img src="https://hips.hearstapps.com/edc.h-cdn.co/assets/16/21/1464359609-antique-lead.jpg" height="100%" width="100%" alt=""></div>
-                            <div class="p-2"><a href="{% url 'auctions:auction_detail' payed_auction.id %}">Auction name: {{ payed_auction.name }}</a></div>
-                            <div class="p-2">Auction id: {{ payed_auction.id }}</div>
+                        <div class="card p-2 w-25">
+                            <div class="d-flex flex-column">
+                                <div class="p-2"><img
+                                        src="https://hips.hearstapps.com/edc.h-cdn.co/assets/16/21/1464359609-antique-lead.jpg"
+                                        height="100%" width="100%" alt=""></div>
+                                <div class="p-2"><a href="{% url 'auctions:auction_detail' payed_auction.id %}">Auction
+                                    name: {{ payed_auction.name }}</a></div>
+                                <div class="p-2">Auction id: {{ payed_auction.id }}</div>
+                            </div>
                         </div>
-                    </div>
-                {% endfor %}
+                    {% endfor %}
                 </div>
             {% endif %}
         </div>

@@ -2,7 +2,7 @@ from django.contrib.auth import authenticate, login
 from django.shortcuts import render, redirect
 from django.contrib import messages
 
-from auctions.models import Auction
+from auctions.models import Auction, Bid
 from .models import Profile
 
 from users.forms import UserRegisterForm
@@ -29,4 +29,8 @@ def user_profile(request):
     profile = Profile.objects.get(user=request.user)
     winning_auctions = Auction.objects.filter(winner=request.user, isPayed=False).order_by('end_date')
     payed_auctions = Auction.objects.filter(winner=request.user, isPayed=True).order_by('end_date')
-    return render(request, 'users/profile.html', {'profile': profile, 'auctions': winning_auctions, 'payed_auctions': payed_auctions})
+    bids = Bid.objects.filter(owner=request.user)
+    return render(request, 'users/profile.html', {'profile': profile,
+                                                  'auctions': winning_auctions,
+                                                  'payed_auctions': payed_auctions,
+                                                  'bids': bids})
