@@ -1,9 +1,7 @@
 from django import forms
-from django.core.exceptions import ValidationError
 from django.utils import timezone
-
+from flatpickr import DateTimePickerInput
 from .models import Auction, Category, Bid
-from bootstrap_datepicker_plus import DateTimePickerInput
 
 
 class AddAuctionForm(forms.ModelForm):
