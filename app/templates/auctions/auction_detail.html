@@ -39,15 +39,7 @@
               </div>
             </div>
             <hr>
-            <div class="row">
-              <div class="col-sm-3">
-                <p class="mb-0">Description: </p>
-              </div>
-              <div class="col-sm-9">
-                <p class="text-muted mb-0"> {{ auction.description }}</p>
-              </div>
-            </div>
-          <hr>
+
            <div class="row">
               <div class="col-sm-3">
                 <p class="mb-0">End date: </p>
@@ -72,6 +64,14 @@
       </div>
  <div>
 
+<div class="d-flex flex-row card">
+  <div class="p-2 w-50">
+                <h5>Description: </h5>
+                <p class="text-muted mb-0"> {{ auction.description|linebreaks }}</p>
+
+            </div>
+
+<div class="p-2 w-50">
     <h5>Bid history:</h5>
      {% if bids %}
      {% for bid in bids %}
@@ -83,6 +83,8 @@
  {% if time.days >= 0 %}
   {% if user.is_authenticated %}
 
+
+
         <div class="content-section">
         <form method="post">
             {% csrf_token %}
@@ -91,11 +93,11 @@
                 {% if not bids %}
                     <p>Next bid: NOK {{ auction.min_price }},- </p>
                     <label for="bid_value">Your Bid: </label>
-                    <input type="number" class="form-button" name="bid_value" id="bid_value" value="{{ auction.min_price }}" required>
+                    <input type="number" class="form-button" name="bid_value" id="bid_value" placeholder="{{ auction.min_price }}" required>
                 {% else %}
-                     <p>Next bid: NOK {{ high_bid|add:"5" }},- </p>
+                     <p>Next bid: NOK {{ high_bid|add:5 }},- </p>
                     <label for="bid_value">Your Bid: </label>
-                    <input type="number" class="form-button" name="bid_value" id="bid_value" value="{{ high_bid|add:"5" }}" required>
+                    <input type="number" class="form-button" name="bid_value" id="bid_value" placeholder="{{ high_bid|add:"5" }}" required>
                 {% endif %}
 
             </fieldset>
@@ -109,6 +111,9 @@
  {% endif %}
  {% endif %}
 
+
+ </div>
+</div>
 
  </div>
 </section>
