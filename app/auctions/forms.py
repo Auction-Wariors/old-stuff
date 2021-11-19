@@ -19,8 +19,10 @@ class AddAuctionForm(forms.ModelForm):
 
     def clean_end_date(self):
         data = self.cleaned_data["end_date"]
-        if self.cleaned_data["end_date"] > timezone.now() + timezone.timedelta(days=14):
-            raise forms.ValidationError("End date cannot be more than 14 days from now")
+        if data > timezone.now() + timezone.timedelta(days=14):
+            raise forms.ValidationError("End date and time cannot be more than 14 days from now")
+        elif data < timezone.now() + timezone.timedelta(minutes=5):
+            raise forms.ValidationError("End date and time must be at least 6 hours from now")
         return data
 
 
