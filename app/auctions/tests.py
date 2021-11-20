@@ -9,6 +9,7 @@ from stores.models import Store
 class TestAuctionForms(TestCase):
 
     def setUp(self):
+        # FIXME create objects here, look them up in tests. (dont attach objects to self)
         self.user = User.objects.create(username='test', password='test123')
         self.store = Store.objects.create(owner=self.user)
         self.category = Category.objects.create(name='test',
