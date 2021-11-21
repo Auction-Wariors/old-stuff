@@ -22,7 +22,7 @@ class AddAuctionForm(forms.ModelForm):
         if data > timezone.now() + timezone.timedelta(days=14):
             raise forms.ValidationError("End date and time cannot be more than 14 days from now")
         elif data < timezone.now() + timezone.timedelta(minutes=5):
-            raise forms.ValidationError("End date and time must be at least 6 hours from now")
+            raise forms.ValidationError("End date and time must be at least 5 minutes from now")
         return data
 
 
