@@ -8,11 +8,9 @@ from .models import Profile
 @receiver(post_save, sender=get_user_model())
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
-        print('Created fired!')
         Profile.objects.create(user=instance)
 
 
 @receiver(post_save, sender=get_user_model())
 def save_user_profile(sender, instance, **kwargs):
-    print('Save fired!')
     instance.profile.save()
