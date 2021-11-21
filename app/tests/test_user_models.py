@@ -53,6 +53,12 @@ class UserProfileModelTestClass(TestCase):
 
         self.assertEqual(expected_length, 12)
 
+    def test_phone_number_default_value(self):
+        profile = User.objects.get(username='test_user').profile
+        field_default_value = profile._meta.get_field('phone_number').default
+
+        self.assertEqual(field_default_value, '')
+
     def test_street_address_label(self):
         profile = User.objects.get(username='test_user').profile
         field_label = profile._meta.get_field('street_address').verbose_name
@@ -64,6 +70,12 @@ class UserProfileModelTestClass(TestCase):
         expected_length = profile._meta.get_field('street_address').max_length
 
         self.assertEqual(expected_length, 100)
+
+    def test_street_address_default_value(self):
+        profile = User.objects.get(username='test_user').profile
+        field_default_value = profile._meta.get_field('street_address').default
+
+        self.assertEqual(field_default_value, '')
 
     def test_city_label(self):
         profile = User.objects.get(username='test_user').profile
@@ -77,6 +89,12 @@ class UserProfileModelTestClass(TestCase):
 
         self.assertEqual(expected_length, 100)
 
+    def test_city_default_value(self):
+        profile = User.objects.get(username='test_user').profile
+        field_default_value = profile._meta.get_field('city').default
+
+        self.assertEqual(field_default_value, '')
+
     def zip_code(self):
         profile = User.objects.get(username='test_user').profile
         field_label = profile._meta.get_field('zip_code').verbose_name
@@ -88,6 +106,12 @@ class UserProfileModelTestClass(TestCase):
         expected_length = profile._meta.get_field('zip_code').max_length
 
         self.assertEqual(expected_length, 5)
+
+    def test_zip_code_default_value(self):
+        profile = User.objects.get(username='test_user').profile
+        field_default_value = profile._meta.get_field('zip_code').default
+
+        self.assertEqual(field_default_value, '')
 
     def test_object_name_is_users_profile(self):
         user = User.objects.get(username='test_user')
