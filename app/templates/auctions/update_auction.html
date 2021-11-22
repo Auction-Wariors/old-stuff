@@ -1,19 +1,23 @@
 {% extends 'base/base.html' %}
 {% load crispy_forms_tags %}
+{# Flatpickr start #}
 {{% block extra_css %}
 {{ form.media.css }}
 {% endblock %}
-
 {% block extra_js %}
 {{ form.media.js }}
 {% endblock %}
+{# Flatpickr stop #}
+
 {% block content %}
 
     <h1>Update auction</h1>
     <div class="container">
         <form method="POST">
              {% csrf_token %}
+            {# Flatpickr start #}
             {{ form.media }}
+            {# Flatpickr stop #}
             {{ form|crispy }}
             <div class="spacer">
                 <button type="submit" class="btn btn-primary">Edit auction</button>
