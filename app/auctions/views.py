@@ -23,7 +23,7 @@ def auction_detail(request, pk):
     else:
         leading_bid = current_leading_bid.value
 
-    if request.method == 'POST' and 'bid_value' in request.POST:
+    if request.method == 'POST':
         bid = Bid(owner=request.user, auction=auction, value=int(request.POST['bid_value']))
         if bid.value <= leading_bid:
             messages.warning(request, "Bid is too low")
@@ -123,16 +123,3 @@ def count_down_func(auction):
         'seconds': int(seconds)
     }
     return count_down
-
-
-# TEST
-def check_auction():
-    auctions = Auction.objects.all()
-    bids = Bid.objects.all()
-    for auction in auctions:
-        if timezone.now() > auction.end_date and auction.is_active:
-            auction.is_active = False
-            winning_bid = bids.filter(auction=auction).last()
-            if winning_bid is not None:
-                auction.winner = winning_bid.owner
-            auction.save()

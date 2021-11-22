@@ -1,6 +1,6 @@
 from django.shortcuts import render
-from auctions.models import Auction, Category
-from auctions.views import check_auction
+from auctions.models import Auction, Category, Bid
+from django.utils import timezone
 
 
 def index(request):
@@ -22,3 +22,14 @@ def faq(request):
 def login(request):
     return render(request, 'base/login.html')
 
+
+def check_auction():
+    auctions = Auction.objects.all()
+    bids = Bid.objects.all()
+    for auction in auctions:
+        if timezone.now() > auction.end_date and auction.is_active:
+            auction.is_active = False
+            winning_bid = bids.filter(auction=auction).last()
+            if winning_bid is not None:
+                auction.winner = winning_bid.owner
+            auction.save()
