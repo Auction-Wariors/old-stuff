@@ -5,7 +5,7 @@ from django.contrib import messages
 from auctions.models import Auction, Bid
 from .models import Profile
 
-from users.forms import UserRegisterForm
+from users.forms import UserRegisterForm, ProfileForm, UserEditForm
 
 
 def register(request):
@@ -34,3 +34,21 @@ def user_profile(request):
                                                   'auctions': winning_auctions,
                                                   'payed_auctions': payed_auctions,
                                                   'bids': bids})
+
+
+def update_profile(request):
+    profile = Profile.objects.get(user=request.user)
+    if request.method == 'POST':
+        user_form = UserEditForm(request.POST, instance=request.user)
+        profile_form = ProfileForm(request.POST, instance=profile)
+        if user_form.is_valid() and profile_form.is_valid():
+            user_form.save()
+            profile_form.save()
+            return redirect('users:user_profile')
+            
+    else:
+        user_form = UserEditForm(instance=request.user)
+        profile_form = ProfileForm(instance=profile)
+
+        return render(request, 'users/edit_profile.html', {'profile_form': profile_form, 'user_form': user_form})
+    

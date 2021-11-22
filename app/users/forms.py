@@ -14,7 +14,22 @@ class UserRegisterForm(UserCreationForm):
         fields = ['username', 'first_name', 'last_name', 'email', 'password1', 'password2']
 
 
-# class ProfileUpdateForm(forms.ModelForm):
-#     class Meta:
-#         model = Profile
-#         field = ['first_name', 'last_name', 'email']
+class UserEditForm(forms.ModelForm):
+    first_name = forms.CharField(required=True)
+    last_name = forms.CharField(required=True)
+    email = forms.EmailField(required=True)
+
+    class Meta:
+        model = User
+        fields = ['first_name', 'last_name', 'email']
+
+
+class ProfileForm(forms.ModelForm):
+    phone_number = forms.CharField(max_length=12)
+    street_address = forms.CharField(max_length=100)
+    city = forms.CharField(max_length=100)
+    zip_code = forms.CharField(max_length=5)
+
+    class Meta:
+        model = Profile
+        fields = ['phone_number', 'street_address', 'city', 'zip_code']
