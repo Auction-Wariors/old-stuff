@@ -73,7 +73,7 @@ class TestAuctionViews(TestCase):
         self.assertEqual(Auction.objects.count(), auction_count + 1)
         self.assertEqual(auction.name, 'item1')
 
-    def test_add_auction_view_post_end_date_past_14_days(self):
+    def test_add_auction_view_post_end_date_past_14_days_error(self):
         category = Category.objects.filter(name='test').first()
         end_time = timezone.now() + timezone.timedelta(days=15)
 
