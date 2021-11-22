@@ -1,7 +1,11 @@
 {% extends 'base/base.html' %}
 {% load crispy_forms_tags %}
-{% block extrahead %}
-{{ form.media }}
+{{% block extra_css %}
+{{ form.media.css }}
+{% endblock %}
+
+{% block extra_js %}
+{{ form.media.js }}
 {% endblock %}
 {% block content %}
 
@@ -9,6 +13,7 @@
     <div class="container">
         <form method="POST">
              {% csrf_token %}
+            {{ form.media }}
             {{ form|crispy }}
             <div class="spacer">
                 <button type="submit" class="btn btn-primary">Edit auction</button>
