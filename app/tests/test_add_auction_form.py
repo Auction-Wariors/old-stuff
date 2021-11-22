@@ -37,18 +37,20 @@ from stores.models import Store
 
 
 class TestAuctionViews(TestCase):
-    def setUp(self):
+    """Testing add auction form/view"""
+    @classmethod
+    def setUpTestData(cls):
         Category.objects.create(name='test',
                                 description='test description')
         user = User.objects.create(username='test')
         user.set_password('test123')
         user.save()
         get_user = User.objects.get(username='test')
-        self.store = Store.objects.create(name='testStore',
-                                          owner=get_user,
-                                          description='test',
-                                          email='fr@ed.no',
-                                          phone_number='12345678')
+        Store.objects.create(name='testStore',
+                             owner=get_user,
+                             description='test',
+                             email='fr@ed.no',
+                             phone_number='12345678')
 
     def test_add_auction_view_post_success(self):
         auction_count = Auction.objects.count()
@@ -72,8 +74,6 @@ class TestAuctionViews(TestCase):
         self.assertEqual(auction.name, 'item1')
 
     def test_add_auction_view_post_end_date_past_14_days(self):
-        auction_count = Auction.objects.count()
-
         category = Category.objects.filter(name='test').first()
         end_time = timezone.now() + timezone.timedelta(days=15)
 
@@ -88,7 +88,7 @@ class TestAuctionViews(TestCase):
         self.assertFormError(response, 'form', 'end_date', 'End date and time cannot be more than 14 days from now')
 
     def test_add_auction_view_post_end_date_less__than_5_minutes_from_time_auction_added(self):
-        category = Category.objects.filter(name='test').first()
+        category = Category.objects.get(name='test')
         end_time = timezone.now() + timezone.timedelta(minutes=3)
 
         user_login = self.client.login(username='test', password='test123')
