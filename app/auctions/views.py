@@ -16,7 +16,8 @@ def auction_detail(request, pk):
     current_leading_bid = Bid.objects.filter(auction=auction, value__exact=current_leading_value["value__max"]).first()
 
     # Extracted in own function
-    count_down = count_down_func(auction)
+    time = auction.end_date - timezone.now()
+    count_down = count_down_func(time)
 
     if not current_leading_bid:
         leading_bid = auction.min_price - 1
@@ -105,9 +106,7 @@ def update_auction(request, auction_id):
     return render(request, 'auctions/update_auction.html', {'form': form})
 
 
-def count_down_func(auction):
-    time = auction.end_date - timezone.now()
-    print(time)
+def count_down_func(time):
     time_left = time.total_seconds()
     days = time_left // (24 * 3600)
     time_left = time_left % (24 * 3600)

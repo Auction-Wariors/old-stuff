@@ -3,41 +3,14 @@ from django.test import TestCase
 from http import HTTPStatus
 from django.utils import timezone
 
-from auctions.forms import AddAuctionForm
 from auctions.models import Category, Auction
 from stores.models import Store
+from auctions.views import count_down_func
 
 
-# class TestAuctionForms(TestCase):
-#
-#     def setUp(self):
-#         user = User.objects.create(username='test', password='test123')
-#         Store.objects.create(owner=user)
-#         Category.objects.create(name='test',
-#                                 description='test description')
-#
-#     # def test_add_auction_form_is_valid(self):
-#     #     category = Category.objects.filter(name='test').first()
-#     #     end_time = timezone.now() + timezone.timedelta(days=4)
-#     #     i_form = AddAuctionForm(data={
-#     #         'name': 'item1',
-#     #         'description': 'item1 description',
-#     #         'category': category,
-#     #         'end_date': end_time,
-#     #         'min_price': 200,
-#     #     })
-#     #
-#     #     self.assertTrue(i_form.is_valid())
-#     #
-#     # def test_add_auction_form_no_data(self):
-#     #     a_form = AddAuctionForm(data={})
-#     #
-#     #     self.assertFalse(a_form.is_valid())
-#     #     self.assertEqual(len(a_form.errors), 5)
+class TestAddAuction(TestCase):
+    """Testing add auction view"""
 
-
-class TestAuctionViews(TestCase):
-    """Testing add auction form/view"""
     @classmethod
     def setUpTestData(cls):
         Category.objects.create(name='test',
@@ -109,3 +82,14 @@ class TestAuctionViews(TestCase):
 
         self.assertEqual(response.status_code, HTTPStatus.OK)
         self.assertContains(response, '<legend class="border-bottom mb-4">Create Auction</legend>', html=True)
+
+
+class TestAuctionDetail(TestCase):
+    def test_time_count_down(self):
+        end_time = timezone.now() + timezone.timedelta(hours=5)
+        time = end_time - timezone.now()
+        count_down = count_down_func(time)
+        self.assertEqual(count_down, {'days': 0,
+                                      'hours': 4,
+                                      'minutes': 59,
+                                      'seconds': 59})
