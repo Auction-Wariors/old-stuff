@@ -35,6 +35,9 @@ class UserProfileModelTestClass(TestCase):
         profile.zip_code = '5555'
         profile.save()
 
+    def test_user_stored_in_db(self):
+        self.assertEqual(User.objects.get(username='test_user').username, 'test_user')
+
     def test_user_label(self):
         profile = User.objects.get(username='test_user').profile
         field_label = profile._meta.get_field('user').verbose_name
@@ -95,7 +98,7 @@ class UserProfileModelTestClass(TestCase):
 
         self.assertEqual(field_default_value, '')
 
-    def zip_code(self):
+    def test_zip_code_label(self):
         profile = User.objects.get(username='test_user').profile
         field_label = profile._meta.get_field('zip_code').verbose_name
 
