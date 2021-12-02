@@ -1,8 +1,13 @@
 # Oppgave
 
-### Relevant links for this project
-* https://rahmanfadhil.com/django-login-with-email/
-* https://stackoverflow.com/questions/34571880/how-to-check-in-template-if-user-belongs-to-a-group
+### Relevant links/sources for this project
+https://docs.djangoproject.com/en/3.1/topics/db/managers/  
+https://realpython.com/django-pytest-fixtures/  
+https://djangobook.com/mdj2-advanced-models/  
+https://realpython.com/django-template-custom-tags-filters/#writing-django-template-custom-filters  
+
+
+
 
 ## Beskrivelse
 I dette prosjektet skal dere lage en prosjektdokumentasjon og prototype for et produkt for enoppstartsbedrift. Denne
