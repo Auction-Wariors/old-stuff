@@ -1,5 +1,6 @@
 {% extends 'base/base.html' %}
 {% load crispy_forms_tags %}
+{% load currency_tags %}
 {% block content %}
  <section>
  <div class="container py-5">
@@ -54,7 +55,7 @@
                 <p class="mb-0">Start bid: </p>
               </div>
               <div class="col-sm-9">
-                <p class="text-muted mb-0">NOK {{ auction.min_price }},-</p>
+                <p class="text-muted mb-0">NOK {{ auction.min_price | divide_by_100}},-</p>
               </div>
             </div>
           </div>
@@ -67,7 +68,7 @@
 <div class="d-flex flex-row card">
   <div class="p-2 w-50">
                 <h5>Description: </h5>
-                <p class="text-muted mb-0"> {{ auction.description|linebreaks }}</p>
+                <p class="text-muted mb-0"> {{ auction.description | linebreaks }}</p>
 
             </div>
 
@@ -75,7 +76,7 @@
     <h5>Bid history:</h5>
      {% if bids %}
      {% for bid in bids %}
-      <p>{{ bid.owner.username }} - Bid: NOK {{ bid.value }},- // {{ bid.created_at }}</p>
+      <p>{{ bid.owner.username }} - Bid: NOK {{ bid.value | divide_by_100 }},- // {{ bid.created_at }}</p>
      {% endfor %}
     {% else %}
     <p>No bids yet</p>
@@ -91,9 +92,8 @@
             <fieldset class="form-group">
                 <legend class="border-bottom mb-4">Bid on auction</legend>
                 {% if not bids %}
-                    <p>Next bid: NOK {{ auction.min_price }},- </p>
                     <label for="bid_value">Your Bid: </label>
-                    <input type="number" class="form-button" name="bid_value" id="bid_value" placeholder="{{ auction.min_price }}" required>
+                    <input type="number" class="form-button" name="bid_value" id="bid_value" value="{{ auction.min_price | divide_by_100 | global_raise_value }}" required>
                 {% else %}
                      <p>Next bid: NOK {{ high_bid|add:5 }},- </p>
                     <label for="bid_value">Your Bid: </label>

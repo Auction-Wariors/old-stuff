@@ -14,6 +14,9 @@ class Category(models.Model):
 
 
 class Auction(models.Model):
+    """
+    Note: All values are stored in NOK -> "øre".
+    """
     name = models.CharField(max_length=50)
     description = models.TextField(max_length=5000)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)

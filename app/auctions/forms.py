@@ -25,6 +25,9 @@ class AddAuctionForm(forms.ModelForm):
             raise forms.ValidationError("End date and time must be at least 5 minutes from now")
         return date
 
+    def clean_min_price(self):
+        return self.cleaned_data["min_price"] * 100
+
 
 class BidOnAuctionForm(forms.ModelForm):
     value = forms.IntegerField()

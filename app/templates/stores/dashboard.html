@@ -1,4 +1,5 @@
 {% extends 'base/base.html' %}
+{% load currency_tags %}
 {% block content %}
     <section>
         <div class="container py-5">
@@ -71,10 +72,9 @@
                         <div class="p-2"><img
                                 src="https://hips.hearstapps.com/edc.h-cdn.co/assets/16/21/1464359609-antique-lead.jpg"
                                 height="100%" width="100%" alt=""></div>
-                        <div class="p-2"><a class="" href="{% url 'auctions:auction_detail' auction.id %}">Auction
-                            name: {{ auction.name }}</a></div>
-                        <div class="p-2">Auction id: {{ auction.id }}</div>
-                        <div class="p-2">Leading bid: {{ auction.highest_bid }}</div>
+                        <div class="p-2"><a class="" href="{% url 'auctions:auction_detail' auction.id %}">
+                            {{ auction.name }}</a></div>
+                        <div class="p-2">Leading bid: {{ auction.highest_bid | divide_by_100 }}</div>
                         <div class="p-2">
                             <a href="{% url 'auctions:update_auction' auction.id %}" type="button"
                                    class="btn btn-outline-primary me-2">

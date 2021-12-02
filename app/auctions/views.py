@@ -1,3 +1,5 @@
+import math
+
 from django.contrib.auth.decorators import login_required
 from django.db.models import Max
 from django.shortcuts import render, redirect, get_object_or_404
@@ -25,10 +27,11 @@ def auction_detail(request, pk):
         leading_bid = current_leading_bid.value
 
     if request.method == 'POST':
-        bid = Bid(owner=request.user, auction=auction, value=int(request.POST['bid_value']))
+        # FIXME * 100 is hardcoded, dont have enough experience with currency.
+        bid = Bid(owner=request.user, auction=auction, value=int(request.POST['bid_value']) * 100)
+
         if bid.value <= leading_bid:
             messages.warning(request, "Bid is too low")
-            # FIXME: Add javascript in template?
         elif timezone.now() > auction.end_date:
             # Auction ended
             messages.warning(request, "Auction is ended")
@@ -101,7 +104,8 @@ def update_auction(request, auction_id):
             form.save()
             return redirect('stores:store_dashboard')
     else:
-        form = AddAuctionForm(instance=auction)
+        # FIXME / 100 is hardcoded, dont have enough experience with currency.
+        form = AddAuctionForm(instance=auction, initial={'min_price': math.ceil(auction.min_price / 100)})
 
     return render(request, 'auctions/update_auction.html', {'form': form})
 
