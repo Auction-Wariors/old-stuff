@@ -37,8 +37,11 @@ def auction_detail(request, pk):
             messages.warning(request, "Auction is ended")
         elif bid.owner == auction.store.owner:
             messages.warning(request, "You are not allowed to bid on your own auctions")
-        elif current_leading_bid and bid.owner == current_leading_bid.owner:
-            messages.warning(request, "You already have the leading bid!")
+
+        # TODO: Why stop someone from bidding again ?
+        # elif current_leading_bid and bid.owner == current_leading_bid.owner:
+        #     messages.warning(request, "You already have the leading bid!")
+
         else:
             bid.auction.highest_bid = bid.value
             bid.auction.save()
