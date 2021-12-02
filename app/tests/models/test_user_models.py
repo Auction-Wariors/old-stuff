@@ -38,85 +38,32 @@ class UserProfileModelTestClass(TestCase):
     def test_user_stored_in_db(self):
         self.assertEqual(User.objects.get(username='test_user').username, 'test_user')
 
-    def test_user_label(self):
+    def test_user_labels(self):
         profile = User.objects.get(username='test_user').profile
-        field_label = profile._meta.get_field('user').verbose_name
 
-        self.assertEqual(field_label, 'user')
+        self.assertEqual(profile._meta.get_field('user').verbose_name, 'user')
+        self.assertEqual(profile._meta.get_field('phone_number').verbose_name, 'phone number')
+        self.assertEqual(profile._meta.get_field('street_address').verbose_name, 'street address')
+        self.assertEqual(profile._meta.get_field('city').verbose_name, 'city')
+        self.assertEqual(profile._meta.get_field('zip_code').verbose_name, 'zip code')
 
-    def test_phone_number_label(self):
+    def test_user_fields_max_length(self):
         profile = User.objects.get(username='test_user').profile
-        field_label = profile._meta.get_field('phone_number').verbose_name
 
-        self.assertEqual(field_label, 'phone number')
+        self.assertEqual(profile._meta.get_field('phone_number').max_length, 12)
+        self.assertEqual(profile._meta.get_field('street_address').max_length, 100)
+        self.assertEqual(profile._meta.get_field('city').max_length, 100)
+        self.assertEqual(profile._meta.get_field('zip_code').max_length, 5)
 
-    def test_phone_number_max_length(self):
+    def test_user_fields_default_value(self):
         profile = User.objects.get(username='test_user').profile
-        expected_length = profile._meta.get_field('phone_number').max_length
 
-        self.assertEqual(expected_length, 12)
+        self.assertEqual(profile._meta.get_field('phone_number').default, '')
+        self.assertEqual(profile._meta.get_field('street_address').default, '')
+        self.assertEqual(profile._meta.get_field('city').default, '')
+        self.assertEqual(profile._meta.get_field('zip_code').default, '')
 
-    def test_phone_number_default_value(self):
-        profile = User.objects.get(username='test_user').profile
-        field_default_value = profile._meta.get_field('phone_number').default
-
-        self.assertEqual(field_default_value, '')
-
-    def test_street_address_label(self):
-        profile = User.objects.get(username='test_user').profile
-        field_label = profile._meta.get_field('street_address').verbose_name
-
-        self.assertEqual(field_label, 'street address')
-
-    def test_street_address_max_length(self):
-        profile = User.objects.get(username='test_user').profile
-        expected_length = profile._meta.get_field('street_address').max_length
-
-        self.assertEqual(expected_length, 100)
-
-    def test_street_address_default_value(self):
-        profile = User.objects.get(username='test_user').profile
-        field_default_value = profile._meta.get_field('street_address').default
-
-        self.assertEqual(field_default_value, '')
-
-    def test_city_label(self):
-        profile = User.objects.get(username='test_user').profile
-        field_label = profile._meta.get_field('city').verbose_name
-
-        self.assertEqual(field_label, 'city')
-
-    def test_city_max_length(self):
-        profile = User.objects.get(username='test_user').profile
-        expected_length = profile._meta.get_field('city').max_length
-
-        self.assertEqual(expected_length, 100)
-
-    def test_city_default_value(self):
-        profile = User.objects.get(username='test_user').profile
-        field_default_value = profile._meta.get_field('city').default
-
-        self.assertEqual(field_default_value, '')
-
-    def test_zip_code_label(self):
-        profile = User.objects.get(username='test_user').profile
-        field_label = profile._meta.get_field('zip_code').verbose_name
-
-        self.assertEqual(field_label, 'zip code')
-
-    def test_zip_code_max_length(self):
-        profile = User.objects.get(username='test_user').profile
-        expected_length = profile._meta.get_field('zip_code').max_length
-
-        self.assertEqual(expected_length, 5)
-
-    def test_zip_code_default_value(self):
-        profile = User.objects.get(username='test_user').profile
-        field_default_value = profile._meta.get_field('zip_code').default
-
-        self.assertEqual(field_default_value, '')
-
-    def test_object_name_is_users_profile(self):
+    def test_dunder_str(self):
         user = User.objects.get(username='test_user')
         profile = user.profile
 
