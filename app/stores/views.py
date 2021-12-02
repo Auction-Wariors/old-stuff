@@ -24,7 +24,7 @@ def create_store(request):
             store = form.save(commit=False)
             store.owner = request.user
             form.save()
-            messages.success(request, f'Store {store.name} added')
+            messages.success(request, f'{store.name} added')
             return redirect('stores:store_dashboard')
     else:
         form = CreateStoreForm()
