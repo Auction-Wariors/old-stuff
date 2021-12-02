@@ -111,6 +111,7 @@ def update_auction(request, auction_id):
 
 
 def count_down_func(time):
+    # FIXME: Do this frontend with JS!!!!
     time_left = time.total_seconds()
     days = time_left // (24 * 3600)
     time_left = time_left % (24 * 3600)
