@@ -33,7 +33,6 @@ def auction_detail(request, pk):
         if bid.value <= leading_bid:
             messages.warning(request, "Bid is too low")
         elif timezone.now() > auction.end_date:
-            # Auction ended
             messages.warning(request, "Auction is ended")
         elif bid.owner == auction.store.owner:
             messages.warning(request, "You are not allowed to bid on your own auctions")

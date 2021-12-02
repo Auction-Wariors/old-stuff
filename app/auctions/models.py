@@ -19,14 +19,14 @@ class Auction(models.Model):
     """
     name = models.CharField(max_length=50)
     description = models.TextField(max_length=5000)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
-    store = models.ForeignKey(Store, on_delete=models.CASCADE, default='')
-    is_active = models.BooleanField(default=True)
+    category = models.ForeignKey(Category, on_delete=models.DO_NOTHING)
+    store = models.ForeignKey(Store, on_delete=models.DO_NOTHING)
+    is_active = models.BooleanField(default=True)  # TODO: Do we need this ???
     start_date = models.DateTimeField()
     end_date = models.DateTimeField()
     highest_bid = models.IntegerField(null=True, blank=True)
     winner = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
-    isPayed = models.BooleanField(default=False)
+    isPayed = models.BooleanField(default=False)  # TODO: Do we need this ???
     min_price = models.IntegerField()
 
     def __str__(self):
