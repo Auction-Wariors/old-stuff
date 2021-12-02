@@ -25,10 +25,10 @@ class UserEditForm(forms.ModelForm):
 
 
 class ProfileForm(forms.ModelForm):
-    phone_number = forms.CharField(max_length=12)
-    street_address = forms.CharField(max_length=100)
-    city = forms.CharField(max_length=100)
-    zip_code = forms.CharField(max_length=5)
+    phone_number = forms.CharField(max_length=12, required=False)
+    street_address = forms.CharField(max_length=100, required=False)
+    city = forms.CharField(max_length=100,required=False)
+    zip_code = forms.CharField(max_length=5, required=False)
 
     class Meta:
         model = Profile
