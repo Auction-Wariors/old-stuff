@@ -14,8 +14,12 @@
                 <div class="col-lg-4">
                     <div class="card mb-4">
                         <div class="card-body text-center">
-                            <img src="https://hips.hearstapps.com/edc.h-cdn.co/assets/16/21/1464359609-antique-lead.jpg"
-                                 alt="avatar" class="rounded-circle img-fluid" style="width: 300px;">
+                            <img
+                              src="https://hips.hearstapps.com/edc.h-cdn.co/assets/16/21/1464359609-antique-lead.jpg"
+                              alt="avatar"
+                              class="rounded-circle img-fluid"
+                              style="width: 300px;"
+                            >
                             <h5 class="my-3"> {{ auction.name }}</h5>
                         </div>
                     </div>
@@ -60,14 +64,14 @@
                                 </div>
                             </div>
                             {% if auction.buy_now %}
-                            <div class="row">
-                                <div class="col-sm-3">
-                                    <p class="mb-0">Buy now: </p>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <p class="mb-0">Buy now: </p>
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <p class="text-muted mb-0">NOK {{ auction.buy_now | divide_by_100 }},-</p>
+                                    </div>
                                 </div>
-                                <div class="col-sm-9">
-                                    <p class="text-muted mb-0">NOK {{ auction.buy_now | divide_by_100 }},-</p>
-                                </div>
-                            </div>
                             {% endif %}
                             {% if auction.highest_bid %}
                                 <hr>
@@ -86,14 +90,11 @@
             </div>
         </div>
         <div>
-
             <div class="d-flex flex-row card">
                 <div class="p-2 w-50">
                     <h5>Description: </h5>
                     <p class="text-muted mb-0"> {{ auction.description | linebreaks }}</p>
-
                 </div>
-
                 <div class="p-2 w-50">
                     <h5>Bid history:</h5>
                     {% if bids %}
@@ -110,27 +111,27 @@
                                 <form method="post">
                                     {% csrf_token %}
                                     {{ form|crispy }}
-                                    <button class="btn btn-outline-info mt-2" type="submit">Place bid</button>
+                                    <button
+                                      class="btn btn-outline-info mt-2"
+                                      type="submit"
+                                    >Place bid
+                                    </button>
                                 </form>
                                 {% if auction.buy_now %}
-                                <a
-                                        href="{% url 'auctions:buy_now_auction' auction.id %}"
-                                        type="button"
-                                        class="btn btn-outline-success me-2 mt-2"
-                                >Buy now
-                                </a>
-                               {% endif %}
+                                    <a
+                                      href="{% url 'auctions:buy_now_auction' auction.id %}"
+                                      type="button"
+                                      class="btn btn-outline-success me-2 mt-2"
+                                    >Buy now
+                                    </a>
+                                {% endif %}
                             </div>
                         {% else %}
                             <p>Login to place bid</p>
                         {% endif %}
                     {% endif %}
-
-
                 </div>
             </div>
-
         </div>
     </section>
-
 {% endblock %}
