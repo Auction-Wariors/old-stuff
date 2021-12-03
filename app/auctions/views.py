@@ -66,6 +66,7 @@ def buy_now(request, auction_id):
         if auction.buy_now and auction.is_active:
             auction.winner = request.user
             auction.is_active = False
+            auction.highest_bid = auction.buy_now
             auction.end_date = timezone.now()
             auction.save()
             messages.success(request, f'Item bought, make sure to make payment to store {auction.store.name}')
