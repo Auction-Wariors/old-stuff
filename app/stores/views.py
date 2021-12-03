@@ -1,5 +1,5 @@
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 
 from auctions.models import Auction, Bid
@@ -33,7 +33,7 @@ def create_store(request):
 
 @login_required()
 def store_dashboard(request):
-    store = Store.objects.get(owner=request.user)
+    store = get_object_or_404(Store, owner=request.user)
     auctions_active = Auction.objects.filter(store=store, is_active=True)
     auctions_ended = Auction.objects.filter(store=store, is_active=False)
     return render(request, 'stores/dashboard.html', {'store': store,
@@ -43,7 +43,7 @@ def store_dashboard(request):
 
 @login_required
 def update_store_profile(request):
-    store = Store.objects.get(owner=request.user)
+    store = get_object_or_404(Store, owner=request.user)
     if request.method == 'POST':
         form = CreateStoreForm(request.POST, instance=store)
         if form.is_valid():
