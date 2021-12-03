@@ -89,20 +89,8 @@
         <div class="content-section">
         <form method="post">
             {% csrf_token %}
-            <fieldset class="form-group">
-                <legend class="border-bottom mb-4">Bid on auction</legend>
-                {% if not bids %}
-                    <label for="bid_value">Your Bid: </label>
-                    <input type="number" class="form-button" name="bid_value" id="bid_value" value="{{ auction.min_price | divide_by_100 | global_raise_value }}" required>
-                {% else %}
-                    <label for="bid_value">Your Bid: </label>
-                    <input type="number" class="form-button" name="bid_value" id="bid_value" value="{{ high_bid | divide_by_100 | global_raise_value }}" required>
-                {% endif %}
-
-            </fieldset>
-            <div class="form-group">
+            {{ form|crispy }}
                 <button class="btn btn-outline-info" type="submit">Place bid</button>
-            </div>
         </form>
     </div>
   {% else %}

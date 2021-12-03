@@ -8,7 +8,7 @@ from django.contrib import messages
 from stores.models import Store
 from .models import Auction, Bid
 
-from auctions.forms import AddAuctionForm, UpdateAuctionForm, UpdateNoBidsAuctionForm
+from auctions.forms import AddAuctionForm, UpdateAuctionForm, UpdateNoBidsAuctionForm, BidOnAuctionForm
 
 
 def auction_detail(request, pk):
@@ -26,31 +26,32 @@ def auction_detail(request, pk):
     else:
         leading_bid = current_leading_bid.value
 
+    if auction.highest_bid:
+        form = BidOnAuctionForm(initial={'value': math.ceil(auction.highest_bid/100) + 5},
+                                auction_id=auction.id,
+                                user=request.user)
+    else:
+        form = BidOnAuctionForm(initial={'value': math.ceil(auction.min_price / 100)},
+                                auction_id=auction.id,
+                                user=request.user)
+
     if request.method == 'POST':
-        # FIXME * 100 is hardcoded, dont have enough experience with currency.
-        bid = Bid(owner=request.user, auction=auction, value=int(request.POST['bid_value']) * 100)
-
-        if bid.value <= leading_bid:
-            messages.warning(request, "Bid is too low")
-        elif timezone.now() > auction.end_date:
-            messages.warning(request, "Auction is ended")
-        elif bid.owner == auction.store.owner:
-            messages.warning(request, "You are not allowed to bid on your own auctions")
-
-        # TODO: Why stop someone from bidding again ?
-        # elif current_leading_bid and bid.owner == current_leading_bid.owner:
-        #     messages.warning(request, "You already have the leading bid!")
-
-        else:
-            bid.auction.highest_bid = bid.value
-            bid.auction.save()
+        form = BidOnAuctionForm(request.POST, auction_id=auction.id, user=request.user)
+        if form.is_valid():
+            bid = form.save(commit=False)
+            bid.owner = request.user
+            bid.auction = auction
             bid.save()
+            auction.highest_bid = bid.value
+            auction.save()
+
             return redirect('auctions:auction_detail', pk=pk)
 
     return render(request, 'auctions/auction_detail.html', {'auction': auction,
                                                             'bids': bids,
                                                             'high_bid': leading_bid,
-                                                            'time': count_down})
+                                                            'time': count_down,
+                                                            'form': form})
 
 
 @login_required

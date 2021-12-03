@@ -54,8 +54,29 @@ class UpdateNoBidsAuctionForm(forms.ModelForm):
 
 
 class BidOnAuctionForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        self.auction_id = kwargs.pop('auction_id')
+        self.user = kwargs.pop('user')
+        super(BidOnAuctionForm, self).__init__(*args, **kwargs)
+
     value = forms.IntegerField()
 
     class Meta:
         model = Bid
         fields = ['value']
+
+    def clean_value(self):
+        value = self.cleaned_data["value"]
+        auction = Auction.objects.get(pk=self.auction_id)
+        if not auction.highest_bid:
+            auction.highest_bid = 0
+
+        if value < auction.min_price / 100:
+            raise forms.ValidationError("Bid is too low")
+        elif value < auction.highest_bid / 100:
+            raise forms.ValidationError("Bid is too low")
+        elif timezone.now() > auction.end_date:
+            raise forms.ValidationError("Auction is ended")
+        elif auction.store.owner == self.user:
+            raise forms.ValidationError("Bidding on your own auction is not allowed")
+        return value * 100
