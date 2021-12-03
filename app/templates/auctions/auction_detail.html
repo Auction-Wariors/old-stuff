@@ -112,12 +112,14 @@
                                     {{ form|crispy }}
                                     <button class="btn btn-outline-info mt-2" type="submit">Place bid</button>
                                 </form>
+                                {% if auction.buy_now %}
                                 <a
                                         href="{% url 'auctions:buy_now_auction' auction.id %}"
                                         type="button"
                                         class="btn btn-outline-success me-2 mt-2"
                                 >Buy now
                                 </a>
+                               {% endif %}
                             </div>
                         {% else %}
                             <p>Login to place bid</p>
