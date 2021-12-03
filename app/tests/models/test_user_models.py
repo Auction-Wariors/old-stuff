@@ -25,6 +25,7 @@ class UserProfileModelTestClass(TestCase):
     @classmethod
     def setUpTestData(cls):
         """setUpTestData: Run once to set up non-modified data for all class methods."""
+        # User creating also creates profile through Django Signals
         user = User.objects.create(username='test_user', password='test_password')
         profile: Profile = user.profile
 
