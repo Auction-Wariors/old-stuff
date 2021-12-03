@@ -7,7 +7,7 @@ register = template.Library()
 @register.filter
 def divide_by_100(value):
     if not value:
-        return 'No highest bid!'
+        raise ValueError('divide_by_100 needs a number!')
     return math.ceil(value / 100)
 
 
