@@ -121,16 +121,19 @@
                           href="{% url 'auctions:auction_detail' ended.id %}"
                         >Auction
                             name: {{ ended.name }}</a></div>
-                        <div class="p-2">Auction id: {{ ended.id }}</div>
+                            {% if ended.winner %}
                         <div class="p-2">Winner: {{ ended.winner.username }}</div>
                         <div class="p-2">
-                            {% if ended.isPayed %}
+                            {% if ended.isPayed and ended.highest_bid %}
                                 <p class="text-success">Payment ok</p>
                             {% else %}
                                 <p class="text-danger">Missing payment</p>
                             {% endif %}
                         </div>
                         <div class="p-2">Price: {{ ended.highest_bid }}</div>
+                            {% else %}
+                        <div class="p-2">No bids...</div>
+                            {% endif %}
                     </div>
 
                 {% endfor %}
