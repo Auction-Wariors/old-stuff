@@ -8,7 +8,7 @@ from django.contrib import messages
 from stores.models import Store
 from .models import Auction, Bid
 
-from auctions.forms import AddAuctionForm
+from auctions.forms import AddAuctionForm, UpdateAuctionForm, UpdateNoBidsAuctionForm
 
 
 def auction_detail(request, pk):
@@ -101,13 +101,19 @@ def update_auction(request, auction_id):
     if not auction or not auction.is_active:
         return redirect('stores:store_dashboard')
     if request.method == 'POST':
-        form = AddAuctionForm(request.POST, instance=auction)
+        if auction.highest_bid:
+            form = UpdateAuctionForm(request.POST, instance=auction)
+        else:
+            form = UpdateNoBidsAuctionForm(request.POST, instance=auction)
+
         if form.is_valid():
             form.save()
             return redirect('stores:store_dashboard')
+    elif auction.highest_bid:
+        form = UpdateAuctionForm(instance=auction)
     else:
         # FIXME / 100 is hardcoded, dont have enough experience with currency.
-        form = AddAuctionForm(instance=auction, initial={'min_price': math.ceil(auction.min_price / 100)})
+        form = UpdateNoBidsAuctionForm(instance=auction, initial={'min_price': math.ceil(auction.min_price / 100)})
 
     return render(request, 'auctions/update_auction.html', {'form': form})
 

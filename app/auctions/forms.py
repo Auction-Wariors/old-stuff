@@ -29,6 +29,30 @@ class AddAuctionForm(forms.ModelForm):
         return self.cleaned_data["min_price"] * 100
 
 
+class UpdateAuctionForm(forms.ModelForm):
+    name = forms.CharField(max_length=50)
+    description = forms.Textarea()
+    category = forms.ModelChoiceField(queryset=Category.objects.all(), required=True)
+
+    class Meta:
+        model = Auction
+        fields = ['name', 'description', 'category']
+
+
+class UpdateNoBidsAuctionForm(forms.ModelForm):
+    name = forms.CharField(max_length=50)
+    description = forms.Textarea()
+    category = forms.ModelChoiceField(queryset=Category.objects.all(), required=True)
+    min_price = forms.IntegerField(label='Minimum start bid')
+
+    class Meta:
+        model = Auction
+        fields = ['name', 'description', 'category', 'min_price']
+
+    def clean_min_price(self):
+        return self.cleaned_data["min_price"] * 100
+
+
 class BidOnAuctionForm(forms.ModelForm):
     value = forms.IntegerField()
 
