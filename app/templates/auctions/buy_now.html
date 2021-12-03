@@ -1,0 +1,33 @@
+{% extends 'base/base.html' %}
+{% load crispy_forms_tags %}
+{% load currency_tags %}
+{% block content %}
+    <section>
+        <div class="container py-5">
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="card mb-4">
+                        <div class="card-body text-center">
+                            <img src="https://hips.hearstapps.com/edc.h-cdn.co/assets/16/21/1464359609-antique-lead.jpg"
+                                 alt="avatar" class="rounded-circle img-fluid" style="width: 300px;">
+                            <h5 class="my-3"> {{ auction.name }}</h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-8">
+                    <h3 class="text-muted mb-0">Confirm buy now</h3>
+                    <p>Price in NOK {{ auction.buy_now | divide_by_100 }},-</p>
+                    <form method="post">
+                        {% csrf_token %}
+                        <button class="btn btn-outline-success mt-2" type="submit">Confirm buy now</button>
+                    </form>
+                    <a
+                            href="{% url 'auctions:auction_detail' auction.id %}"
+                            type="button"
+                            class="btn btn-outline-secondary me-2 mt-2"
+                    >Cancel
+                    </a>
+
+    </section>
+
+{% endblock %}

@@ -8,11 +8,12 @@ class AddAuctionForm(forms.ModelForm):
     name = forms.CharField(max_length=50)
     description = forms.Textarea()
     category = forms.ModelChoiceField(queryset=Category.objects.all(), required=True)
-    min_price = forms.IntegerField(label='Minimum start bid')
+    min_price = forms.IntegerField(label='Minimum start bid in NOK')
+    buy_now = forms.IntegerField(label='Buy now price in NOK - Leave empty if auction only', required=False)
 
     class Meta:
         model = Auction
-        fields = ['name', 'description', 'category', 'end_date', 'min_price']
+        fields = ['name', 'description', 'category', 'end_date', 'min_price', 'buy_now']
         widgets = {
             'end_date': DateTimePickerInput()
         }
@@ -27,6 +28,9 @@ class AddAuctionForm(forms.ModelForm):
 
     def clean_min_price(self):
         return self.cleaned_data["min_price"] * 100
+
+    def clean_buy_now(self):
+        return self.cleaned_data["buy_now"] * 100
 
 
 class UpdateAuctionForm(forms.ModelForm):
@@ -47,6 +51,7 @@ class UpdateAuctionForm(forms.ModelForm):
 
     def clean_min_price(self):
         return self.cleaned_data["min_price"] * 100
+
 
 
 class BidOnAuctionForm(forms.ModelForm):

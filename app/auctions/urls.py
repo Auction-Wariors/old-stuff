@@ -25,6 +25,7 @@ urlpatterns = [
     # "auctions/"
     path('create/', views.add_auction, name='add_auction'),
     path('edit/<int:auction_id>/', views.update_auction, name='update_auction'),
+    path('buy_now/<int:auction_id>/', views.buy_now, name='buy_now_auction'),
     path('payment/<int:auction_id>/', views.payment_auction, name='payment_auction'),
     path('payment/success/<int:auction_id>/', views.payment_ok, name='payment_ok'),
     path('<int:pk>/', views.auction_detail, name='auction_detail'),

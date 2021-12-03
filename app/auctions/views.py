@@ -53,6 +53,29 @@ def auction_detail(request, pk):
                                                             'form': form})
 
 
+@login_required()
+def buy_now(request, auction_id):
+    auction = get_object_or_404(Auction, pk=auction_id)
+    if request.user == auction.store.owner:
+        return redirect('stores:store_dashboard')
+
+    if auction.highest_bid and auction.highest_bid >= auction.buy_now:
+        return redirect('auctions:auction_detail', pk=auction_id)
+
+    if request.POST:
+        if auction.buy_now and auction.is_active:
+            auction.winner = request.user
+            auction.is_active = False
+            auction.end_date = timezone.now()
+            auction.save()
+            messages.success(request, f'Item bought, make sure to make payment to store {auction.store.name}')
+            return redirect('users:user_profile')
+        else:
+            messages.warning(request, 'Auction not active...')
+
+    return render(request, 'auctions/buy_now.html', {'auction': auction})
+
+
 @login_required
 def payment_auction(request, auction_id):
     auction = get_object_or_404(Auction, pk=auction_id, winner=request.user)

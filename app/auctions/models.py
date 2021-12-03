@@ -21,13 +21,14 @@ class Auction(models.Model):
     description = models.TextField(max_length=5000)
     category = models.ForeignKey(Category, on_delete=models.DO_NOTHING)
     store = models.ForeignKey(Store, on_delete=models.DO_NOTHING)
-    is_active = models.BooleanField(default=True)  # TODO: Do we need this ???
+    is_active = models.BooleanField(default=True)  # TODO: Do we need this ??? Answer: Makes it easier
     start_date = models.DateTimeField()
     end_date = models.DateTimeField()
     highest_bid = models.IntegerField(null=True, blank=True)
     winner = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
-    isPayed = models.BooleanField(default=False)  # TODO: Do we need this ???
+    isPayed = models.BooleanField(default=False)  # TODO: Do we need this ??? Answer: how to control whether an auction is payed or not?
     min_price = models.IntegerField()
+    buy_now = models.IntegerField(null=True, blank=True)
 
     def __str__(self):
         return "Auction: " + self.name
