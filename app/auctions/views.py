@@ -132,6 +132,8 @@ def update_auction(request, auction_id):
                                  bid=has_bid)
         if form.is_valid():
             form.save()
+
+            messages.success(request, 'Auction successfully updated')
             return redirect('stores:store_dashboard')
 
     form = UpdateAuctionForm(instance=auction,
