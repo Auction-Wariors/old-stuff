@@ -123,21 +123,18 @@ def update_auction(request, auction_id):
     auction = Auction.objects.get(store=store, pk=auction_id)
     if not auction or not auction.is_active:
         return redirect('stores:store_dashboard')
-    if auction.highest_bid:
-        bid = True
-    else:
-        bid = False
 
+    has_bid = True if auction.highest_bid else False
     if request.method == 'POST':
         form = UpdateAuctionForm(request.POST,
                                  instance=auction,
-                                 bid=bid)
+                                 bid=has_bid)
         if form.is_valid():
             form.save()
             return redirect('stores:store_dashboard')
 
     form = UpdateAuctionForm(instance=auction,
-                             bid=bid,
+                             bid=has_bid,
                              initial={'min_price': math.ceil(auction.min_price / 100)})
 
     return render(request, 'auctions/update_auction.html', {'form': form})
