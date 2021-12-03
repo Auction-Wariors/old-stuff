@@ -30,7 +30,8 @@ class AddAuctionForm(forms.ModelForm):
         return self.cleaned_data["min_price"] * 100
 
     def clean_buy_now(self):
-        return self.cleaned_data["buy_now"] * 100
+        if self.cleaned_data['buy_now']:
+            return self.cleaned_data["buy_now"] * 100
 
 
 class UpdateAuctionForm(forms.ModelForm):
@@ -51,7 +52,6 @@ class UpdateAuctionForm(forms.ModelForm):
 
     def clean_min_price(self):
         return self.cleaned_data["min_price"] * 100
-
 
 
 class BidOnAuctionForm(forms.ModelForm):
