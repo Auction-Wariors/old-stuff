@@ -151,7 +151,7 @@
                                     </div>
                                 {% endif %}
                             </div>
-                            <div class="p-2">Price: {{ auction.highest_bid }}</div>
+                            <div class="p-2">Price: {{ auction.highest_bid | divide_by_100 }}</div>
                         {% else %}
                             <div class="p-2">No bids...</div>
                         {% endif %}
