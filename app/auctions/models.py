@@ -1,6 +1,5 @@
 from django.db import models
 from django.contrib.auth.models import User
-from django.utils.timezone import now
 
 from stores.models import Store
 
@@ -28,6 +27,7 @@ class Auction(models.Model):
     winner = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
     isPayed = models.BooleanField(default=False)
     min_price = models.IntegerField()
+    buy_now = models.IntegerField()
 
     def __str__(self):
         return "Auction: " + self.name
