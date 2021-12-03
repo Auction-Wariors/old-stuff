@@ -28,7 +28,7 @@ class Auction(models.Model):
     is_payed = models.BooleanField(default=False)
     commission_is_payed = models.BooleanField(default=False)
     min_price = models.IntegerField()
-    buy_now = models.IntegerField()
+    buy_now = models.IntegerField(null=True, blank=True)
 
     def __str__(self):
         return "Auction: " + self.name
