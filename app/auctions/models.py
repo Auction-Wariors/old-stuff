@@ -25,7 +25,8 @@ class Auction(models.Model):
     end_date = models.DateTimeField()
     highest_bid = models.IntegerField(null=True, blank=True)
     winner = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
-    isPayed = models.BooleanField(default=False)
+    is_payed = models.BooleanField(default=False)
+    commission_is_payed = models.BooleanField(default=False)
     min_price = models.IntegerField()
     buy_now = models.IntegerField()
 

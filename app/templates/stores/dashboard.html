@@ -108,7 +108,7 @@
         {% if auctions_ended %}
             <div class="legend">Auctions Ended:</div>
             <div class="d-flex flex-wrap">
-                {% for ended in auctions_ended %}
+                {% for auction in auctions_ended %}
                     <div class="card w-25 mr-3">
                         <div class="p-2"><img
                           src="https://hips.hearstapps.com/edc.h-cdn.co/assets/16/21/1464359609-antique-lead.jpg"
@@ -118,22 +118,43 @@
                         ></div>
                         <div class="p-2"><a
                           class=""
-                          href="{% url 'auctions:auction_detail' ended.id %}"
+                          href="{% url 'auctions:auction_detail' auction.id %}"
                         >Auction
-                            name: {{ ended.name }}</a></div>
-                            {% if ended.winner %}
-                        <div class="p-2">Winner: {{ ended.winner.username }}</div>
-                        <div class="p-2">
-                            {% if ended.isPayed and ended.highest_bid %}
-                                <p class="text-success">Payment ok</p>
-                            {% else %}
-                                <p class="text-danger">Missing payment</p>
-                            {% endif %}
-                        </div>
-                        <div class="p-2">Price: {{ ended.highest_bid }}</div>
-                            {% else %}
-                        <div class="p-2">No bids...</div>
-                            {% endif %}
+                            name: {{ auction.name }}</a></div>
+                        {% if auction.winner %}
+                            <div class="p-2">Winner: {{ auction.winner.username }}</div>
+                            <div class="p-2">
+                                {% if auction.is_payed and auction.highest_bid %}
+                                    <p class="text-success">Payment ok</p>
+                                {% else %}
+                                    <p class="text-danger">Missing payment</p>
+                                {% endif %}
+                                {% if auction.commission_is_payed %}
+                                    <p class="text-success">Comission ok</p>
+                                {% else %}
+                                    <p class="text-danger">Commission not paid</p>
+                                    <div class="d-flex">
+                                        <div class="me-2">
+                                            <a
+                                              class="btn btn-success"
+                                              href="{% url 'stores:store_dashboard' %}?payment=ok&auction={{ auction.pk }}"
+                                              role="button"
+                                            >Pay</a>
+                                        </div>
+                                        <div>
+                                            <a
+                                              class="btn btn-danger"
+                                              href="{% url 'stores:store_dashboard' %}?payment=failed"
+                                              role="button"
+                                            >Fail Pay</a>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <div class="p-2">Price: {{ auction.highest_bid }}</div>
+                        {% else %}
+                            <div class="p-2">No bids...</div>
+                        {% endif %}
                     </div>
 
                 {% endfor %}

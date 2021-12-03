@@ -27,8 +27,8 @@ def register(request):
 
 def user_profile(request):
     profile = Profile.objects.get(user=request.user)
-    winning_auctions = Auction.objects.filter(winner=request.user, isPayed=False).order_by('end_date')
-    payed_auctions = Auction.objects.filter(winner=request.user, isPayed=True).order_by('end_date')
+    winning_auctions = Auction.objects.filter(winner=request.user, is_payed=False).order_by('end_date')
+    payed_auctions = Auction.objects.filter(winner=request.user, is_payed=True).order_by('end_date')
     bids = Bid.objects.filter(owner=request.user)
     return render(request, 'users/profile.html', {'profile': profile,
                                                   'auctions': winning_auctions,

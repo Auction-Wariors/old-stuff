@@ -32,6 +32,18 @@ def store_dashboard(request):
     store = get_object_or_404(Store, owner=request.user)
     auctions_active = Auction.objects.filter(store=store, is_active=True)
     auctions_ended = Auction.objects.filter(store=store, is_active=False)
+
+    # Faking payment
+    payment = request.GET.get('payment', '')
+    if payment == 'failed':
+        messages.warning(request, 'Payment failed, please contact your bank! ')
+
+    if payment == 'ok':
+        auction = get_object_or_404(Auction, pk=request.GET.get('auction', ''))
+        auction.commission_is_payed = True
+        auction.save()
+        messages.success(request, 'Thank you for your business! ')
+
     return render(request, 'stores/dashboard.html', {'store': store,
                                                      'auctions': auctions_active,
                                                      'auctions_ended': auctions_ended})

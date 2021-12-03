@@ -79,7 +79,7 @@ def buy_now(request, auction_id):
 @login_required
 def payment_auction(request, auction_id):
     auction = get_object_or_404(Auction, pk=auction_id, winner=request.user)
-    if auction.isPayed:
+    if auction.is_payed:
         return redirect('users:user_profile')
 
     if request.POST:
@@ -93,7 +93,7 @@ def payment_auction(request, auction_id):
 @login_required
 def payment_ok(request, auction_id):
     auction = get_object_or_404(Auction, pk=auction_id, winner=request.user)
-    auction.isPayed = True
+    auction.is_payed = True
     auction.save()
     messages.success(request, f'Payment successful! Total amount payed: NOK {auction.highest_bid},- ')
     return redirect('users:user_profile')
