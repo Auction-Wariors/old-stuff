@@ -15,20 +15,13 @@ from auctions.forms import AddAuctionForm, UpdateAuctionForm, BidOnAuctionForm
 def auction_detail(request, pk):
     auction = get_object_or_404(Auction, pk=pk)
     bids = Bid.objects.filter(auction=auction)
-    current_leading_value = bids.aggregate(Max('value'))
-    current_leading_bid = Bid.objects.filter(auction=auction, value__exact=current_leading_value["value__max"]).first()
 
     # Extracted in own function
     time = auction.end_date - timezone.now()
     count_down = count_down_func(time)
 
-    if not current_leading_bid:
-        leading_bid = auction.min_price - 1
-    else:
-        leading_bid = current_leading_bid.value
-
     if auction.highest_bid:
-        form = BidOnAuctionForm(initial={'value': math.ceil(auction.highest_bid/100) + 5},
+        form = BidOnAuctionForm(initial={'value': math.ceil(auction.highest_bid / 100) + 5},
                                 auction_id=auction.id,
                                 user=request.user)
     else:
@@ -49,7 +42,6 @@ def auction_detail(request, pk):
 
     return render(request, 'auctions/auction_detail.html', {'auction': auction,
                                                             'bids': bids,
-                                                            'high_bid': leading_bid,
                                                             'time': count_down,
                                                             'form': form})
 
@@ -97,7 +89,7 @@ def payment_ok(request, auction_id):
     auction = get_object_or_404(Auction, pk=auction_id, winner=request.user)
     auction.is_payed = True
     auction.save()
-    messages.success(request, f'Payment successful! Total amount payed: NOK {auction.highest_bid},- ')
+    messages.success(request, f'Payment successful! Total amount payed: NOK {auction.highest_bid / 100},- ')
     return redirect('users:user_profile')
 
 
