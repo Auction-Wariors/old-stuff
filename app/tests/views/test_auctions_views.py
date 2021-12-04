@@ -330,6 +330,16 @@ class TestBuyNowAuction(TestCase):
         self.assertEqual(auction_updated.winner.username, 'bid_user1')
         self.assertFalse(auction_updated.is_active)
 
+    def test_buy_now_auction_not_active(self):
+        self.auction.is_active = False
+        self.auction.save()
+
+        self.client.login(username='bid_user1', password='test123')
+
+        response = self.client.post(reverse('auctions:buy_now_auction', kwargs={'auction_id': self.auction.id, }), data={'test': 'empty'})
+
+        self.assertContains(response, 'Auction not active...')
+
     def test_buy_now_user_own_auction(self):
         self.client.login(username='store_user', password='test123')
 
