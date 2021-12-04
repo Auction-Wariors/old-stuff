@@ -1,4 +1,5 @@
 {% extends 'base/base.html' %}
+{% load currency_tags %}
 {% block content %}
     <section>
         <div class="container py-5">
@@ -68,7 +69,7 @@
         </div>
         <div class="container">
             {% if auctions %}
-                <h4>Won Auctions - Unpayed:</h4>
+                <h4>Won Auctions - Unpaid:</h4>
                 <div class="d-flex align-content-start flex-wrap">
                     {% for auction in auctions %}
                         <div class="card p-2 w-25">
@@ -78,8 +79,7 @@
                                         height="100%" width="100%"></div>
                                 <div class="p-2"><a href="{% url 'auctions:auction_detail' auction.id %}">Auction
                                     name: {{ auction.name }}</a></div>
-                                <div class="p-2">Auction id: {{ auction.id }}</div>
-                                <div class="p-2">Amount to pay: {{ auction.highest_bid }}</div>
+                                <div class="p-2">Amount to pay in NOK: {{ auction.highest_bid | divide_by_100 }},-</div>
                                 <div class="p-2"><a class="btn btn-primary" href="{% url 'auctions:payment_auction' auction.id %}">Pay now</a></div>
                             </div>
                         </div>
@@ -98,7 +98,7 @@
                                         height="100%" width="100%" alt=""></div>
                                 <div class="p-2"><a href="{% url 'auctions:auction_detail' payed_auction.id %}">Auction
                                     name: {{ payed_auction.name }}</a></div>
-                                <div class="p-2">Auction id: {{ payed_auction.id }}</div>
+                                <div class="p-2">Amount paid in NOK: {{ payed_auction.highest_bid | divide_by_100 }},-</div>
                             </div>
                         </div>
                     {% endfor %}
