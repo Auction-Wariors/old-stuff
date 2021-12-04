@@ -7,6 +7,7 @@ from django.utils import timezone
 from django.contrib import messages
 from stores.models import Store
 from .models import Auction, Bid
+from logic import count_down_func
 
 from auctions.forms import AddAuctionForm, UpdateAuctionForm, BidOnAuctionForm
 
@@ -143,20 +144,3 @@ def update_auction(request, auction_id):
     return render(request, 'auctions/update_auction.html', {'form': form})
 
 
-def count_down_func(time):
-    # FIXME: Do this frontend with JS!!!!
-    time_left = time.total_seconds()
-    days = time_left // (24 * 3600)
-    time_left = time_left % (24 * 3600)
-    hours = time_left // 3600
-    time_left %= 3600
-    minutes = time_left // 60
-    time_left %= 60
-    seconds = time_left
-    count_down = {
-        'days': int(days),
-        'hours': int(hours),
-        'minutes': int(minutes),
-        'seconds': int(seconds)
-    }
-    return count_down

@@ -6,7 +6,7 @@ from django.urls import reverse
 
 from auctions.models import Category, Auction, Bid
 from stores.models import Store
-from auctions.views import count_down_func
+
 
 
 class TestAddAuction(TestCase):
@@ -281,13 +281,3 @@ class TestBidOnAuction(TestCase):
         self.assertFormError(response, 'form', 'value', 'Auction is ended')
         self.assertEqual(response.status_code, 200)
 
-# FIXME: DOES NOT WORK
-# class TestAuctionDetail(TestCase):
-#     def test_time_count_down(self):
-#         end_time = timezone.now() + timezone.timedelta(hours=5)
-#         time = end_time - timezone.now()
-#         count_down = count_down_func(time)
-#         self.assertEqual(count_down, {'days': 0,
-#                                       'hours': 4,
-#                                       'minutes': 59,
-#                                       'seconds': 59})
