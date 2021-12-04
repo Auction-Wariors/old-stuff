@@ -4,7 +4,7 @@ from http import HTTPStatus
 from django.utils import timezone
 from django.urls import reverse
 
-from auctions.models import Category, Auction
+from auctions.models import Category, Auction, Bid
 from stores.models import Store
 from auctions.views import count_down_func
 
@@ -98,7 +98,7 @@ class TestUpdateAuction(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-        """ Set up test data for update tests"""
+        """ Set up test data for update auction"""
         category = Category.objects.create(name='Test Category',
                                            description='test description')
         cls.category2 = Category.objects.create(name='Test Category 2',
@@ -165,6 +165,121 @@ class TestUpdateAuction(TestCase):
         self.assertEqual(response.status_code, HTTPStatus.OK)
         self.assertContains(response, 'Update Auction', html=True)
         self.assertTemplateUsed(response, 'auctions/update_auction.html')
+
+
+class TestBidOnAuction(TestCase):
+    """Testing update auction view"""
+
+    @classmethod
+    def setUpTestData(cls):
+        """ Set up test data for bid on auction"""
+        category = Category.objects.create(name='Test Category',
+                                           description='test description')
+        store_user = User.objects.create(username='store_user')
+        store_user.set_password('test123')
+        store_user.save()
+
+        user_bid1 = User.objects.create(username='bid_user1')
+        user_bid1.set_password('test123')
+        user_bid1.save()
+
+        user_bid2 = User.objects.create(username='bid_user2')
+        user_bid2.set_password('test123')
+        user_bid2.save()
+
+        get_user = User.objects.get(username='store_user')
+        store = Store.objects.create(name='testStore',
+                                     owner=get_user,
+                                     description='test',
+                                     email='fr@ed.no',
+                                     phone_number='12345678')
+
+        cls.auction = Auction.objects.create(name='test auction',
+                                             description='test description',
+                                             category=category,
+                                             store=store,
+                                             is_active=True,
+                                             start_date=timezone.now(),
+                                             end_date=timezone.now() + timezone.timedelta(days=5),
+                                             min_price=30000,
+                                             buy_now=10000)
+
+    def test_add_bid_to_auction_success(self):
+        user_bid1_login = self.client.login(username='bid_user1', password='test123')
+        self.assertTrue(user_bid1_login)
+
+        response = self.client.post(reverse('auctions:auction_detail', kwargs={'pk': self.auction.id, }),
+                                    data={'value': 350
+                                          })
+
+        bid = Bid.objects.filter(auction=self.auction.id).last()
+        self.assertEqual(bid.value, 350*100)
+        self.assertEqual(response.status_code, HTTPStatus.FOUND)
+        self.assertEqual(response["Location"], reverse('auctions:auction_detail', kwargs={'pk': self.auction.id, }))
+
+    def test_add_bid_to_auction_bid_is_lower_than_min_price(self):
+        user_bid1_login = self.client.login(username='bid_user1', password='test123')
+        self.assertTrue(user_bid1_login)
+
+        response = self.client.post(reverse('auctions:auction_detail', kwargs={'pk': self.auction.id, }),
+                                    data={'value': 200
+                                          })
+
+        self.assertFormError(response, 'form', 'value', 'Bid is lower than minimum price')
+        self.assertContains(response, 'Bid is lower than minimum price', html=True)
+        self.assertEqual(response.status_code, 200)
+
+    def test_add_bid_to_auction_bid_to_low(self):
+        self.auction.highest_bid = 35000
+        self.auction.save()
+        user_bid1_login = self.client.login(username='bid_user1', password='test123')
+        self.assertTrue(user_bid1_login)
+
+        response = self.client.post(reverse('auctions:auction_detail', kwargs={'pk': self.auction.id, }),
+                                    data={'value': 340
+                                          })
+
+        self.assertFormError(response, 'form', 'value', 'Bid is too low')
+        self.assertContains(response, 'Bid is too low', html=True)
+        self.assertEqual(response.status_code, 200)
+
+    def test_add_bid_to_auction_bid_on_own_auction(self):
+        self.client.login(username='store_user', password='test123')
+
+        response = self.client.post(reverse('auctions:auction_detail', kwargs={'pk': self.auction.id, }),
+                                    data={'value': 500
+                                          })
+
+        self.assertFormError(response, 'form', 'value', 'Bidding on your own auction is not allowed')
+        self.assertContains(response, 'Bidding on your own auction is not allowed', html=True)
+        self.assertEqual(response.status_code, 200)
+
+    def test_add_bid_to_auction_not_active(self):
+        self.auction.is_active = False
+        self.auction.save()
+        user_bid1_login = self.client.login(username='bid_user1', password='test123')
+        self.assertTrue(user_bid1_login)
+
+        response = self.client.post(reverse('auctions:auction_detail', kwargs={'pk': self.auction.id, }),
+                                    data={'value': 500
+                                          })
+
+        self.assertFormError(response, 'form', 'value', 'Auction is not active')
+        self.assertContains(response, 'Auction is not active', html=True)
+        self.assertEqual(response.status_code, 200)
+
+    def test_add_bid_to_auction_past_end_date(self):
+        self.auction.end_date = timezone.now() - timezone.timedelta(days=5)
+        self.auction.save()
+        user_bid1_login = self.client.login(username='bid_user1', password='test123')
+        self.assertTrue(user_bid1_login)
+
+        response = self.client.post(reverse('auctions:auction_detail', kwargs={'pk': self.auction.id, }),
+                                    data={'value': 500
+                                          })
+
+        self.assertFormError(response, 'form', 'value', 'Auction is ended')
+        self.assertEqual(response.status_code, 200)
 
 # FIXME: DOES NOT WORK
 # class TestAuctionDetail(TestCase):
