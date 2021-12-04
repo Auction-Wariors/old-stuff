@@ -2,6 +2,9 @@ from django.contrib.auth.models import User
 from django.test import TestCase
 from http import HTTPStatus
 from django.urls import reverse
+from django.utils import timezone
+
+from auctions.models import Category, Auction
 from stores.models import Store
 
 
@@ -82,3 +85,63 @@ class TestUpdateStoreProfile(TestCase):
         response = self.client.get(reverse('stores:update_store'), follow=True)
         self.assertTemplateUsed(response, 'stores/update_store.html')
         self.assertContains(response, 'Update your store information', html=True)
+
+
+class TestStoreDashboard(TestCase):
+    """Testing bid on auction view"""
+
+    @classmethod
+    def setUpTestData(cls):
+        category = Category.objects.create(name='Test Category',
+                                           description='test description')
+        store_user = User.objects.create(username='store_user')
+        store_user.set_password('test123')
+        store_user.save()
+
+        user_bid1 = User.objects.create(username='bid_user1', password='bid_user1')
+
+        get_user = User.objects.get(username='store_user')
+        store = Store.objects.create(name='testStore',
+                                     owner=get_user,
+                                     description='test',
+                                     email='fr@ed.no',
+                                     phone_number='12345678')
+
+        cls.auction = Auction.objects.create(name='test auction',
+                                             description='test description',
+                                             category=category,
+                                             store=store,
+                                             is_active=True,
+                                             start_date=timezone.now(),
+                                             end_date=timezone.now() + timezone.timedelta(days=5),
+                                             min_price=30000,
+                                             buy_now=100000,
+                                             highest_bid=100000,
+                                             commission_is_payed=False,
+                                             winner=user_bid1)
+
+    def test_store_dashboard(self):
+        self.client.login(username='store_user', password='test123')
+
+        response = self.client.get(reverse('stores:store_dashboard'))
+
+        self.assertTemplateUsed(response, 'stores/dashboard.html')
+        self.assertContains(response, 'testStore', html=True)
+
+    def test_store_dashboard_pay_commission_success(self):
+        self.client.login(username='store_user', password='test123')
+
+        response = self.client.get(reverse('stores:store_dashboard'), {'payment': 'ok', 'auction': self.auction.id})
+
+        messages = list(response.context['messages'])
+        self.assertEqual(len(messages), 1)
+        self.assertEqual(str(messages[0]), 'Thank you for your business! ')
+
+    def test_store_dashboard_pay_commission_fail(self):
+        self.client.login(username='store_user', password='test123')
+
+        response = self.client.get(reverse('stores:store_dashboard'), {'payment': 'failed'})
+
+        messages = list(response.context['messages'])
+        self.assertEqual(len(messages), 1)
+        self.assertEqual(str(messages[0]), 'Payment failed, please contact your bank! ')
