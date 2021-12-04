@@ -1,7 +1,6 @@
 import math
 
 from django.contrib.auth.decorators import login_required
-from django.db.models import Max
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils import timezone
 from django.contrib import messages
@@ -125,7 +124,6 @@ def update_auction(request, auction_id):
                                  bid=has_bid)
         if form.is_valid():
             form.save()
-
             messages.success(request, 'Auction successfully updated')
             return redirect('stores:store_dashboard')
 
