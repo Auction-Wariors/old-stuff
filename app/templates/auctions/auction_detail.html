@@ -117,7 +117,7 @@
                                     >Place bid
                                     </button>
                                 </form>
-                                {% if auction.buy_now %}
+                                {% if auction.buy_now and auction.buy_now > auction.highest_bid %}
                                     <a
                                       href="{% url 'auctions:buy_now_auction' auction.id %}"
                                       type="button"
