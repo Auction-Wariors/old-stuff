@@ -8,7 +8,6 @@ from auctions.models import Category, Auction, Bid
 from stores.models import Store
 
 
-
 class TestAddAuction(TestCase):
     """Testing add auction view"""
 
@@ -168,7 +167,7 @@ class TestUpdateAuction(TestCase):
 
 
 class TestBidOnAuction(TestCase):
-    """Testing update auction view"""
+    """Testing bid on auction view"""
 
     @classmethod
     def setUpTestData(cls):
@@ -202,7 +201,7 @@ class TestBidOnAuction(TestCase):
                                              start_date=timezone.now(),
                                              end_date=timezone.now() + timezone.timedelta(days=5),
                                              min_price=30000,
-                                             buy_now=10000)
+                                             buy_now=100000)
 
     def test_add_bid_to_auction_success(self):
         user_bid1_login = self.client.login(username='bid_user1', password='test123')
@@ -280,4 +279,92 @@ class TestBidOnAuction(TestCase):
 
         self.assertFormError(response, 'form', 'value', 'Auction is ended')
         self.assertEqual(response.status_code, 200)
+
+
+class TestBuyNowAuction(TestCase):
+    """Testing buy now auction view"""
+
+    @classmethod
+    def setUpTestData(cls):
+        """ Set up test data for buy now on auction"""
+        category = Category.objects.create(name='Test Category',
+                                           description='test description')
+        store_user = User.objects.create(username='store_user')
+        store_user.set_password('test123')
+        store_user.save()
+
+        user_bid1 = User.objects.create(username='bid_user1')
+        user_bid1.set_password('test123')
+        user_bid1.save()
+
+        user_bid2 = User.objects.create(username='bid_user2')
+        user_bid2.set_password('test123')
+        user_bid2.save()
+
+        get_user = User.objects.get(username='store_user')
+        store = Store.objects.create(name='testStore',
+                                     owner=get_user,
+                                     description='test',
+                                     email='fr@ed.no',
+                                     phone_number='12345678')
+
+        cls.auction = Auction.objects.create(name='test auction',
+                                             description='test description',
+                                             category=category,
+                                             store=store,
+                                             is_active=True,
+                                             start_date=timezone.now(),
+                                             end_date=timezone.now() + timezone.timedelta(days=5),
+                                             min_price=30000,
+                                             buy_now=100000)
+
+    def test_buy_now_success(self):
+        self.client.login(username='bid_user1', password='test123')
+
+        response = self.client.post(reverse('auctions:buy_now_auction', kwargs={'auction_id': self.auction.id, }), data={'test': 'empty'})
+
+        self.assertEqual(response.status_code, HTTPStatus.FOUND)
+        self.assertEqual(response["Location"], reverse('users:user_profile'))
+
+        auction_updated = Auction.objects.get(pk=self.auction.id)
+        self.assertEqual(auction_updated.winner.username, 'bid_user1')
+        self.assertFalse(auction_updated.is_active)
+
+    def test_buy_now_user_own_auction(self):
+        self.client.login(username='store_user', password='test123')
+
+        response = self.client.get(reverse('auctions:buy_now_auction', kwargs={'auction_id': self.auction.id, }), follow=True)
+
+        self.assertEqual(response.status_code, HTTPStatus.OK)
+        self.assertRedirects(response, reverse('stores:store_dashboard'), status_code=302)
+
+        auction = Auction.objects.get(pk=self.auction.id)
+        self.assertFalse(auction.winner)
+        self.assertTrue(auction.is_active)
+
+    def test_buy_now_bid_higher_than_or_equal_to_buy_now_price(self):
+        self.client.login(username='bid_user1', password='test123')
+
+        self.auction.highest_bid = 100000
+        self.auction.save()
+
+        response = self.client.get(reverse('auctions:buy_now_auction', kwargs={'auction_id': self.auction.id, }), follow=True)
+
+        self.assertEqual(response.status_code, HTTPStatus.OK)
+        self.assertRedirects(response, reverse('auctions:auction_detail', kwargs={'pk': self.auction.id, }), status_code=302)
+
+        auction = Auction.objects.get(pk=self.auction.id)
+        self.assertFalse(auction.winner)
+        self.assertTrue(auction.is_active)
+
+    def test_buy_now_get(self):
+        self.client.login(username='bid_user1', password='test123')
+
+        response = self.client.get(reverse('auctions:buy_now_auction', kwargs={'auction_id': self.auction.id, }),
+                                   follow=True)
+
+        self.assertEqual(response.status_code, HTTPStatus.OK)
+        self.assertTemplateUsed(response, 'auctions/buy_now.html')
+        self.assertContains(response, '<h3 class="text-muted mb-0">Confirm buy now</h3>', html=True)
+
 
