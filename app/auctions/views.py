@@ -7,7 +7,7 @@ from django.utils import timezone
 from django.contrib import messages
 from stores.models import Store
 from .models import Auction, Bid
-from logic import count_down_func
+from .logic import count_down_func
 
 from auctions.forms import AddAuctionForm, UpdateAuctionForm, BidOnAuctionForm
 
