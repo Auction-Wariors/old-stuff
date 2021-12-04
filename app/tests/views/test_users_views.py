@@ -3,7 +3,6 @@ from django.contrib import auth
 from django.test import TestCase
 from http import HTTPStatus
 from django.urls import reverse
-from django.utils import timezone
 from users.models import Profile
 
 
