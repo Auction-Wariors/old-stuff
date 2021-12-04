@@ -155,15 +155,28 @@ class TestUpdateAuction(TestCase):
         self.assertEqual(response["Location"], "/stores/dashboard/")
 
     def test_update_auction_get(self):
-        auction = Auction.objects.get(name='test auction')
         user_login = self.client.login(username='test_user', password='test123')
         self.assertTrue(user_login)
+        self.auction.highest_bid = 1000
+        self.auction.save()
 
-        response = self.client.get(f"/auctions/edit/{auction.id}", follow=True)
+        response = self.client.get(f"/auctions/edit/{self.auction.id}", follow=True)
 
         self.assertEqual(response.status_code, HTTPStatus.OK)
         self.assertContains(response, 'Update Auction', html=True)
         self.assertTemplateUsed(response, 'auctions/update_auction.html')
+
+    def test_update_auction_not_active_redirect_to_dashboard(self):
+        user_login = self.client.login(username='test_user', password='test123')
+        self.assertTrue(user_login)
+
+        self.auction.is_active = False
+        self.auction.save()
+
+        response = self.client.get(f"/auctions/edit/{self.auction.id}", follow=True)
+
+        self.assertEqual(response.status_code, HTTPStatus.OK)
+        self.assertRedirects(response, reverse('stores:store_dashboard'), status_code=301, target_status_code=200)
 
 
 class TestBidOnAuction(TestCase):
@@ -171,7 +184,7 @@ class TestBidOnAuction(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-        """ Set up test data for bid on auction"""
+        """ Set up test data for bid on auction """
         category = Category.objects.create(name='Test Category',
                                            description='test description')
         store_user = User.objects.create(username='store_user')
@@ -181,10 +194,6 @@ class TestBidOnAuction(TestCase):
         user_bid1 = User.objects.create(username='bid_user1')
         user_bid1.set_password('test123')
         user_bid1.save()
-
-        user_bid2 = User.objects.create(username='bid_user2')
-        user_bid2.set_password('test123')
-        user_bid2.save()
 
         get_user = User.objects.get(username='store_user')
         store = Store.objects.create(name='testStore',
@@ -212,7 +221,7 @@ class TestBidOnAuction(TestCase):
                                           })
 
         bid = Bid.objects.filter(auction=self.auction.id).last()
-        self.assertEqual(bid.value, 350*100)
+        self.assertEqual(bid.value, 350 * 100)
         self.assertEqual(response.status_code, HTTPStatus.FOUND)
         self.assertEqual(response["Location"], reverse('auctions:auction_detail', kwargs={'pk': self.auction.id, }))
 
@@ -286,7 +295,8 @@ class TestBuyNowAuction(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-        """ Set up test data for buy now on auction"""
+        """ Set Up Test Data for Auction buy now"""
+
         category = Category.objects.create(name='Test Category',
                                            description='test description')
         store_user = User.objects.create(username='store_user')
@@ -296,10 +306,6 @@ class TestBuyNowAuction(TestCase):
         user_bid1 = User.objects.create(username='bid_user1')
         user_bid1.set_password('test123')
         user_bid1.save()
-
-        user_bid2 = User.objects.create(username='bid_user2')
-        user_bid2.set_password('test123')
-        user_bid2.save()
 
         get_user = User.objects.get(username='store_user')
         store = Store.objects.create(name='testStore',
@@ -321,7 +327,8 @@ class TestBuyNowAuction(TestCase):
     def test_buy_now_success(self):
         self.client.login(username='bid_user1', password='test123')
 
-        response = self.client.post(reverse('auctions:buy_now_auction', kwargs={'auction_id': self.auction.id, }), data={'test': 'empty'})
+        response = self.client.post(reverse('auctions:buy_now_auction', kwargs={'auction_id': self.auction.id, }),
+                                    data={'test': 'empty'})
 
         self.assertEqual(response.status_code, HTTPStatus.FOUND)
         self.assertEqual(response["Location"], reverse('users:user_profile'))
@@ -336,14 +343,16 @@ class TestBuyNowAuction(TestCase):
 
         self.client.login(username='bid_user1', password='test123')
 
-        response = self.client.post(reverse('auctions:buy_now_auction', kwargs={'auction_id': self.auction.id, }), data={'test': 'empty'})
+        response = self.client.post(reverse('auctions:buy_now_auction', kwargs={'auction_id': self.auction.id, }),
+                                    data={'test': 'empty'})
 
         self.assertContains(response, 'Auction not active...')
 
     def test_buy_now_user_own_auction(self):
         self.client.login(username='store_user', password='test123')
 
-        response = self.client.get(reverse('auctions:buy_now_auction', kwargs={'auction_id': self.auction.id, }), follow=True)
+        response = self.client.get(reverse('auctions:buy_now_auction', kwargs={'auction_id': self.auction.id, }),
+                                   follow=True)
 
         self.assertEqual(response.status_code, HTTPStatus.OK)
         self.assertRedirects(response, reverse('stores:store_dashboard'), status_code=302)
@@ -358,10 +367,13 @@ class TestBuyNowAuction(TestCase):
         self.auction.highest_bid = 100000
         self.auction.save()
 
-        response = self.client.get(reverse('auctions:buy_now_auction', kwargs={'auction_id': self.auction.id, }), follow=True)
+        response = self.client.get(reverse('auctions:buy_now_auction',
+                                           kwargs={'auction_id': self.auction.id, }), follow=True)
 
         self.assertEqual(response.status_code, HTTPStatus.OK)
-        self.assertRedirects(response, reverse('auctions:auction_detail', kwargs={'pk': self.auction.id, }), status_code=302)
+        self.assertRedirects(response, reverse('auctions:auction_detail', kwargs={'pk': self.auction.id, }),
+                             status_code=302,
+                             target_status_code=200)
 
         auction = Auction.objects.get(pk=self.auction.id)
         self.assertFalse(auction.winner)
@@ -378,3 +390,96 @@ class TestBuyNowAuction(TestCase):
         self.assertContains(response, '<h3 class="text-muted mb-0">Confirm buy now</h3>', html=True)
 
 
+class TestPaymentAuction(TestCase):
+    """Testing payment auction"""
+
+    @classmethod
+    def setUpTestData(cls):
+        """ Set Up Test Data for auction payment """
+
+        category = Category.objects.create(name='Test Category',
+                                           description='test description')
+        store_user = User.objects.create(username='store_user')
+        store_user.set_password('test123')
+        store_user.save()
+
+        user_bid1 = User.objects.create(username='bid_user1')
+        user_bid1.set_password('test123')
+        user_bid1.save()
+
+        get_user = User.objects.get(username='store_user')
+        store = Store.objects.create(name='testStore',
+                                     owner=get_user,
+                                     description='test',
+                                     email='fr@ed.no',
+                                     phone_number='12345678')
+
+        cls.auction = Auction.objects.create(name='test auction',
+                                             description='test description',
+                                             category=category,
+                                             store=store,
+                                             is_active=True,
+                                             start_date=timezone.now(),
+                                             end_date=timezone.now() + timezone.timedelta(days=5),
+                                             min_price=30000,
+                                             buy_now=100000)
+
+    def test_payment_auction_ok(self):
+        self.client.login(username='bid_user1', password='test123')
+        winner = User.objects.get(username='bid_user1')
+        self.auction.winner = winner
+        self.auction.highest_bid = 50000
+        self.auction.save()
+
+        response = self.client.get(reverse('auctions:payment_ok', kwargs={'auction_id': self.auction.id, }),
+                                   follow=True)
+
+        self.assertRedirects(response, reverse('users:user_profile'),
+                             status_code=302,
+                             target_status_code=200)
+        messages = list(response.context['messages'])
+        self.assertEqual(len(messages), 1)
+        self.assertEqual(str(messages[0]), 'Payment successful! Total amount payed: NOK 500.0,- ')
+
+    def test_payment_auction_fail(self):
+        self.client.login(username='bid_user1', password='test123')
+        winner = User.objects.get(username='bid_user1')
+        self.auction.winner = winner
+        self.auction.highest_bid = 50000
+        self.auction.save()
+
+        response = self.client.post(reverse('auctions:payment_auction',
+                                            kwargs={'auction_id': self.auction.id, }),
+                                    data={'test': 'empty'})
+
+        self.assertEqual(response["Location"],
+                         reverse('auctions:payment_auction', kwargs={'auction_id': self.auction.id}))
+
+    def test_payment_is_paid(self):
+        self.client.login(username='bid_user1', password='test123')
+        winner = User.objects.get(username='bid_user1')
+        self.auction.is_payed = True
+        self.auction.winner = winner
+        self.auction.highest_bid = 50000
+        self.auction.save()
+
+        response = self.client.get(reverse('auctions:payment_auction',
+                                           kwargs={'auction_id': self.auction.id, }), follow=True)
+
+        self.assertRedirects(response, reverse('users:user_profile'),
+                             status_code=302,
+                             target_status_code=200)
+
+    def test_payment_get(self):
+        self.client.login(username='bid_user1', password='test123')
+        winner = User.objects.get(username='bid_user1')
+        self.auction.winner = winner
+        self.auction.highest_bid = 50000
+        self.auction.save()
+
+        response = self.client.get(reverse('auctions:payment_auction',
+                                           kwargs={'auction_id': self.auction.id, }))
+
+        self.assertTemplateUsed(response, 'auctions/payment.html')
+        self.assertContains(response, 'Pay OK', html=True)
+        self.assertContains(response, 'Pay FAIL', html=True)
