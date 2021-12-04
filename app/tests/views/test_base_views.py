@@ -48,7 +48,4 @@ class TestBaseViews(TestCase):
         response = self.client.get(reverse('base:faq'))
         self.assertTemplateUsed(response, 'base/faq.html')
 
-    def test_login_page(self):
-        response = self.client.get(reverse('base:login'))
-        self.assertTemplateUsed(response, 'base/login.html')
 
