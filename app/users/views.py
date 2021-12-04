@@ -1,6 +1,7 @@
 from django.contrib.auth import authenticate, login
 from django.shortcuts import render, redirect
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 
 from auctions.models import Auction, Bid
 from .models import Profile
@@ -25,6 +26,7 @@ def register(request):
     return render(request, 'users/register.html', {'form': form})
 
 
+@login_required
 def user_profile(request):
     profile = Profile.objects.get(user=request.user)
     winning_auctions = Auction.objects.filter(winner=request.user, is_payed=False).order_by('end_date')
@@ -36,6 +38,7 @@ def user_profile(request):
                                                   'bids': bids})
 
 
+@login_required
 def update_profile(request):
     profile = Profile.objects.get(user=request.user)
     if request.method == 'POST':
