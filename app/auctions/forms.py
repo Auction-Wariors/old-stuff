@@ -75,7 +75,7 @@ class BidOnAuctionForm(forms.ModelForm):
         if auction.store.owner == self.user:
             raise forms.ValidationError("Bidding on your own auction is not allowed")
         elif value < auction.min_price / 100:
-            raise forms.ValidationError("Bid is too low")
+            raise forms.ValidationError("Bid is lower than minimum price")
         elif value < auction.highest_bid / 100:
             raise forms.ValidationError("Bid is too low")
         elif not auction.is_active:
