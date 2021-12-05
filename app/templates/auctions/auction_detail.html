@@ -74,15 +74,18 @@
                                 </div>
                             {% endif %}
                             {% if auction.highest_bid %}
-                                <hr>
-                                <div class="row">
-                                    <div class="col-sm-3">
-                                        <p class="mb-0">Current leading bid: </p>
+                                {% if not auction.winner %}
+                                    <hr>
+                                    <div class="row">
+                                        <div class="col-sm-3">
+                                            <p class="mb-0">Current leading bid: </p>
+                                        </div>
+                                        <div class="col-sm-9">
+                                            <p class="text-muted mb-0">
+                                                NOK {{ auction.highest_bid | divide_by_100 }},-</p>
+                                        </div>
                                     </div>
-                                    <div class="col-sm-9">
-                                        <p class="text-muted mb-0">NOK {{ auction.highest_bid | divide_by_100 }},-</p>
-                                    </div>
-                                </div>
+                                {% endif %}
                             {% endif %}
                         </div>
                     </div>
@@ -99,8 +102,13 @@
                     <h5>Bid history:</h5>
                     {% if bids %}
                         {% for bid in bids %}
-                            <p>{{ bid.owner.username }} - Bid: NOK {{ bid.value | divide_by_100 }},-
-                                // {{ bid.created_at }}</p>
+                            {% if bid.value == auction.highest_bid and auction.winner %}
+                                <p>Winner: {{ bid.owner.username }} - Bid: NOK {{ bid.value | divide_by_100 }},-
+                                    // {{ bid.created_at }}</p>
+                            {% else %}
+                                <p>{{ bid.owner.username }} - Bid: NOK {{ bid.value | divide_by_100 }},-
+                                    // {{ bid.created_at }}</p>
+                            {% endif %}
                         {% endfor %}
                     {% else %}
                         <p>No bids yet</p>
