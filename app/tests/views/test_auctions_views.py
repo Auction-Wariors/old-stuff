@@ -25,7 +25,7 @@ class TestAddAuction(TestCase):
                              email='fr@ed.no',
                              phone_number='12345678')
 
-    def test_add_auction_view_post_success(self):
+    def test_add_auction_view_post_with_buy_now_success(self):
         auction_count = Auction.objects.count()
 
         category = Category.objects.filter(name='test').first()
@@ -46,6 +46,29 @@ class TestAddAuction(TestCase):
         auction = Auction.objects.get(name='item1')
         self.assertEqual(Auction.objects.count(), auction_count + 1)
         self.assertEqual(auction.name, 'item1')
+        self.assertEqual(auction.buy_now, 100000)
+
+    def test_add_auction_view_post_without_buy_now_success(self):
+        auction_count = Auction.objects.count()
+
+        category = Category.objects.filter(name='test').first()
+        end_time = timezone.now() + timezone.timedelta(days=4)
+
+        user_login = self.client.login(username='test', password='test123')
+        self.assertTrue(user_login)
+
+        response = self.client.post('/auctions/create/', data={'name': 'item1',
+                                                               'description': 'item1 description',
+                                                               'category': category.id,
+                                                               'end_date': end_time,
+                                                               'min_price': 200})
+        self.assertEqual(response.status_code, HTTPStatus.FOUND)
+        self.assertEqual(response["Location"], "/stores/dashboard/")
+
+        auction = Auction.objects.get(name='item1')
+        self.assertEqual(Auction.objects.count(), auction_count + 1)
+        self.assertEqual(auction.name, 'item1')
+        self.assertFalse(auction.buy_now)
 
     def test_add_auction_view_post_end_date_past_14_days_error(self):
         category = Category.objects.filter(name='test').first()
