@@ -115,8 +115,13 @@
                     <h5>Bid history:</h5>
                     {% if bids %}
                         {% for bid in bids %}
-                            <p>{{ bid.owner.username }} - Bid: NOK {{ bid.value | divide_by_100 }},-
-                                // {{ bid.created_at }}</p>
+                            {% if bid.value == auction.highest_bid and auction.winner %}
+                                <p>Winner: {{ bid.owner.username }} - Bid: NOK {{ bid.value | divide_by_100 }},-
+                                    // {{ bid.created_at }}</p>
+                            {% else %}
+                                <p>{{ bid.owner.username }} - Bid: NOK {{ bid.value | divide_by_100 }},-
+                                    // {{ bid.created_at }}</p>
+                            {% endif %}
                         {% endfor %}
                     {% else %}
                         <p>No bids yet</p>

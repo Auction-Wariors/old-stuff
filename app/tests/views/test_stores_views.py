@@ -21,12 +21,28 @@ class TestCreateStore(TestCase):
     def test_create_store_success(self):
         self.client.login(username='test_user', password='test123')
 
-        response = self.client.post(reverse('stores:create_store'), data={'name': 'Test Store',
+        response = self.client.post(reverse('stores:create_store'), data={'name': 'Test Store 1',
                                                                           'description': 'Test Store Description',
                                                                           'email': 'test@teststore.com',
                                                                           'phone_number': '00000000'})
         self.assertEqual(response.status_code, HTTPStatus.FOUND)
         self.assertEqual(response["Location"], reverse('stores:store_dashboard'))
+
+    def test_create_store_store_name_already_exists(self):
+        user_store = User.objects.create(username='store_user', password='test')
+        Store.objects.create(name='Store', description='Test',
+                             email='email@store.com', phone_number='45678910',
+                             owner=user_store)
+
+        self.client.login(username='test_user', password='test123')
+
+        response = self.client.post(reverse('stores:create_store'), data={'name': 'Store',
+                                                                          'description': 'Test Store Description',
+                                                                          'email': 'test@teststore.com',
+                                                                          'phone_number': '00000000'})
+
+        self.assertContains(response, 'Store name already exits', html=True)
+        self.assertEqual(response.status_code, 200)
 
     def test_create_store_user_has_store(self):
         user = User.objects.get(username='test_user')
