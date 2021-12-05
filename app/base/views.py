@@ -1,10 +1,8 @@
 from django.shortcuts import render
-from auctions.models import Auction, Category, Bid
-from django.utils import timezone
+from auctions.models import Auction, Category
 
 
 def index(request):
-    check_auction()
     auctions = Auction.objects.order_by('-start_date').filter(is_active=True)
     categories = Category.objects.all()
 
@@ -21,15 +19,3 @@ def faq(request):
 
 def about(request):
     return render(request, 'base/about.html')
-
-
-def check_auction():
-    auctions = Auction.objects.all()
-    bids = Bid.objects.all()
-    for auction in auctions:
-        if timezone.now() > auction.end_date and auction.is_active:
-            auction.is_active = False
-            winning_bid = bids.filter(auction=auction).last()
-            if winning_bid is not None:
-                auction.winner = winning_bid.owner
-            auction.save()
