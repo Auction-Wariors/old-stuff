@@ -9,7 +9,7 @@ from users.models import Profile
 class TestRegisterUser(TestCase):
     """ Test register user view"""
 
-    def test_register_user(self):
+    def test_registration_user_and_auto_login(self):
         response = self.client.post(reverse('users:register'), data={'username': 'test_user',
                                                                      'first_name': 'first',
                                                                      'last_name': 'last',
@@ -25,7 +25,7 @@ class TestRegisterUser(TestCase):
         profile = Profile.objects.get(user=user)
         self.assertEqual(profile.user, user)
 
-    def test_register_get(self):
+    def test_register_user_get_request(self):
         response = self.client.get(reverse('users:register'), follow=True)
 
         self.assertEqual(response.status_code, 200)
@@ -60,7 +60,7 @@ class TestUpdateProfile(TestCase):
         self.assertEqual(user_updated.first_name, 'first')
         self.assertEqual(profile.city, 'Oslo')
 
-    def test_update_profile_get(self):
+    def test_update_profile_get_request(self):
         self.client.login(username='test_user', password='test')
 
         response = self.client.get(reverse('users:edit_profile'), follow=True)
