@@ -1,4 +1,5 @@
 {% extends 'base/base.html' %}
+{% load static %}
 {% load crispy_forms_tags %}
 {% block content %}
     <section>
@@ -8,7 +9,7 @@
                     <div class="card mb-4">
                         <div class="card-body text-center">
                             <img
-                              src="https://mdbootstrap.com/img/Photos/new-templates/bootstrap-chat/ava3.png"
+                              src="{% static 'img/avatar.png' %}"
                               alt="avatar"
                               class="rounded-circle img-fluid"
                               style="width: 150px;"
