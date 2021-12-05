@@ -309,7 +309,7 @@ class TestBidOnAuction(TestCase):
                                     data={'value': 500
                                           })
 
-        self.assertFormError(response, 'form', 'value', 'Auction is ended')
+        self.assertFormError(response, 'form', 'value', 'Auction is not active')
         self.assertEqual(response.status_code, 200)
 
 
