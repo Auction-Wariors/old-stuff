@@ -116,6 +116,8 @@ AUTH_PASSWORD_VALIDATORS = [
 
 AUTH_USER_MODEL = 'auth.User'
 
+
+
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
@@ -143,8 +145,9 @@ STATICFILES_DIRS = [
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+LOGIN_URL = 'base:login'
 LOGIN_REDIRECT_URL = 'base:index'
 
-LOGIN_URL = 'base:login'
+LOGOUT_REDIRECT_URL = 'base:index'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
