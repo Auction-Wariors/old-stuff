@@ -14,7 +14,7 @@ class StoreModelInitialTestClass(TestCase):
         """setUpTestData: Run once to set up non-modified data for all class methods."""
         cls.user = User.objects.create(username='test', password='test')
 
-    def test_that_user_can_create_a_store(self):
+    def test_create_and_retrieve_store(self):
         store = Store.objects.create(name='test store',
                                      owner=self.user,
                                      description='test store description',
