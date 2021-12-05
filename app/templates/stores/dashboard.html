@@ -72,8 +72,8 @@
             </div>
         </div>
         {% if auctions %}
-            <div class="legend">Active auctions:</div>
-            <div class="d-flex flex-wrap">
+            <div class="lead mb-3">Active Auctions:</div>
+            <div class="d-flex flex-wrap mb-3">
                 {% for auction in auctions %}
                     <div class="card w-25 mr-3">
                         <div class="p-2"><img
@@ -106,8 +106,8 @@
             </div>
         {% endif %}
         {% if auctions_ended %}
-            <div class="legend">Auctions Ended:</div>
-            <div class="d-flex flex-wrap">
+            <div class="lead mb-3 mt-6">Auctions Ended:</div>
+            <div class="d-flex flex-wrap mb-3">
                 {% for auction in auctions_ended %}
                     <div class="card w-25 mr-3">
                         <div class="p-2"><img
@@ -130,7 +130,7 @@
                                     <p class="text-danger">Missing payment</p>
                                 {% endif %}
                                 {% if auction.commission_is_payed %}
-                                    <p class="text-success">Comission ok</p>
+                                    <p class="text-success">Commission ok</p>
                                 {% else %}
                                     <p class="text-danger">Commission not paid</p>
                                     <div class="d-flex">
