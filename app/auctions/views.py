@@ -6,7 +6,7 @@ from django.utils import timezone
 from django.contrib import messages
 from stores.models import Store
 from .models import Auction, Bid
-from .logic import count_down_func
+from business_logic.view_utils import count_down
 
 from auctions.forms import AddAuctionForm, UpdateAuctionForm, BidOnAuctionForm
 
@@ -17,7 +17,7 @@ def auction_detail(request, pk):
 
     # Extracted in own function
     time = auction.end_date - timezone.now()
-    count_down = count_down_func(time)
+    time_left = count_down(time)
 
     if auction.highest_bid:
         form = BidOnAuctionForm(initial={'value': math.ceil(auction.highest_bid / 100) + 5},
@@ -41,7 +41,7 @@ def auction_detail(request, pk):
 
     return render(request, 'auctions/auction_detail.html', {'auction': auction,
                                                             'bids': bids,
-                                                            'time': count_down,
+                                                            'time': time_left,
                                                             'form': form})
 
 
