@@ -7,9 +7,12 @@ from auctions.models import Auction, Bid
 
 
 def check_auctions(get_response):
+    """This middleware checks all auctions: Are they past their end date, do they have a winning bid."""
+
     # One-time configuration and initialization.
 
     def middleware(request):
+        # Before "response = get_response(request)"
         # Code to be executed for each request before
         # the view (and later middleware) are called.
 
@@ -27,6 +30,7 @@ def check_auctions(get_response):
 
         response = get_response(request)
 
+        # After "response = get_response(request)"
         # Code to be executed for each request/response after
         # the view is called.
         return response
