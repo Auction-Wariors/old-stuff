@@ -15,6 +15,7 @@ class Category(models.Model):
 class Auction(models.Model):
     """
     Note: All values are stored in NOK -> "øre".
+    Finance services usually require cent/øre as currency values
     """
     name = models.CharField(max_length=50)
     description = models.TextField(max_length=5000)
@@ -35,7 +36,6 @@ class Auction(models.Model):
 
 
 class Bid(models.Model):
-    """Finance services require cent/øre as currency values"""
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
