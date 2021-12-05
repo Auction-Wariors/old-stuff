@@ -13,6 +13,9 @@ class UserModelTestClass(TestCase):
         """setUpTestData: Run once to set up non-modified data for all class methods."""
         User.objects.create(username='test', password='test')
 
+    def test_user_stored_in_db(self):
+        self.assertEqual(User.objects.get(username='test').username, 'test')
+
     def test_creating_user_creates_profile_signals(self):
         user = User.objects.get(username='test')
         profile = Profile.objects.get(user=user)
@@ -27,6 +30,8 @@ class UserProfileModelTestClass(TestCase):
         """setUpTestData: Run once to set up non-modified data for all class methods."""
         # User creating also creates profile through Django Signals
         user = User.objects.create(username='test_user', password='test_password')
+
+        cls.user = user
         profile: Profile = user.profile
 
         # Populating user profile
@@ -36,11 +41,8 @@ class UserProfileModelTestClass(TestCase):
         profile.zip_code = '5555'
         profile.save()
 
-    def test_user_stored_in_db(self):
-        self.assertEqual(User.objects.get(username='test_user').username, 'test_user')
-
-    def test_user_labels(self):
-        profile = User.objects.get(username='test_user').profile
+    def test_user_profile_fields_label(self):
+        profile = self.user.profile
 
         self.assertEqual(profile._meta.get_field('user').verbose_name, 'user')
         self.assertEqual(profile._meta.get_field('phone_number').verbose_name, 'phone number')
@@ -48,26 +50,25 @@ class UserProfileModelTestClass(TestCase):
         self.assertEqual(profile._meta.get_field('city').verbose_name, 'city')
         self.assertEqual(profile._meta.get_field('zip_code').verbose_name, 'zip code')
 
-    def test_user_fields_max_length(self):
-        profile = User.objects.get(username='test_user').profile
+    def test_user_profile_fields_max_length(self):
+        profile = self.user.profile
 
         self.assertEqual(profile._meta.get_field('phone_number').max_length, 12)
         self.assertEqual(profile._meta.get_field('street_address').max_length, 100)
         self.assertEqual(profile._meta.get_field('city').max_length, 100)
         self.assertEqual(profile._meta.get_field('zip_code').max_length, 5)
 
-    def test_user_fields_default_value(self):
-        profile = User.objects.get(username='test_user').profile
+    def test_user_profile_fields_default_value(self):
+        profile = self.user.profile
 
         self.assertEqual(profile._meta.get_field('phone_number').default, '')
         self.assertEqual(profile._meta.get_field('street_address').default, '')
         self.assertEqual(profile._meta.get_field('city').default, '')
         self.assertEqual(profile._meta.get_field('zip_code').default, '')
 
-    def test_dunder_str(self):
-        user = User.objects.get(username='test_user')
-        profile = user.profile
+    def test_user_profile_model__str__(self):
+        profile = self.user.profile
 
-        expected_object_name = f"{user.username}'s Profile"
+        expected_object_name = f"{self.user.username}'s Profile"
         self.assertEqual(expected_object_name, str(profile))
 
