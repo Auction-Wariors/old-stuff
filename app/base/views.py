@@ -19,6 +19,9 @@ def faq(request):
     return render(request, 'base/faq.html')
 
 
+def about(request):
+    return render(request, 'base/about.html')
+
 
 def check_auction():
     auctions = Auction.objects.all()
