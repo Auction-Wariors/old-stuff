@@ -1,4 +1,5 @@
 {% extends 'base/base.html' %}
+{% load static %}
 {% load crispy_forms_tags %}
 {% load currency_tags %}
 {% block content %}
@@ -15,10 +16,10 @@
                     <div class="card mb-4">
                         <div class="card-body text-center">
                             <img
-                                    src="https://hips.hearstapps.com/edc.h-cdn.co/assets/16/21/1464359609-antique-lead.jpg"
-                                    alt="avatar"
-                                    class="rounded-circle img-fluid"
-                                    style="width: 300px;"
+                              src="{% static 'img/camera_640.jpg' %}"
+                              alt="avatar"
+                              class="rounded-circle img-fluid"
+                              style="width: 300px;"
                             >
                             <h5 class="my-3"> {{ auction.name }}</h5>
                         </div>
@@ -123,6 +124,8 @@
                                     <button
                                             class="btn btn-outline-info mt-2"
                                             type="submit"
+                                      class="btn btn-outline-info mt-2"
+                                      type="submit"
                                     >Place bid
                                     </button>
                                 </form>
@@ -132,6 +135,9 @@
                                                 href="{% url 'auctions:buy_now_auction' auction.id %}"
                                                 type="button"
                                                 class="btn btn-outline-success me-2 mt-2"
+                                          href="{% url 'auctions:buy_now_auction' auction.id %}"
+                                          type="button"
+                                          class="btn btn-outline-success me-2 mt-2"
                                         >Buy now
                                         </a>
                                     {% elif auction.buy_now > auction.highest_bid %}
@@ -139,6 +145,9 @@
                                                 href="{% url 'auctions:buy_now_auction' auction.id %}"
                                                 type="button"
                                                 class="btn btn-outline-success me-2 mt-2"
+                                          href="{% url 'auctions:buy_now_auction' auction.id %}"
+                                          type="button"
+                                          class="btn btn-outline-success me-2 mt-2"
                                         >Buy now
                                         </a>
                                     {% endif %}
