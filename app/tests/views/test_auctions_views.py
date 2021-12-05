@@ -64,7 +64,7 @@ class TestAddAuction(TestCase):
         self.assertContains(response, 'End date and time cannot be more than 14 days from now', html=True)
         self.assertEqual(response.status_code, 200)
 
-    def test_add_auction_view_post_end_date_less__than_5_minutes_from_time_auction_added(self):
+    def test_add_auction_view_post_end_date_less_than_5_minutes_from_time_auction_added(self):
         category = Category.objects.get(name='test')
         end_time = timezone.now() + timezone.timedelta(minutes=3)
 
@@ -82,7 +82,7 @@ class TestAddAuction(TestCase):
         self.assertContains(response, 'End date and time must be at least 5 minutes from now', html=True)
         self.assertEqual(response.status_code, 200)
 
-    def test_add_auction_view_get(self):
+    def test_add_auction_view_get_request(self):
         user_login = self.client.login(username='test', password='test123')
         self.assertTrue(user_login)
 
@@ -154,7 +154,7 @@ class TestUpdateAuction(TestCase):
         self.assertEqual(response.status_code, HTTPStatus.FOUND)
         self.assertEqual(response["Location"], "/stores/dashboard/")
 
-    def test_update_auction_get(self):
+    def test_update_auction_get_request(self):
         user_login = self.client.login(username='test_user', password='test123')
         self.assertTrue(user_login)
         self.auction.highest_bid = 1000
@@ -379,7 +379,7 @@ class TestBuyNowAuction(TestCase):
         self.assertFalse(auction.winner)
         self.assertTrue(auction.is_active)
 
-    def test_buy_now_get(self):
+    def test_buy_now_get_request(self):
         self.client.login(username='bid_user1', password='test123')
 
         response = self.client.get(reverse('auctions:buy_now_auction', kwargs={'auction_id': self.auction.id, }),
@@ -470,7 +470,7 @@ class TestPaymentAuction(TestCase):
                              status_code=302,
                              target_status_code=200)
 
-    def test_payment_get(self):
+    def test_payment_get_request(self):
         self.client.login(username='bid_user1', password='test123')
         winner = User.objects.get(username='bid_user1')
         self.auction.winner = winner
