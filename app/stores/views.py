@@ -2,7 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 
-from auctions.models import Auction, Bid
+from auctions.models import Auction
 from .models import Store
 
 from stores.forms import CreateStoreForm
