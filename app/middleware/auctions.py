@@ -1,5 +1,6 @@
 """
-
+This middleware checks all auctions: Are they past their end date, do they have a winning bid.
+TODO: Test me i veiws test "auction.winner = winning_bid.owner" < -- this happens
 """
 from django.utils import timezone
 
@@ -7,8 +8,6 @@ from auctions.models import Auction, Bid
 
 
 def check_auctions(get_response):
-    """This middleware checks all auctions: Are they past their end date, do they have a winning bid."""
-
     # One-time configuration and initialization.
 
     def middleware(request):
