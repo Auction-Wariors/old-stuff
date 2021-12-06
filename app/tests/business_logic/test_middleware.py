@@ -58,3 +58,24 @@ class BidModelTestClass(TestCase):
         self.assertEqual(auction.winner, User.objects.get(username='bid user'))
 
 
+class TestLogoutMessage(TestCase):
+    """Testing buy now auction view"""
+
+    @classmethod
+    def setUpTestData(cls):
+        """ Set Up Test Data for Auction buy now"""
+        user = User.objects.create(username='user')
+        user.set_password('test')
+        user.save()
+
+    def test_logout_message(self):
+        self.client.login(username='bid_user1', password='test123')
+
+        response = self.client.get(reverse('base:logout'), follow=True)
+
+        self.assertRedirects(response, reverse('base:index'),
+                             status_code=302,
+                             target_status_code=200)
+        messages = list(response.context['messages'])
+        self.assertEqual(len(messages), 1)
+        self.assertEqual(str(messages[0]), 'Logged out.')
