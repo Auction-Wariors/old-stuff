@@ -317,19 +317,6 @@ class TestBidOnAuction(TestCase):
         self.assertContains(response, 'Auction is not active', html=True)
         self.assertEqual(response.status_code, 200)
 
-    def test_add_bid_to_auction_past_end_date(self):
-        self.auction.end_date = timezone.now() - timezone.timedelta(days=5)
-        self.auction.save()
-        user_bid1_login = self.client.login(username='bid_user1', password='test123')
-        self.assertTrue(user_bid1_login)
-
-        response = self.client.post(reverse('auctions:auction_detail', kwargs={'pk': self.auction.id, }),
-                                    data={'value': 500
-                                          })
-
-        self.assertFormError(response, 'form', 'value', 'Auction is not active')
-        self.assertEqual(response.status_code, 200)
-
 
 class TestBuyNowAuction(TestCase):
     """Testing buy now auction view"""
