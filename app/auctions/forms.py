@@ -82,6 +82,4 @@ class BidOnAuctionForm(forms.ModelForm):
             raise forms.ValidationError("Bid is too low")
         elif not auction.is_active:
             raise forms.ValidationError("Auction is not active")
-        elif timezone.now() > auction.end_date:
-            raise forms.ValidationError("Auction is ended")
         return value * 100
