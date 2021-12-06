@@ -99,10 +99,28 @@ class TestAddAuction(TestCase):
                                                                'category': category.id,
                                                                'end_date': end_time,
                                                                'min_price': 200,
-                                                               'buy_now': 100
+                                                               'buy_now': 1000
                                                                })
         self.assertFormError(response, 'form', 'end_date', 'End date and time must be at least 5 minutes from now')
         self.assertContains(response, 'End date and time must be at least 5 minutes from now', html=True)
+        self.assertEqual(response.status_code, 200)
+
+    def test_add_auction_view_post_buy_now_not_higher_than_min_price(self):
+        category = Category.objects.get(name='test')
+        end_time = timezone.now() + timezone.timedelta(minutes=3)
+
+        user_login = self.client.login(username='test', password='test123')
+        self.assertTrue(user_login)
+
+        response = self.client.post('/auctions/create/', data={'name': 'item1',
+                                                               'description': 'item1 description',
+                                                               'category': category.id,
+                                                               'end_date': end_time,
+                                                               'min_price': 200,
+                                                               'buy_now': 100
+                                                               })
+        self.assertFormError(response, 'form', 'buy_now', 'Buy now value needs to be higher than minimum price value')
+        self.assertContains(response, 'Buy now value needs to be higher than minimum price value', html=True)
         self.assertEqual(response.status_code, 200)
 
     def test_add_auction_view_get_request(self):
