@@ -19,6 +19,7 @@ from django.urls import path, include
 
 urlpatterns = [
     # Django default admin app
+    # TODO: Disable admin after fixtures
     path('admin/', admin.site.urls),
 
     # Django App's
