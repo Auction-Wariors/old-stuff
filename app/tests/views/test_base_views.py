@@ -38,19 +38,25 @@ class TestBaseViews(TestCase):
     def test_index_get(self):
         response = self.client.get(reverse('base:index'))
 
-        self.assertContains(response, 'test auction', html=True)
+        self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'base/index.html')
 
     def test_pricing_page(self):
         response = self.client.get(reverse('base:pricing'))
+
+        self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'base/pricing.html')
 
     def test_faq_page(self):
         response = self.client.get(reverse('base:faq'))
+
+        self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'base/faq.html')
 
     def test_about_page(self):
         response = self.client.get(reverse('base:about'))
+
+        self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'base/about.html')
 
 
