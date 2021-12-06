@@ -87,7 +87,7 @@ class TestAddAuction(TestCase):
         self.assertContains(response, 'End date and time cannot be more than 14 days from now', html=True)
         self.assertEqual(response.status_code, 200)
 
-    def test_add_auction_view_post_end_date_less_than_5_minutes_from_time_auction_added(self):
+    def test_add_auction_view_post_end_date_less_than_5_minutes_from_time_auction_added_error(self):
         category = Category.objects.get(name='test')
         end_time = timezone.now() + timezone.timedelta(minutes=3)
 
