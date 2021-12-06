@@ -31,7 +31,9 @@ class AddAuctionForm(forms.ModelForm):
 
     def clean_buy_now(self):
         if self.cleaned_data['buy_now']:
-            return self.cleaned_data["buy_now"] * 100
+            if self.cleaned_data['buy_now'] * 100 < self.cleaned_data['min_price']:
+                raise forms.ValidationError("Buy now value needs to be higher than minimum price value")
+            return self.cleaned_data['buy_now'] * 100
 
 
 class UpdateAuctionForm(forms.ModelForm):
