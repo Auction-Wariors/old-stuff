@@ -3,6 +3,10 @@ from django.contrib import auth
 from django.test import TestCase
 from http import HTTPStatus
 from django.urls import reverse
+from django.utils import timezone
+
+from auctions.models import Category, Auction
+from stores.models import Store
 from users.models import Profile
 
 
@@ -34,6 +38,7 @@ class TestRegisterUser(TestCase):
 
 
 class TestUpdateProfile(TestCase):
+
     @classmethod
     def setUpTestData(cls):
         """ Set Up Test Data for Update Profile """
@@ -68,3 +73,45 @@ class TestUpdateProfile(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, 'Edit Profile', html=True)
         self.assertTemplateUsed(response, 'users/edit_profile.html')
+
+
+class TestWonAuction(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        category = Category.objects.create(name='Test Category',
+                                           description='test description')
+        bid_user = User.objects.create(username='bid_user')
+        store_user = User.objects.create(username='store_user', password='store_password')
+        bid_user.set_password('test123')
+        bid_user.save()
+        store = Store.objects.create(name='testStore',
+                                     owner=store_user,
+                                     description='test',
+                                     email='fr@ed.no',
+                                     phone_number='12345678')
+
+        auction = Auction.objects.create(name='test auction',
+                                         description='test description',
+                                         category=category,
+                                         store=store,
+                                         is_active=True,
+                                         start_date=timezone.now(),
+                                         end_date=timezone.now() + timezone.timedelta(days=5),
+                                         min_price=200,
+                                         buy_now=300)
+
+        auction.highest_bid = 350
+        auction.winner = bid_user
+        auction.is_active = False
+        auction.end_date = timezone.now()
+        auction.save()
+
+    def test_view_auction_won(self):
+        self.client.login(username='bid_user', password='test123')
+
+        response = self.client.get(reverse('users:user_profile'), follow=True)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'Pay now', html=True)
+        self.assertContains(response, '<h4>Won Auctions - Unpaid:</h4>', html=True)
+        self.assertTemplateUsed(response, 'users/profile.html')
