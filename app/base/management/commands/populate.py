@@ -48,7 +48,7 @@ def add_stores():
         try:
             Store.objects.get(pk=f'{x + 1}')
         except Store.DoesNotExist:
-            Store.objects.create(name=f'User{x + 1}Store',
+            Store.objects.create(name=f'StoreUser{x + 1}´s Store',
                                  owner=User.objects.get(pk=f'{x + 1}'),
                                  description=f'User{x + 1}Store Description',
                                  email=f'User{x + 1}Store@store.com',
