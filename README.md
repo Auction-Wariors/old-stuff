@@ -12,7 +12,7 @@ Steps to get old-stuff up and running:
 * Open a terminal in the unzipped folder
 * create a python virtual environment
 ````
-> python -m venv venv
+> python3 -m venv venv
 ````
 * activate the virtual environment 
 ````
