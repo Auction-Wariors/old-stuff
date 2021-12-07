@@ -1,5 +1,5 @@
 {% extends 'base/base.html' %}
-
+{% load static %}
 {% block content %}
 
     <h4 class="mt-5">Payment</h4>
@@ -9,7 +9,7 @@
             <div class="d-flex flex-row">
                 <div>
                     <div class="p-2"><img
-                            src="https://hips.hearstapps.com/edc.h-cdn.co/assets/16/21/1464359609-antique-lead.jpg"
+                            src="{% static 'img/camera_640.jpg' %}"
                             height="100%" width="100%" alt=""></div>
                     <div class="p-2"><a href="">Auction
                         name: {{ auction.name }}</a></div>
