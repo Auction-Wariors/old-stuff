@@ -16,12 +16,28 @@ def add_admin():
         admin.save()
 
 
-def add_users():
+def add_end_users():
     for x in range(3):
         try:
             User.objects.get(username=f'User {x + 1}')
         except User.DoesNotExist:
-            user = User.objects.create(username=f'User {x + 1}', password=make_password('Software2021'))
+            user = User.objects.create(username=f'User{x + 1}', password=make_password(f'User{x + 1}'))
+            user.first_name = f'User{x + 1}'
+            user.last_name = 'LastName'
+            user.email = f'user{x + 1}@mail.com'
+            user.save()
+
+
+def add_store_users():
+    for x in range(2):
+        try:
+            User.objects.get(username=f'StoreUser{x + 1}')
+        except User.DoesNotExist:
+            user = User.objects.create(username=f'StoreUser{x + 1}', password=make_password(f'StoreUser{x + 1}'))
+            user.first_name = f'StoreUser{x + 1}'
+            user.last_name = 'LastName'
+            user.email = f'user{x + 1}@mail.com'
+            user.save()
 
 
 def add_categories():
@@ -32,6 +48,7 @@ def add_categories():
 class Command(BaseCommand):
     def handle(self, **options):
         add_admin()
-        add_users()
+        add_end_users()
+        add_store_users()
         add_categories()
         print("Populate database completed...")
